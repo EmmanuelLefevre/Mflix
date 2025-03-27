@@ -8,7 +8,7 @@ export const getApiDocs = async () => {
     definition: {
       openapi: "3.0.0",
       info: {
-        title: "Next Swagger API Example",
+        title: "Julien Couraud API Movies",
         version: "1.0",
       },
       components: {
@@ -20,6 +20,8 @@ export const getApiDocs = async () => {
           },
         },
       },
-  security: [],
-}, }); return spec;
+      security: [],
+    },
+  });
+  return spec;
 }
