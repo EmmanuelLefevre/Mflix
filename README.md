@@ -18,7 +18,8 @@ The goals of this migration are to :
 - Deploy MongoDB in the Cloud, ensuring a smooth transition of existing data.​
 - Design and implement a REST API to facilitate communication between the database and the existing front-end.​
 - Ensure a scalable, secure, and high-performance architecture to meet the application's needs.​
-- Provide clear and interactive API documentation using Swagger, simplifying its usage and integration.​  
+- Provide clear and interactive API documentation using Swagger, simplifying its usage and integration.
+- Implementation of a JWT middleware to secure certain API routes (/movies and /theaters): A middleware is implemented to verify JWT (JSON Web Tokens) on specific API routes, ensuring that only authenticated and authorized requests can access sensitive resources, thereby enhancing the security of the application.​  
 
 This repository contains all the resources and instructions necessary to establish this new architecture.
 
@@ -133,6 +134,7 @@ nvm use 20.18.0
 │   ├── globals.css
 ├── .env.local
 ├── .gitignore
+├── middleware.ts
 ├── next-env.d.ts
 ├── next.config.js
 ├── package.lock.json
