@@ -8,8 +8,9 @@ export const getApiDocs = async () => {
     definition: {
       openapi: "3.0.0",
       info: {
-        title: "Julien Couraud API Movies",
+        title: "Mflix Movie list API",
         version: "1.0",
+        description: "Julien Couraud TP"
       },
       components: {
         securitySchemes: {
