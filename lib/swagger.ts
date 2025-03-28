@@ -1,5 +1,3 @@
-// lib/swagger.ts
-
 import { createSwaggerSpec } from "next-swagger-doc";
 
 export const getApiDocs = async () => {
