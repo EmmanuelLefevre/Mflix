@@ -33,6 +33,7 @@ This repository contains all the resources and instructions necessary to establi
 - **Jest**: 29.7.0
 - **JWT**: 9.0.2
 - **Bcrypt**: 3.0.2
+- **Dotenv**: 16.4.7
 
 ## 📚 REQUIREMENTS
 - NodeJS <= 20.18.0  
@@ -91,6 +92,9 @@ nvm use 20.18.0
 **Bcrypt**
 - [Bcrypt Documentation](https://www.npmjs.com/package/bcrypt)  
 
+**Dotenv**
+- [Dotenv Documentation](https://www.npmjs.com/package/dotenv)  
+
 **NVM**
 - [NVM Documentation](https://github.com/nvm-sh/nvm)  
 
@@ -120,15 +124,16 @@ nvm use 20.18.0
 │   │   │   │   ├── route.ts
 │   │   │   ├── route.ts
 │   ├── api-doc/
-│   │   │   ├── page.tsx
-│   │   │   ├── react-swagger.tsx
+│   │   ├── page.tsx
+│   │   ├── react-swagger.tsx
 │   ├── app-demo/
-│   │   │   ├── page.tsx
+│   │   ├── page.tsx
 │   ├── actions.ts
 │   ├── favicon.ico
 │   ├── layout.tsx
 ├── lib/
 │   ├── mongodb.ts
+│   ├── secrets.mjs
 │   ├── swagger.ts
 ├── pages/
 │   ├── _app.tsx
@@ -138,6 +143,9 @@ nvm use 20.18.0
 │   ├── svg files
 ├── styles/
 │   ├── globals.css
+├── utils/
+│   ├── validators/
+│   │   ├── secret-validator.js
 ├── .env.local
 ├── .gitignore
 ├── middleware.ts
@@ -146,7 +154,7 @@ nvm use 20.18.0
 ├── package.lock.json
 ├── package.json
 ├── postcss.config.js
-├── readme.md
+├── README.md
 ├── tailwind.config.ts
 ├── tsconfig.json
 ```
