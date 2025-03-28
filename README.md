@@ -8,19 +8,19 @@
 - [ARCHITECTURE](#-architecture)
 - [DOCUMENTATIONS](#-documentations)
 - [GETTING STARTED](#-getting-started)
-- [TESTS UNITAIRES](#-tests-unitaires)
+- [UNIT TESTS](#-unit-tests)
 - [PRODUCTION](#-production)
 
 ## 👋 INTRODUCTION
-Ce projet a pour objectif la refonte de l'architecture serveur et base de données de l'application MFLIX, une plateforme fournissant des informations cinématographiques en ligne. Actuellement, toutes les données sont stockées sur des serveurs physiques internes, mais pour des raisons de coût et de sécurité, une migration vers une infrastructure Cloud est nécessaire.  
+This project aims to redesign the server and database architecture of the MFLIX application, an online platform providing cinematic information. Currently, all data is stored on internal physical servers. However, for cost and security reasons, migrating to a Cloud infrastructure is necessary.​  
 
-L'objectif de cette migration est de :  
-- Déployer MongoDB dans le Cloud, en assurant une migration fluide des données existantes.
-- Concevoir et mettre en place une API REST permettant la communication entre la base de données et le front-end existant.
-- Garantir une architecture scalable, sécurisée et performante pour répondre aux besoins de l'application.
-- Fournir une documentation claire et interactive de l’API grâce à Swagger, facilitant son utilisation et son intégration.  
+The goals of this migration are to : 
+- Deploy MongoDB in the Cloud, ensuring a smooth transition of existing data.​
+- Design and implement a REST API to facilitate communication between the database and the existing front-end.​
+- Ensure a scalable, secure, and high-performance architecture to meet the application's needs.​
+- Provide clear and interactive API documentation using Swagger, simplifying its usage and integration.​  
 
-Ce dépôt contient toutes les ressources et instructions nécessaires à la mise en place de cette nouvelle architecture.
+This repository contains all the resources and instructions necessary to establish this new architecture.
 
 ## 💻 TECHNOS
 - **Next.js**: 15.2.4
@@ -43,7 +43,7 @@ Switch to minimum version with NVM tool =>
 ```bash
 nvm install 20.18.0
 ```
-Puis :  
+Then :  
 ```bash
 nvm use 20.18.0
 ```
@@ -70,7 +70,8 @@ nvm use 20.18.0
 - [Swagger Documentation](https://swagger.io/docs/)  
 
 **NodeJS**
-- [NodeJS Documentation](https://nodejs.org/docs/latest/api/)  
+- [NodeJS Documentation](https://nodejs.org/docs/latest/api/)
+- [NodeJS 20.18.0 Release Notes](https://nodejs.org/fr/blog/release/v20.18.0)  
 
 **Tailwind**
 - [Tailwind 3.4.17 Documentation](https://v3.tailwindcss.com/docs/installation)  
@@ -143,7 +144,7 @@ nvm use 20.18.0
 ```
 
 ## 🚀 GETTING STARTED
-**1. Installer les librairies (⚠️ se placer dans le répertoire Mflix !!!)**
+**1. Install libraries (⚠️ place oneself in Mflix directory !!!)**
 ```bash
 npm install
 ```
@@ -152,7 +153,7 @@ yarn install
 ```
 **2. MongoDB Atlas**
 
-**3. Lancer le projet en local**
+**3. Launch the project locally**
 ```bash
 npm run dev
 ```
@@ -161,10 +162,10 @@ yarn dev
 ```
 [Open Project on Localhost](http://localhost:3000)  
 
-**4. Ouvrir la doc Swagger**  
+**4.Open online Swagger documentation**  
 [Online Swagger Documentation](http://localhost:3000/api-doc)  
 
-## 🧪 TESTS UNITAIRES
+## 🧪 UNIT TESTS
 ```bash
 npm run test
 ```
