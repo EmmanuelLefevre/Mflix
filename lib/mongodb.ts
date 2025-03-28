@@ -11,7 +11,7 @@ class MongoDBSingleton {
   private static client: MongoClient | null = null;
   private static db: Db | null = null;
 
-  public static async getDb(): Promise<Db> {
+  public static async getDbInstance(): Promise<Db> {
     try {
       if (!MongoDBSingleton.client) {
         MongoDBSingleton.client = new MongoClient(uri, options);
@@ -37,7 +37,7 @@ class MongoDBSingleton {
     }
   }
 
-  public static async closeConnection(): Promise<void> {
+  public static async destroyDbInstance(): Promise<void> {
     try {
       if (MongoDBSingleton.client) {
         await MongoDBSingleton.client.close();
