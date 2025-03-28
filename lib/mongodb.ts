@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, Db } from "mongodb";
 
 if (!process.env.MONGODB_URI) {
   throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
@@ -7,25 +7,48 @@ if (!process.env.MONGODB_URI) {
 const uri = process.env.MONGODB_URI;
 const options = { appName: "devrel.template.nextjs" };
 
-let client: MongoClient;
+class MongoDBSingleton {
+  private static client: MongoClient | null = null;
+  private static db: Db | null = null;
 
-if (process.env.NODE_ENV === "development") {
-  let globalWithMongo = global as typeof globalThis & {
-    _mongoClient?: MongoClient;
-  };
+  public static async getDb(): Promise<Db> {
+    try {
+      if (!MongoDBSingleton.client) {
+        MongoDBSingleton.client = new MongoClient(uri, options);
 
-  if (!globalWithMongo._mongoClient) {
-    globalWithMongo._mongoClient = new MongoClient(uri, options);
+        await MongoDBSingleton.client.connect();
+      }
+
+      if (!MongoDBSingleton.db) {
+        MongoDBSingleton.db = MongoDBSingleton.client.db('sample_mflix');
+
+        try {
+          await MongoDBSingleton.db.command({ ping: 1 });
+        }
+        catch (error) {
+          throw new Error('Failed to connect to the database: ' + (error instanceof Error ? error.message : 'Unknown error'));
+        }
+      }
+
+      return MongoDBSingleton.db;
+    }
+    catch (error: any) {
+      throw new Error('MongoDB connection error: ' + (error instanceof Error ? error.message : 'Unknown error'));
+    }
   }
-  client = globalWithMongo._mongoClient;
+
+  public static async closeConnection(): Promise<void> {
+    try {
+      if (MongoDBSingleton.client) {
+        await MongoDBSingleton.client.close();
+        MongoDBSingleton.client = null;
+        MongoDBSingleton.db = null;
+      }
+    }
+    catch (error: any) {
+      throw new Error('Failed to close MongoDB connection: ' + (error instanceof Error ? error.message : 'Unknown error'));
+    }
+  }
 }
-else {
-  try {
-    client = new MongoClient(uri, options);
-  }
-  catch (error) {
-    throw new Error(`Failed to initialize MongoClient: ${error instanceof Error ? error.message : "Unknown error"}`);
-  }
-}
 
-export default client;
+export default MongoDBSingleton;
