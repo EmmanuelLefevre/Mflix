@@ -29,7 +29,7 @@ export async function middleware(req: NextRequest) {
     }
 
     try {
-      const refreshResponse = await fetch(new URL("/api/auth/refresh", req.url), {
+      const refreshResponse = await fetch(new URL("/api/auth/refresh-token", req.url), {
         method: "GET",
         headers: { Cookie: `refreshToken=${refreshToken}` }
       });
@@ -43,7 +43,8 @@ export async function middleware(req: NextRequest) {
       response.cookies.set("token", newToken, { httpOnly: true, secure: true, path: "/" });
 
       return response;
-    } catch {
+    }
+    catch {
       return NextResponse.redirect(new URL("/login", req.url));
     }
   }
