@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
     const db = await MongoDBSingleton.getDbInstance();
 
-    const sessionDeleted = await deleteJWTFromDB(db, token, refreshToken);
+    const sessionDeleted = await deleteUserJWT(db, token, refreshToken);
     if (!sessionDeleted) {
       return NextResponse.json({ message: "Error deleting session" }, { status: 500 });
     }
@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
  * @param refreshToken - User's refresh token to identify the session..
  * @returns true if the session was deleted, otherwise false.
  */
-async function deleteJWTFromDB(db: any, token: string | undefined, refreshToken: string | undefined): Promise<boolean> {
+async function deleteUserJWT(db: any, token: string | undefined, refreshToken: string | undefined): Promise<boolean> {
   try {
     const sessionsCollection = db.collection('sessions');
 
