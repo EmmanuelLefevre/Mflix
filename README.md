@@ -27,7 +27,7 @@ Ce dépôt contient toutes les ressources et instructions nécessaires à la mis
 - **MongoDB**
 - **MongoDB Atlas**
 - **Vercel**
-- **Swagger**
+- **Swagger**: 3.0
 - **Typescript**: 5.0
 - **Tailwind**: 3.4.17
 - **Jest**: 29.7.0
@@ -39,44 +39,40 @@ Ce dépôt contient toutes les ressources et instructions nécessaires à la mis
 - Optional  
 Switch to minimum version with NVM tool =>  
 ```bash
+nvm install 20.18.0
+```
+Puis  
+```bash
 nvm use 20.18.0
 ```
+[NVM Personnal Documentation](https://github.com/EmmanuelLefevre/Documentations/blob/master/Personnal%20Cheatsheets/nvm_cheatsheets.md)
 
 ## 📃 DOCUMENTATIONS
-**1. Next.js**
+**Next.js**
 - [Next.js Documentation](https://nextjs.org/docs/app/getting-started)
 - [Next.js Deployment Documentation](https://nextjs.org/docs/deployment)
-
-**2. MongoDB**
-- [MongoDB Documentation](https://docs.mongodb.com/)  
-
-**3. MongoDB Atlas**
+**MongoDB**
+- [MongoDB Documentation](https://docs.mongodb.com/)
+**MongoDB Atlas**
 - [MongoDB Atlas Documentation](https://mongodb.com/atlas)
-- [MongoDB Atlas for free](https://www.mongodb.com/fr-fr/cloud/atlas/register)  
-
-**4. Vercel**
+- [MongoDB Atlas for free](https://www.mongodb.com/fr-fr/cloud/atlas/register)
+**Vercel**
 - [Vercel Documentation](https://vercel.com/docs)
 - [Vercel Import Git Repository](https://vercel.com/new)
-- [Vercel Deploy Documentation](https://vercel.com/docs/deployments)  
-
-**5. Swagger**
-- [Swagger Documentation](https://swagger.io/docs/)  
-
-**5. NodeJS**
-- [NodeJS Documentation](https://nodejs.org/docs/latest/api/)  
-
-**6. Tailwind**
-- [Tailwind 3.4.17 Documentation](https://v3.tailwindcss.com/docs/installation)  
-
-**7. Jest**
-- [Jest Documentation](https://jestjs.io/docs/getting-started)  
-
-**8. Typescript**
+- [Vercel Deploy Documentation](https://vercel.com/docs/deployments)
+**Swagger**
+- [Swagger Documentation](https://swagger.io/docs/)
+**NodeJS**
+- [NodeJS Documentation](https://nodejs.org/docs/latest/api/)
+**Tailwind**
+- [Tailwind 3.4.17 Documentation](https://v3.tailwindcss.com/docs/installation)
+**Jest**
+- [Jest Documentation](https://jestjs.io/docs/getting-started)
+**Typescript**
 - [Typescript Documentation](https://www.typescriptlang.org/docs/)
-- [Typescript 5.0 Release Notes](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html)  
-
-**9. NVM**
-- [NVM Documentation](https://github.com/nvm-sh/nvm)  
+- [Typescript 5.0 Release Notes](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html)
+**NVM**
+- [NVM Documentation](https://github.com/nvm-sh/nvm)
 
 ## 🏗 ARCHITECTURE
 ```bash
@@ -143,6 +139,8 @@ npm install
 yarn install
 ```
 **2. MongoDB Atlas**
+![Yarn Install](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/yarn_install.png)
+https://raw.githubusercontent.com/EmmanuelLefevre/GitHubProfileIcons/main/chrome_extension.png"
 
 **3. Lancer le projet en local**
 ```bash
@@ -153,7 +151,7 @@ yarn dev
 ```
 [Open Project on Localhost](http://localhost:3000)  
 
-**4. Ouvrir la doc Swagger**
+**4. Ouvrir la doc Swagger**  
 [Online Swagger Documentation](http://localhost:3000/api-doc)  
 
 ## 🧪 TESTS UNITAIRES
@@ -165,7 +163,6 @@ yarn test
 ```
 
 ## 🛒 PRODUCTION
-
 
 ***
 
