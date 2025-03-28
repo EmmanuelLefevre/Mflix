@@ -159,9 +159,12 @@ npm install
 ```bash
 yarn install
 ```
-**2. MongoDB Atlas**
+**2. Set up .env.local file**
+Use the .env.local.example to setup your configuration.
 
-**3. Launch the project locally**
+**3. MongoDB Atlas**
+
+**4. Launch the project locally**
 ```bash
 npm run dev
 ```
@@ -170,7 +173,7 @@ yarn dev
 ```
 [Open Project on Localhost](http://localhost:3000)  
 
-**4.Open online Swagger documentation**  
+**5.Open online Swagger documentation**  
 
 [Online Swagger Documentation](http://localhost:3000/api-doc)  
 
