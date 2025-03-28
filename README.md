@@ -37,11 +37,12 @@ Ce dépôt contient toutes les ressources et instructions nécessaires à la mis
 [Download NodeJS](https://nodejs.org/fr/download)  
 
 - Optional  
+
 Switch to minimum version with NVM tool =>  
 ```bash
 nvm install 20.18.0
 ```
-Puis  
+Puis :  
 ```bash
 nvm use 20.18.0
 ```
@@ -50,29 +51,29 @@ nvm use 20.18.0
 ## 📃 DOCUMENTATIONS
 **Next.js**
 - [Next.js Documentation](https://nextjs.org/docs/app/getting-started)
-- [Next.js Deployment Documentation](https://nextjs.org/docs/deployment)
+- [Next.js Deployment Documentation](https://nextjs.org/docs/deployment)  
 **MongoDB**
-- [MongoDB Documentation](https://docs.mongodb.com/)
+- [MongoDB Documentation](https://docs.mongodb.com/)  
 **MongoDB Atlas**
 - [MongoDB Atlas Documentation](https://mongodb.com/atlas)
-- [MongoDB Atlas for free](https://www.mongodb.com/fr-fr/cloud/atlas/register)
+- [MongoDB Atlas for free](https://www.mongodb.com/fr-fr/cloud/atlas/register)  
 **Vercel**
 - [Vercel Documentation](https://vercel.com/docs)
 - [Vercel Import Git Repository](https://vercel.com/new)
-- [Vercel Deploy Documentation](https://vercel.com/docs/deployments)
+- [Vercel Deploy Documentation](https://vercel.com/docs/deployments)  
 **Swagger**
-- [Swagger Documentation](https://swagger.io/docs/)
+- [Swagger Documentation](https://swagger.io/docs/)  
 **NodeJS**
-- [NodeJS Documentation](https://nodejs.org/docs/latest/api/)
+- [NodeJS Documentation](https://nodejs.org/docs/latest/api/)  
 **Tailwind**
-- [Tailwind 3.4.17 Documentation](https://v3.tailwindcss.com/docs/installation)
+- [Tailwind 3.4.17 Documentation](https://v3.tailwindcss.com/docs/installation)  
 **Jest**
-- [Jest Documentation](https://jestjs.io/docs/getting-started)
+- [Jest Documentation](https://jestjs.io/docs/getting-started)  
 **Typescript**
 - [Typescript Documentation](https://www.typescriptlang.org/docs/)
-- [Typescript 5.0 Release Notes](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html)
+- [Typescript 5.0 Release Notes](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html)  
 **NVM**
-- [NVM Documentation](https://github.com/nvm-sh/nvm)
+- [NVM Documentation](https://github.com/nvm-sh/nvm)  
 
 ## 🏗 ARCHITECTURE
 ```bash
@@ -139,8 +140,6 @@ npm install
 yarn install
 ```
 **2. MongoDB Atlas**
-![Yarn Install](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/yarn_install.png)
-https://raw.githubusercontent.com/EmmanuelLefevre/GitHubProfileIcons/main/chrome_extension.png"
 
 **3. Lancer le projet en local**
 ```bash
