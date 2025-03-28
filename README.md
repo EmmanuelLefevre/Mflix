@@ -34,6 +34,7 @@ Ce dépôt contient toutes les ressources et instructions nécessaires à la mis
 
 ## 📚 REQUIREMENTS
 - NodeJS <= 20.18.0  
+
 [Download NodeJS](https://nodejs.org/fr/download)  
 
 - Optional  
@@ -52,28 +53,38 @@ nvm use 20.18.0
 **Next.js**
 - [Next.js Documentation](https://nextjs.org/docs/app/getting-started)
 - [Next.js Deployment Documentation](https://nextjs.org/docs/deployment)  
+
 **MongoDB**
 - [MongoDB Documentation](https://docs.mongodb.com/)  
+
 **MongoDB Atlas**
 - [MongoDB Atlas Documentation](https://mongodb.com/atlas)
 - [MongoDB Atlas for free](https://www.mongodb.com/fr-fr/cloud/atlas/register)  
+
 **Vercel**
 - [Vercel Documentation](https://vercel.com/docs)
 - [Vercel Import Git Repository](https://vercel.com/new)
 - [Vercel Deploy Documentation](https://vercel.com/docs/deployments)  
+
 **Swagger**
 - [Swagger Documentation](https://swagger.io/docs/)  
+
 **NodeJS**
 - [NodeJS Documentation](https://nodejs.org/docs/latest/api/)  
+
 **Tailwind**
 - [Tailwind 3.4.17 Documentation](https://v3.tailwindcss.com/docs/installation)  
+
 **Jest**
 - [Jest Documentation](https://jestjs.io/docs/getting-started)  
+
 **Typescript**
 - [Typescript Documentation](https://www.typescriptlang.org/docs/)
 - [Typescript 5.0 Release Notes](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html)  
+
 **NVM**
 - [NVM Documentation](https://github.com/nvm-sh/nvm)  
+
 
 ## 🏗 ARCHITECTURE
 ```bash
