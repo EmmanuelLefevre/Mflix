@@ -1,4 +1,3 @@
-
 # 🎞️ MFLIX
 
 ## 📋 SOMMAIRE
@@ -14,7 +13,7 @@
 ## 👋 INTRODUCTION
 This project aims to redesign the server and database architecture of the MFLIX application, an online platform providing cinematic information. Currently, all data is stored on internal physical servers. However, for cost and security reasons, migrating to a Cloud infrastructure is necessary.​  
 
-The goals of this migration are to : 
+The goals of this migration are to :  
 - Deploy MongoDB in the Cloud, ensuring a smooth transition of existing data.​
 - Design and implement a REST API to facilitate communication between the database and the existing front-end.​
 - Ensure a scalable, secure, and high-performance architecture to meet the application's needs.​
@@ -95,7 +94,6 @@ nvm use 20.18.0
 **NVM**
 - [NVM Documentation](https://github.com/nvm-sh/nvm)  
 
-
 ## 🏗 ARCHITECTURE
 ```bash
 ├── app/
@@ -154,7 +152,7 @@ nvm use 20.18.0
 ```
 
 ## 🚀 GETTING STARTED
-**1. Install libraries (⚠️ place oneself in Mflix directory !!!)**
+**1. Install libraries (⚠️ place yourself in Mflix directory !!!)**
 ```bash
 npm install
 ```
