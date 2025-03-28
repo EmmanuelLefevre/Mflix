@@ -32,6 +32,7 @@ This repository contains all the resources and instructions necessary to establi
 - **Typescript**: 5.0
 - **Tailwind**: 3.4.17
 - **Jest**: 29.7.0
+- **JWT**: 9.0.2
 
 ## 📚 REQUIREMENTS
 - NodeJS <= 20.18.0  
@@ -83,6 +84,9 @@ nvm use 20.18.0
 **Typescript**
 - [Typescript Documentation](https://www.typescriptlang.org/docs/)
 - [Typescript 5.0 Release Notes](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html)  
+
+**JWT**
+- [JWT Documentation](https://www.npmjs.com/package/jsonwebtoken)  
 
 **NVM**
 - [NVM Documentation](https://github.com/nvm-sh/nvm)  
