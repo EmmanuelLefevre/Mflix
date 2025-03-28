@@ -33,6 +33,7 @@ This repository contains all the resources and instructions necessary to establi
 - **Tailwind**: 3.4.17
 - **Jest**: 29.7.0
 - **JWT**: 9.0.2
+- **Bcrypt**: 3.0.2
 
 ## 📚 REQUIREMENTS
 - NodeJS <= 20.18.0  
@@ -87,6 +88,9 @@ nvm use 20.18.0
 
 **JWT**
 - [JWT Documentation](https://www.npmjs.com/package/jsonwebtoken)  
+
+**Bcrypt**
+- [Bcrypt Documentation](https://www.npmjs.com/package/bcrypt)  
 
 **NVM**
 - [NVM Documentation](https://github.com/nvm-sh/nvm)  
