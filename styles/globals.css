@@ -26,6 +26,6 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-.swagger-ui h2.title {
+.swagger-ui .information-container .info h2.title {
   color: #89BF03 !important;
 }
