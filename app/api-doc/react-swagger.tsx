@@ -1,12 +1,23 @@
 'use client';
 
-import SwaggerUI from 'swagger-ui-react';
+import dynamic from 'next/dynamic';
+import type { ComponentType } from 'react';
+
+import SwaggerUIProps from "swagger-ui-react/swagger-ui-react";
 import 'swagger-ui-react/swagger-ui.css';
 
-type Props = { spec: Record<string, any>, };
-
-function ReactSwagger({ spec }: Props) {
-  return <SwaggerUI spec={spec} />;
+interface Props {
+  spec: Record<string, any>;
 }
 
-export default ReactSwagger;
+const SwaggerUI = dynamic<SwaggerUIProps>(
+  async () => {
+    const mod = await import('swagger-ui-react');
+    return mod.default as ComponentType<SwaggerUIProps>;
+  },
+  { ssr: false }
+);
+
+export default function ReactSwagger({ spec }: Props) {
+  return <SwaggerUI spec={spec} />;
+}
