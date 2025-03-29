@@ -195,7 +195,7 @@ yarn test
 
 ## 🛒 PRODUCTION
 **1. Configure JWT_SECRET and REFRESH_SECRET environment variables on Vercel**
-![Setup Environment Variables](https://raw.githubusercontent.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_secrets.png)
+![Setup Environment Variables](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_secrets.png)
 
 ***
 
