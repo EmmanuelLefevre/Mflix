@@ -2,15 +2,13 @@
   "name": "mflix",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
-    "dev": "ts-node -r dotenv/config ./lib/secrets.mjs",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "dependencies": {
-    "@types/swagger-ui-react": "5.18.0",
     "bcryptjs": "^3.0.2",
     "dotenv": "^16.4.7",
     "jsonwebtoken": "^9.0.2",
@@ -27,13 +25,14 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/swagger-ui-react": "5.18.0",
     "autoprefixer": "^10.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.0.4",
+    "eslint": "^9",
+    "eslint-config-next": "15.2.4",
     "jest": "29.7.0",
     "postcss": "^8",
     "tailwindcss": "3.4.17",
-    "ts-node": "^10.9.2",
+    "ts-jest": "^29.3.0",
     "typescript": "5"
   }
 }
