@@ -139,7 +139,8 @@ export async function POST(req: NextRequest) {
 
     const session = {
       user_id: result.insertedId.toString(),
-      jwt: token
+      jwt: token,
+      refreshToken: refreshToken
     };
     const sessionResult = await db.collection("sessions").insertOne(session);
 

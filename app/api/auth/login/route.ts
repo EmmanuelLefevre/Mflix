@@ -96,6 +96,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // ça ou implémenter cela dans le middleware pour rediriger directement...
+    // const existingToken = req.cookies.get("token");
+    // const existingRefreshToken = req.cookies.get("refreshToken");
+    // if (existingToken && existingRefreshToken) {
+    //   return NextResponse.redirect(new URL("/api-doc", req.url));
+    // }
+
     const db = await MongoDBSingleton.getDbInstance();
     const user = await db.collection("users").findOne({ email });
 
@@ -127,8 +134,10 @@ export async function POST(req: NextRequest) {
 
     const session = {
       user_id: user._id.toString(),
-      jwt: token
+      jwt: token,
+      refreshToken: refreshToken
     };
+
     const sessionResult = await db.collection("sessions").updateOne(
       { user_id: user._id.toString() },
       { $set: session },
