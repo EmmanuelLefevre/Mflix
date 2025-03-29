@@ -38,8 +38,8 @@ if (!JWT_SECRET) {
  *                 message:
  *                   type: string
  *                   example:
- *                     "No token found in cookies"
- *                     "Unable to extract user information from token"
+ *                     - "No token found in cookies"
+ *                     - "Unable to extract user information from token"
  *       401:
  *         description: Unauthorized - Missing or invalid authentication token.
  *         content:
