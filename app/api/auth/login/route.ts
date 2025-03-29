@@ -50,7 +50,7 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Authenticated"
+ *                   example: "Bienvenue Neo 👋"
  *                 jwt:
  *                   type: string
  *                   example: "eyJhbGciOiJIUzI1NiIsInR5..."
@@ -95,13 +95,6 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-
-    // ça ou implémenter cela dans le middleware pour rediriger directement...
-    // const existingToken = req.cookies.get("token");
-    // const existingRefreshToken = req.cookies.get("refreshToken");
-    // if (existingToken && existingRefreshToken) {
-    //   return NextResponse.redirect(new URL("/api-doc", req.url));
-    // }
 
     const db = await MongoDBSingleton.getDbInstance();
     const user = await db.collection("users").findOne({ email });
@@ -152,7 +145,7 @@ export async function POST(req: NextRequest) {
     }
 
     const response = NextResponse.json(
-      { message: "Authenticated", jwt: token },
+      { message: `Bonjour ${user.name} 👋`, jwt: token },
       { status: 200 }
     );
 
