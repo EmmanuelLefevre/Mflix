@@ -196,7 +196,13 @@ yarn test
 ## 🛒 PRODUCTION
 **1. Configure JWT_SECRET and REFRESH_SECRET environment variables on Vercel**  
 
-![Setup Environment Variables](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_secrets.png)
+![Setup Environment Variables](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_secrets.png)  
+
+**2. Link to production =>**
+[Mflix](https://mflix.vercel.app/)  
+
+**3. After being authenticated, you will be automatically redirected to the Swagger API documentation**
+[Mflix](https://mflix.vercel.app/api-doc)  
 
 ***
 
