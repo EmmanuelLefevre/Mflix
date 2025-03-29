@@ -6,16 +6,40 @@ import MongoDBSingleton from '@/lib/mongodb';
  * /api/auth/logout:
  *   post:
  *     summary: Logout user and destroy session
- *     description: Clears authentication cookies and removes user session.
+ *     description: Logs out the user by deleting their session from the database and clearing authentication cookies.
  *     tags:
  *       - Auth
  *     responses:
  *       200:
  *         description: Successfully logged out.
- *       400:
- *         description: No active session found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Logged out"
+ *       404:
+ *         description: Session not found or already deleted.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Session not found or already deleted"
  *       500:
  *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Unexpected error occurred."
  */
 export async function POST(req: NextRequest) {
   try {
@@ -23,20 +47,41 @@ export async function POST(req: NextRequest) {
     const refreshToken = req.cookies.get("refreshToken")?.value;
 
     if (!token && !refreshToken) {
-      return NextResponse.json({ message: "No active session" }, { status: 400 });
+      return NextResponse.json(
+        { message: "No active session" },
+        { status: 400 }
+      );
     }
 
     const db = await MongoDBSingleton.getDbInstance();
 
     const sessionDeleted = await deleteUserJWT(db, token, refreshToken);
     if (!sessionDeleted) {
-      return NextResponse.json({ message: "Error deleting session" }, { status: 500 });
+      return NextResponse.json(
+        { error: "Session not found or already deleted" },
+        { status: 404 }
+      );
     }
 
-    const response = NextResponse.json({ message: "Logged out" });
+    const response = NextResponse.json(
+      { message: "Logged out" },
+      { status: 200 }
+    );
 
-    response.cookies.set("token", "", { httpOnly: true, secure: true, path: "/", maxAge: 0 });
-    response.cookies.set("refreshToken", "", { httpOnly: true, secure: true, path: "/", maxAge: 0 });
+    response.cookies.set("token", "", {
+      httpOnly: true,
+      secure: true,
+      path: "/",
+      maxAge: 0,
+      sameSite: "strict"
+    });
+    response.cookies.set("refreshToken", "", {
+      httpOnly: true,
+      secure: true,
+      path: "/",
+      maxAge: 0,
+      sameSite: "strict"
+    });
 
     await MongoDBSingleton.destroyDbInstance();
 
@@ -48,7 +93,10 @@ export async function POST(req: NextRequest) {
       errorMessage = error.message;
     }
 
-    return NextResponse.json({ message: errorMessage }, { status: 500 });
+    return NextResponse.json(
+      { message: errorMessage },
+      { status: 500 }
+    );
   }
 }
 
@@ -63,20 +111,10 @@ async function deleteUserJWT(db: any, token: string | undefined, refreshToken: s
   try {
     const sessionsCollection = db.collection('sessions');
 
-    const session = await sessionsCollection.findOne({
-      $or: [
-        { token },
-        { refreshToken }
-      ]
-    });
+    const session = await sessionsCollection.findOne({ jwt: token });
 
     if (session) {
-      await sessionsCollection.deleteOne({
-        $or: [
-          { token },
-          { refreshToken }
-        ]
-      });
+      await sessionsCollection.deleteOne({ jwt: token });
       return true;
     }
 
