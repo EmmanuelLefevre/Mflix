@@ -31,7 +31,7 @@ import MongoDBSingleton from '@/lib/mongodb';
  *                   type: string
  *                   example: "Session not found or already deleted"
  *       500:
- *         description: Internal server error.
+ *         description: Internal Server Error.
  *         content:
  *           application/json:
  *             schema:
