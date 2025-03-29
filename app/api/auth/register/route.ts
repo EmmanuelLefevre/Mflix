@@ -68,16 +68,6 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *                 error:
  *                   type: string
  *                   example: "Username, email, and password are required."
- *       401:
- *         description: Unauthorized - Invalid credentials.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: "Invalid username or password."
  *       409:
  *         description: Conflict - User already exists.
  *         content:
