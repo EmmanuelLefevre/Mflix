@@ -69,7 +69,9 @@ if (!JWT_SECRET) {
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Unexpected error occurred."
+ *                   example:
+ *                     - "Unexpected error occurred."
+ *                     - errorMessage
  */
 export async function POST(req: NextRequest) {
   try {
@@ -135,13 +137,10 @@ export async function POST(req: NextRequest) {
     return response;
   }
   catch (error) {
-    let errorMessage = "Unexpected error";
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
+    const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
 
     return NextResponse.json(
-      { message: errorMessage },
+      { error: errorMessage },
       { status: 500 }
     );
   }

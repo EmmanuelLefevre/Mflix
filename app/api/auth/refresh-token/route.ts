@@ -62,8 +62,8 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *                 error:
  *                   type: string
  *                   example:
- *                     -"Session not found"
- *                     -"User not found"
+ *                     - "Session not found"
+ *                     - "User not found"
  *       500:
  *         description: Internal Server Error.
  *         content:
@@ -73,7 +73,9 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "Unexpected error occurred."
+ *                   example:
+ *                     - "Unexpected error occurred."
+ *                     - errorMessage
  */
 export async function GET(req: NextRequest) {
   try {
@@ -158,6 +160,7 @@ export async function GET(req: NextRequest) {
   }
   catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
+
     return NextResponse.json(
       { error: errorMessage },
       { status: 500 }
