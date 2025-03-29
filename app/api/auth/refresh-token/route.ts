@@ -53,7 +53,7 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *                   type: string
  *                   example: "Invalid refresh token"
  *       404:
- *         description: Not Found - User not found in the database.
+ *         description: Not Found
  *         content:
  *           application/json:
  *             schema:
@@ -61,7 +61,9 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *               properties:
  *                 error:
  *                   type: string
- *                   example: "User not found"
+ *                   example:
+ *                     -"Session not found"
+ *                     -"User not found"
  *       500:
  *         description: Internal Server Error.
  *         content:
@@ -84,17 +86,26 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const db = await MongoDBSingleton.getDbInstance();
-    const session = await db.collection("sessions").findOne({ refreshToken });
-
-    if (!session) {
+    let decoded: any;
+    try {
+      decoded = jwt.verify(refreshToken, REFRESH_SECRET);
+    }
+    catch (err) {
       return NextResponse.json(
         { error: "Invalid refresh token" },
         { status: 403 }
       );
     }
 
-    const decoded: any = jwt.verify(refreshToken, REFRESH_SECRET);
+    const db = await MongoDBSingleton.getDbInstance();
+    const session = await db.collection("sessions").findOne({ refreshToken });
+
+    if (!session) {
+      return NextResponse.json(
+        { error: "Session not found" },
+        { status: 404 }
+      );
+    }
 
     const user = await db.collection("users").findOne({ email: decoded.email });
 
@@ -108,15 +119,38 @@ export async function GET(req: NextRequest) {
     const newToken = jwt.sign(
       { email: decoded.email, username: user.name },
       JWT_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "15min" }
     );
 
-    const response = NextResponse.json({ token: newToken }, { status: 200 });
+    const newRefreshToken = jwt.sign(
+      { email: decoded.email, username: user.name },
+      REFRESH_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    await db.collection("sessions").updateOne(
+      { refreshToken: session.refreshToken },
+      { $set: { refreshToken: newRefreshToken, jwt: newToken } }
+    );
+
+    const response = NextResponse.json(
+      { token: newToken },
+      { status: 200 }
+    );
+
     response.cookies.set("token", newToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       path: "/",
       maxAge: 15 * 60,
+      sameSite: "strict"
+    });
+
+    response.cookies.set("refreshToken", newRefreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60,
       sameSite: "strict"
     });
 
