@@ -19,7 +19,7 @@ if (!JWT_SECRET) {
  *       - Auth
  *     responses:
  *       200:
- *         description: Logout successful.
+ *         description: Successfully logout the user.
  *         content:
  *           application/json:
  *             schema:
