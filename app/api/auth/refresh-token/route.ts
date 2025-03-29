@@ -62,6 +62,8 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *                 error:
  *                   type: string
  *                   example:
+ *                     - "Collection 'sessions' not found"
+ *                     - "Collection 'users' not found"
  *                     - "Session not found"
  *                     - "User not found"
  *       500:
@@ -100,6 +102,22 @@ export async function GET(req: NextRequest) {
     }
 
     const db = await MongoDBSingleton.getDbInstance();
+
+    const collections = await db.listCollections().toArray();
+    const collectionNames = collections.map(col => col.name);
+    if (!collectionNames.includes("users")) {
+      return NextResponse.json(
+        { error: "Collection 'users' not found" },
+        { status: 404 }
+      );
+    }
+    if (!collectionNames.includes("sessions")) {
+      return NextResponse.json(
+        { error: "Collection 'sessions' not found" },
+        { status: 404 }
+      );
+    }
+
     const session = await db.collection("sessions").findOne({ refreshToken });
 
     if (!session) {

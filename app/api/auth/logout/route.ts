@@ -51,7 +51,7 @@ if (!JWT_SECRET) {
  *                   type: string
  *                   example: "No token provided"
  *       404:
- *         description: Not Found - Session not found or already deleted.
+ *         description: Not Found
  *         content:
  *           application/json:
  *             schema:
@@ -59,7 +59,9 @@ if (!JWT_SECRET) {
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Session not found or already deleted"
+ *                   example:
+ *                   - "Collection 'sessions' not found"
+ *                   - "Session not found or already deleted"
  *       500:
  *         description: Internal Server Error.
  *         content:
@@ -103,6 +105,15 @@ export async function POST(req: NextRequest) {
     const username = decodedToken.username;
 
     const db = await MongoDBSingleton.getDbInstance();
+
+    const collections = await db.listCollections().toArray();
+    const collectionNames = collections.map(col => col.name);
+    if (!collectionNames.includes("sessions")) {
+      return NextResponse.json(
+        { error: "Collection 'sessions' not found" },
+        { status: 404 }
+      );
+    }
 
     const sessionDeleted = await deleteUserJWT(db, token, refreshToken);
     if (!sessionDeleted) {
