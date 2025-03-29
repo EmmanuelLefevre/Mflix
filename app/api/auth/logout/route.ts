@@ -1,5 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
+
 import MongoDBSingleton from '@/lib/mongodb';
+
+const JWT_SECRET = process.env.JWT_SECRET as string;
+
+if (!JWT_SECRET) {
+  throw new Error("⚠️ JWT_SECRET is missing from environment variables!");
+}
 
 /**
  * @swagger
@@ -11,7 +19,7 @@ import MongoDBSingleton from '@/lib/mongodb';
  *       - Auth
  *     responses:
  *       200:
- *         description: Successfully logged out.
+ *         description: Success.
  *         content:
  *           application/json:
  *             schema:
@@ -19,9 +27,31 @@ import MongoDBSingleton from '@/lib/mongodb';
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Logged out"
+ *                   example: "Au revoir Neo 👋"
+ *       400:
+ *         description: Bad Request - Unable to extract user information from token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example:
+ *                     "No token found in cookies"
+ *                     "Unable to extract user information from token"
+ *       401:
+ *         description: Unauthorized - Missing or invalid authentication token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "No token provided"
  *       404:
- *         description: Session not found or already deleted.
+ *         description: Not Found - Session not found or already deleted.
  *         content:
  *           application/json:
  *             schema:
@@ -48,10 +78,27 @@ export async function POST(req: NextRequest) {
 
     if (!token && !refreshToken) {
       return NextResponse.json(
-        { message: "No active session" },
+        { message: "No token found in cookies" },
         { status: 400 }
       );
     }
+
+    if (!token) {
+      return NextResponse.json(
+        { message: "No token provided" },
+        { status: 401 }
+      );
+    }
+
+    const decodedToken: any = jwt.verify(token, JWT_SECRET);
+    if (!decodedToken || !decodedToken.username) {
+      return NextResponse.json(
+        { message: "Unable to extract user information from token" },
+        { status: 400 }
+      );
+    }
+
+    const username = decodedToken.username;
 
     const db = await MongoDBSingleton.getDbInstance();
 
@@ -64,7 +111,7 @@ export async function POST(req: NextRequest) {
     }
 
     const response = NextResponse.json(
-      { message: "Logged out" },
+      { message: `Au revoir ${username} 👋` },
       { status: 200 }
     );
 
@@ -115,6 +162,11 @@ async function deleteUserJWT(db: any, token: string | undefined, refreshToken: s
 
     if (session) {
       await sessionsCollection.deleteOne({ jwt: token });
+
+      if (refreshToken) {
+        await sessionsCollection.deleteOne({ refreshToken });
+      }
+
       return true;
     }
 

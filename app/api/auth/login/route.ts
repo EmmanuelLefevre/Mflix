@@ -114,8 +114,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: "15m" });
-    const refreshToken = jwt.sign({ email }, REFRESH_SECRET, { expiresIn: "7d" });
+    const token = jwt.sign(
+      { email, username: user.name },
+      JWT_SECRET,
+      { expiresIn: "15m" }
+    );
+    const refreshToken = jwt.sign(
+      { email, username: user.name },
+      REFRESH_SECRET,
+      { expiresIn: "7d" }
+    );
 
     const session = {
       user_id: user._id.toString(),
