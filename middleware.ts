@@ -10,13 +10,24 @@ const publicRoutes = new Set([
   "/refresh-token"
 ]);
 
+const allowedOrigins = ['http://localhost:3000', 'https://ton-site.com'];
+
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  console.log("Requested Path:", pathname);
 
   const token = req.cookies.get("token")?.value;
   const refreshToken = req.cookies.get("refreshToken")?.value;
+
+  const res = NextResponse.next();
+
+  const origin = req.headers.get("origin");
+  if (allowedOrigins.includes(origin || '')) {
+    res.headers.set("Access-Control-Allow-Origin", origin || '*');
+    res.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.headers.set("Access-Control-Allow-Credentials", "true");
+  }
 
   if (token && refreshToken && pathname !== "/api-doc") {
     return NextResponse.redirect(new URL("/api-doc", req.url));
