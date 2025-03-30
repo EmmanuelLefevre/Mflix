@@ -16,7 +16,21 @@
   }
 }
 
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.swagger-ui .information-container .info h2.title {
+  color: #89BF03 !important;
+}
+
 body {
+  display: flex;
+  justify-content: center;
   color: rgb(var(--foreground-rgb));
   height: 100vh;
   width: 100vw;
@@ -28,6 +42,48 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-.swagger-ui .information-container .info h2.title {
-  color: #89BF03 !important;
+#login-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: auto;
+  margin-top: 15vh;
+  border: 2px solid #89BF03;
+  border-radius: 16px;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+h1 {
+  color: #89BF03;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 2vh;
+}
+label {
+  margin-top: 2vh;
+}
+input {
+  margin: 2px 0;
+  padding: 0 4px;
+  border: 1px solid #89BF03;
+  border-radius: 4px;
+}
+input:focus {
+  outline: none;
+  caret-color: #89BF03;
+}
+button {
+  margin: 24px 0;
+  padding: 4px 4px;
+  border: 2px solid #89BF03;
+  border-radius: 8px;
+}
+button:hover {
+  color: #89BF03;
 }
