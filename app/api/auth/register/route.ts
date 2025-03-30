@@ -52,9 +52,12 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 201
  *                 message:
  *                   type: string
- *                   example: "Authenticated"
+ *                   example: "Merci pour la création de compte Neo 😍"
  *                 jwt:
  *                   type: string
  *                   example: "eyJhbGciOiJIUzI1NiIsInR5..."
@@ -65,9 +68,12 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 400
  *                 error:
  *                   type: string
- *                   example: "Username, email, and password are required."
+ *                   example: "Username, email, and password are required"
  *       404:
  *         description: Not Found
  *         content:
@@ -75,6 +81,9 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 404
  *                 error:
  *                   type: string
  *                   example:
@@ -87,9 +96,12 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 409
  *                 error:
  *                   type: string
- *                   example: "User already exists."
+ *                   example: "User already exists"
  *       500:
  *         description: Internal Server Error.
  *         content:
@@ -97,10 +109,13 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
  *                 error:
  *                   type: string
  *                   example:
- *                     - "Unexpected error occurred."
+ *                     - "Unexpected error occurred"
  *                     - errorMessage
  */
 export async function POST(req: NextRequest) {
@@ -109,7 +124,7 @@ export async function POST(req: NextRequest) {
 
     if (!username || !email || !password) {
       return NextResponse.json(
-        { error: "Username, email and password are required" },
+        { status: 400, error: "Username, email and password are required" },
         { status: 400 }
       );
     }
@@ -120,13 +135,13 @@ export async function POST(req: NextRequest) {
     const collectionNames = collections.map(col => col.name);
     if (!collectionNames.includes("users")) {
       return NextResponse.json(
-        { error: "Collection 'users' not found" },
+        { status: 404, error: "Collection 'users' not found" },
         { status: 404 }
       );
     }
     if (!collectionNames.includes("sessions")) {
       return NextResponse.json(
-        { error: "Collection 'sessions' not found" },
+        { status: 404, error: "Collection 'sessions' not found" },
         { status: 404 }
       );
     }
@@ -134,7 +149,7 @@ export async function POST(req: NextRequest) {
     const existingUser = await db.collection("users").findOne({ email: email });
     if (existingUser) {
       return NextResponse.json(
-        { error: "User already exists" },
+        { status: 409, error: "User already exists" },
         { status: 409 }
       );
     }
@@ -175,13 +190,13 @@ export async function POST(req: NextRequest) {
 
     if (!sessionResult.acknowledged) {
       return NextResponse.json(
-        { error: "Session creation failed" },
+        { status: 500, error: "Session creation failed" },
         { status: 500 }
       );
     }
 
     const response = NextResponse.json(
-      { message: "Authenticated", jwt: token },
+      { status: 201, message: `Merci pour la création de compte ${username} 😍`, jwt: token },
       { status: 201}
     );
 
@@ -206,7 +221,7 @@ export async function POST(req: NextRequest) {
     const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
 
     return NextResponse.json(
-      { error: errorMessage },
+      { status: 500, error: errorMessage },
       { status: 500 }
     );
   }
