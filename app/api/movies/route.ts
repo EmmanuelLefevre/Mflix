@@ -1,14 +1,30 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import MongoDBSingleton from '@/lib/mongodb';
 
 /**
  * @swagger
  * /api/movies:
  *   get:
- *     summary: Retrieve the entire list of movies
- *     description: Returns the full catalog of movies available in the database, limited to 10 results.
+ *     summary: Retrieve the entire list of movies with pagination
+ *     description: Returns a paginated list of movies from the database.
  *     tags:
  *       - Movies
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *           minimum: 1
+ *           maximum: 50
+ *         description: Number of movies to return (between 1 and 50, default is 10)
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *           minimum: 1
+ *         description: Page number for pagination (default is 1)
  *     responses:
  *       200:
  *         description: Successfully retrieved the list of movies.
@@ -141,13 +157,29 @@ import MongoDBSingleton from '@/lib/mongodb';
  *                       num_mflix_comments:
  *                         type: integer
  *                         example: 0
- *       404:
- *         description: Not Found
+ *       400:
+ *         description: Invalid request parameters
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 400
+ *                 error:
+ *                   type: string
+ *                   example: "Invalid query parameters"
+ *       404:
+ *         description: Collection not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 404
  *                 error:
  *                   type: string
  *                   example: "Collection 'movies' not found"
@@ -161,13 +193,13 @@ import MongoDBSingleton from '@/lib/mongodb';
  *                 status:
  *                   type: integer
  *                   example: 500
- *                 message:
+ *                 error:
  *                   type: string
  *                   example:
  *                     - "Unexpected error occurred."
  *                     - errorMessage
  */
-export async function GET(): Promise<NextResponse> {
+export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
     const db = await MongoDBSingleton.getDbInstance();
 
@@ -175,12 +207,28 @@ export async function GET(): Promise<NextResponse> {
     const collectionNames = collections.map(col => col.name);
     if (!collectionNames.includes('movies')) {
       return NextResponse.json(
-        { error: "Collection 'movies' not found" },
+        { status: 404, error: "Collection 'movies' not found" },
         { status: 404 }
       );
     }
 
-    const movies = await db.collection('movies').find({}).limit(10).toArray();
+    const url = new URL(req.url);
+    const limit = Number(url.searchParams.get("limit")) || 10;
+    const page = Number(url.searchParams.get("page")) || 1;
+
+    if (limit < 1 || limit > 50 || page < 1) {
+      return NextResponse.json(
+        { status: 400, error: "Invalid query parameters" },
+        { status: 400 }
+      );
+    }
+
+    const movies = await db
+      .collection('movies')
+      .find({})
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .toArray();
 
     return NextResponse.json({
       data: movies,
@@ -191,7 +239,7 @@ export async function GET(): Promise<NextResponse> {
     const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
 
     return NextResponse.json(
-      { error: errorMessage },
+      { status: 500, error: errorMessage },
       { status: 500 }
     );
   }
