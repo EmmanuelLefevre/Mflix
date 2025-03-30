@@ -29,6 +29,9 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
  *                 token:
  *                   type: string
  *                   example: "eyJhbGciOiJIUzI1NiIsInR5..."
@@ -39,6 +42,9 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 401
  *                 error:
  *                   type: string
  *                   example: "No refresh token provided"
@@ -49,6 +55,9 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 403
  *                 error:
  *                   type: string
  *                   example: "Invalid refresh token"
@@ -59,6 +68,9 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 404
  *                 error:
  *                   type: string
  *                   example:
@@ -73,6 +85,9 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
  *                 error:
  *                   type: string
  *                   example:
@@ -85,7 +100,7 @@ export async function GET(req: NextRequest) {
 
     if (!refreshToken) {
       return NextResponse.json(
-        { error: "No refresh token provided" },
+        { status: 401, error: "No refresh token provided" },
         { status: 401 }
       );
     }
@@ -96,7 +111,7 @@ export async function GET(req: NextRequest) {
     }
     catch (err) {
       return NextResponse.json(
-        { error: "Invalid refresh token" },
+        { status: 403, error: "Invalid refresh token" },
         { status: 403 }
       );
     }
@@ -107,13 +122,13 @@ export async function GET(req: NextRequest) {
     const collectionNames = collections.map(col => col.name);
     if (!collectionNames.includes("users")) {
       return NextResponse.json(
-        { error: "Collection 'users' not found" },
+        { status: 404, error: "Collection 'users' not found" },
         { status: 404 }
       );
     }
     if (!collectionNames.includes("sessions")) {
       return NextResponse.json(
-        { error: "Collection 'sessions' not found" },
+        { status: 404, error: "Collection 'sessions' not found" },
         { status: 404 }
       );
     }
@@ -122,7 +137,7 @@ export async function GET(req: NextRequest) {
 
     if (!session) {
       return NextResponse.json(
-        { error: "Session not found" },
+        { status: 404, error: "Session not found" },
         { status: 404 }
       );
     }
@@ -131,7 +146,7 @@ export async function GET(req: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: "User not found" },
+        { status: 404, error: "User not found" },
         { status: 404 }
       );
     }
@@ -154,7 +169,7 @@ export async function GET(req: NextRequest) {
     );
 
     const response = NextResponse.json(
-      { token: newToken },
+      { status: 200, token: newToken },
       { status: 200 }
     );
 
@@ -180,7 +195,7 @@ export async function GET(req: NextRequest) {
     const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
 
     return NextResponse.json(
-      { error: errorMessage },
+      { status: 500, error: errorMessage },
       { status: 500 }
     );
   }
