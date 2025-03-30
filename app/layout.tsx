@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+
+import { Roboto } from "next/font/google";
 import "@/styles/globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({ subsets: ["latin", "latin-ext"] });
 
 export const metadata: Metadata = {
   title: "Mflix",
@@ -15,10 +16,11 @@ export const viewport = {
   themeColor: "#89BF03"
 };
 
+
 export default function RootLayout({ children }: { children: React.ReactNode;}) {
   return (
     <html lang="en">
-      <body >{ children }</body>
+      <body className={roboto.className}>{ children }</body>
     </html>
   );
 }
