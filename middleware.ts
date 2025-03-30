@@ -18,9 +18,6 @@ export async function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
   const refreshToken = req.cookies.get("refreshToken")?.value;
 
-  console.log("Token:", token);
-  console.log("RefreshToken:", refreshToken);
-
   if (token && refreshToken && pathname !== "/api-doc") {
     return NextResponse.redirect(new URL("/api-doc", req.url));
   }
