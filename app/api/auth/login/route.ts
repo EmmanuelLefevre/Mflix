@@ -96,8 +96,8 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *                 error:
  *                   type: string
  *                   example:
- *                   - "Collection 'sessions' not found"
- *                   - "Collection 'users' not found"
+ *                   - "Collection 'sessions' not found."
+ *                   - "Collection 'users' not found."
  *       500:
  *         description: Internal Server Error.
  *         content:
