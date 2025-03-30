@@ -230,10 +230,10 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       .limit(limit)
       .toArray();
 
-    return NextResponse.json({
-      data: movies,
-      status: 200
-    });
+    return NextResponse.json(
+      { status: 200, data: movies },
+      { status: 200 }
+    );
   }
   catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
