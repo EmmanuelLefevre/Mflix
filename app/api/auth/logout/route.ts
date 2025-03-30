@@ -25,6 +25,9 @@ if (!JWT_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
  *                 message:
  *                   type: string
  *                   example: "Au revoir Neo 👋"
@@ -35,7 +38,10 @@ if (!JWT_SECRET) {
  *             schema:
  *               type: object
  *               properties:
- *                 message:
+ *                 status:
+ *                   type: integer
+ *                   example: 400
+ *                 error:
  *                   type: string
  *                   example:
  *                     - "No token found in cookies"
@@ -47,7 +53,10 @@ if (!JWT_SECRET) {
  *             schema:
  *               type: object
  *               properties:
- *                 message:
+ *                 status:
+ *                   type: integer
+ *                   example: 401
+ *                 error:
  *                   type: string
  *                   example: "No token provided"
  *       404:
@@ -57,7 +66,10 @@ if (!JWT_SECRET) {
  *             schema:
  *               type: object
  *               properties:
- *                 message:
+ *                 status:
+ *                   type: integer
+ *                   example: 404
+ *                 error:
  *                   type: string
  *                   example:
  *                   - "Collection 'sessions' not found"
@@ -69,7 +81,10 @@ if (!JWT_SECRET) {
  *             schema:
  *               type: object
  *               properties:
- *                 message:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 error:
  *                   type: string
  *                   example:
  *                     - "Unexpected error occurred."
@@ -82,14 +97,14 @@ export async function POST(req: NextRequest) {
 
     if (!token && !refreshToken) {
       return NextResponse.json(
-        { message: "No token found in cookies" },
+        { status: 400, error: "No token found in cookies" },
         { status: 400 }
       );
     }
 
     if (!token) {
       return NextResponse.json(
-        { message: "No token provided" },
+        { status: 401, error: "No token provided" },
         { status: 401 }
       );
     }
@@ -97,7 +112,7 @@ export async function POST(req: NextRequest) {
     const decodedToken: any = jwt.verify(token, JWT_SECRET);
     if (!decodedToken || !decodedToken.username) {
       return NextResponse.json(
-        { message: "Unable to extract user information from token" },
+        { status: 400, error: "Unable to extract user information from token" },
         { status: 400 }
       );
     }
@@ -110,7 +125,7 @@ export async function POST(req: NextRequest) {
     const collectionNames = collections.map(col => col.name);
     if (!collectionNames.includes("sessions")) {
       return NextResponse.json(
-        { error: "Collection 'sessions' not found" },
+        { status: 404, error: "Collection 'sessions' not found" },
         { status: 404 }
       );
     }
@@ -118,13 +133,13 @@ export async function POST(req: NextRequest) {
     const sessionDeleted = await deleteUserJWT(db, token, refreshToken);
     if (!sessionDeleted) {
       return NextResponse.json(
-        { error: "Session not found or already deleted" },
+        { status: 404, error: "Session not found or already deleted" },
         { status: 404 }
       );
     }
 
     const response = NextResponse.json(
-      { message: `Au revoir ${username} 👋` },
+      { status: 200, message: `Au revoir ${username} 👋` },
       { status: 200 }
     );
 
@@ -151,7 +166,7 @@ export async function POST(req: NextRequest) {
     const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
 
     return NextResponse.json(
-      { error: errorMessage },
+      { status: 500, error: errorMessage },
       { status: 500 }
     );
   }
