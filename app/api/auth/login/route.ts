@@ -108,6 +108,12 @@ import { JWT_SECRET, REFRESH_SECRET } from "@/lib/jwt-secrets-config";
  */
 export async function POST(req: NextRequest) {
   try {
+    const existingToken = req.cookies.get("token")?.value;
+
+    if (existingToken ) {
+      return NextResponse.redirect(new URL("/api-doc", req.url));
+    }
+
     const { email, password } = await req.json();
 
     if (!email || !password) {
