@@ -91,7 +91,7 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *                 error:
  *                   type: string
  *                   example:
- *                     - "Unexpected error occurred."
+ *                     - "Unexpected error occurred"
  *                     - errorMessage
  */
 export async function GET(req: NextRequest) {
