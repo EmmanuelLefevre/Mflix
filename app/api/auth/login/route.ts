@@ -69,7 +69,7 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *                   example: 400
  *                 error:
  *                   type: string
- *                   example: "Username, email, and password are required."
+ *                   example: "Username, email, and password are required"
  *       401:
  *         description: Unauthorized - Invalid credentials.
  *         content:
@@ -82,7 +82,7 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *                   example: 401
  *                 error:
  *                   type: string
- *                   example: "Invalid username or password."
+ *                   example: "Invalid username or password"
  *       404:
  *         description: Not Found
  *         content:
@@ -96,8 +96,8 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *                 error:
  *                   type: string
  *                   example:
- *                   - "Collection 'sessions' not found."
- *                   - "Collection 'users' not found."
+ *                   - "Collection 'sessions' not found"
+ *                   - "Collection 'users' not found"
  *       500:
  *         description: Internal Server Error.
  *         content:
@@ -111,7 +111,7 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *                 error:
  *                   type: string
  *                   example:
- *                     - "Unexpected error occurred."
+ *                     - "Unexpected error occurred"
  *                     - errorMessage
  */
 export async function POST(req: NextRequest) {
