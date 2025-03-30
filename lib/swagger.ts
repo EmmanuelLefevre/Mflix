@@ -6,7 +6,7 @@ export const getApiDocs = async () => {
     definition: {
       openapi: "3.0.0",
       info: {
-        title: "Mflix Movie list API",
+        title: "Mflix Movies list API",
         version: "1.0",
         description: "Julien Couraud TP",
         contact: {
