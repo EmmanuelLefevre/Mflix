@@ -44,7 +44,7 @@ if (!JWT_SECRET) {
  *                 error:
  *                   type: string
  *                   example:
- *                     - "No token found in cookies"
+ *                     - "No token found in cookies."
  *                     - "Unable to extract user information from token"
  *       401:
  *         description: Unauthorized - Missing or invalid authentication token.
@@ -87,7 +87,7 @@ if (!JWT_SECRET) {
  *                 error:
  *                   type: string
  *                   example:
- *                     - "Unexpected error occurred."
+ *                     - "Unexpected error occurred"
  *                     - errorMessage
  */
 export async function POST(req: NextRequest) {
