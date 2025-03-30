@@ -48,6 +48,9 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
  *                 message:
  *                   type: string
  *                   example: "Bienvenue Neo 👋"
@@ -61,6 +64,9 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 400
  *                 error:
  *                   type: string
  *                   example: "Username, email, and password are required."
@@ -71,6 +77,9 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 401
  *                 error:
  *                   type: string
  *                   example: "Invalid username or password."
@@ -81,6 +90,9 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 404
  *                 error:
  *                   type: string
  *                   example:
@@ -93,6 +105,9 @@ if (!JWT_SECRET || !REFRESH_SECRET) {
  *             schema:
  *               type: object
  *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
  *                 error:
  *                   type: string
  *                   example:
@@ -105,7 +120,7 @@ export async function POST(req: NextRequest) {
 
     if (!email || !password) {
       return NextResponse.json(
-        { error: "Email and password are required" },
+        { status: 400, error: "Email and password are required" },
         { status: 400 }
       );
     }
@@ -116,13 +131,13 @@ export async function POST(req: NextRequest) {
     const collectionNames = collections.map(col => col.name);
     if (!collectionNames.includes("users")) {
       return NextResponse.json(
-        { error: "Collection 'users' not found" },
+        { status: 404, error: "Collection 'users' not found" },
         { status: 404 }
       );
     }
     if (!collectionNames.includes("sessions")) {
       return NextResponse.json(
-        { error: "Collection 'sessions' not found" },
+        { status: 404, error: "Collection 'sessions' not found" },
         { status: 404 }
       );
     }
@@ -131,7 +146,7 @@ export async function POST(req: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: "Invalid credentials" },
+        { status: 401, error: "Invalid credentials" },
         { status: 401 }
       );
     }
@@ -139,7 +154,7 @@ export async function POST(req: NextRequest) {
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return NextResponse.json(
-        { error: "Invalid credentials" },
+        { status: 401, error: "Invalid credentials" },
         { status: 401 }
       );
     }
@@ -169,13 +184,13 @@ export async function POST(req: NextRequest) {
 
     if (!sessionResult.acknowledged) {
       return NextResponse.json(
-        { error: "Session creation failed" },
+        { status: 500, error: "Session creation failed" },
         { status: 500 }
       );
     }
 
     const response = NextResponse.json(
-      { message: `Bonjour ${user.name} 👋`, jwt: token },
+      { status: 200, message: `Bonjour ${user.name} 👋`, jwt: token },
       { status: 200 }
     );
 
@@ -200,7 +215,7 @@ export async function POST(req: NextRequest) {
     const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
 
     return NextResponse.json(
-      { error: errorMessage },
+      { status: 500, error: errorMessage },
       { status: 500 }
     );
   }
