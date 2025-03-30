@@ -1,55 +1,115 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-const SECRET_KEY = process.env.JWT_SECRET || "super-secret-key";
+export const JWT_SECRET = process.env.JWT_SECRET!;
+export const REFRESH_SECRET = process.env.REFRESH_SECRET!;
 
-// Liste des routes publiques
-const publicRoutes = ["/login", "/logout", "/register", "/refresh-token", "/api-doc"];
+const publicRoutes = new Set([
+  "/login",
+  "/register",
+  "/refresh-token"
+]);
+
 
 export async function middleware(req: NextRequest) {
-  if (publicRoutes.includes(req.nextUrl.pathname)) {
-    return NextResponse.next();
-  }
+  const { pathname } = req.nextUrl;
+  console.log("Requested Path:", pathname);
 
   const token = req.cookies.get("token")?.value;
   const refreshToken = req.cookies.get("refreshToken")?.value;
 
-  if (!token && !refreshToken) {
-    return NextResponse.redirect(new URL("/login", req.url));
+  console.log("Token:", token);
+  console.log("RefreshToken:", refreshToken);
+
+  if (token && refreshToken && pathname !== "/api-doc") {
+    return NextResponse.redirect(new URL("/api-doc", req.url));
   }
 
-  try {
-    jwt.verify(token!, SECRET_KEY);
+  if (publicRoutes.has(pathname)) {
     return NextResponse.next();
   }
-  catch (error) {
-    if (!refreshToken) {
-      return NextResponse.redirect(new URL("/login", req.url));
+
+  if (pathname === "/logout") {
+    const token = req.cookies.get("token")?.value;
+
+    if (!token) {
+      return redirectToLogin(req, "You must be logged in to log out");
     }
 
+    return NextResponse.next();
+  }
+
+  if (!token && !refreshToken) {
+    return redirectToLogin(req, "Authentication required");
+  }
+
+  if (token) {
     try {
-      const refreshResponse = await fetch(new URL("/api/auth/refresh-token", req.url), {
-        method: "GET",
-        headers: { Cookie: `refreshToken=${refreshToken}` }
-      });
-
-      if (!refreshResponse.ok) {
-        return NextResponse.redirect(new URL("/login", req.url));
-      }
-
-      const { token: newToken } = await refreshResponse.json();
-      const response = NextResponse.next();
-      response.cookies.set("token", newToken, { httpOnly: true, secure: true, path: "/" });
-
-      return response;
+      jwt.verify(token, JWT_SECRET);
+      return NextResponse.next();
     }
-    catch {
-      return NextResponse.redirect(new URL("/login", req.url));
+    catch (error) {
+      console.error("JWT invalide ou expiré :", error instanceof Error ? error.message : error);
     }
+  }
+
+  if (refreshToken) {
+    return await attemptTokenRefresh(req, refreshToken);
+  }
+
+  return redirectToLogin(req, "Invalid or expired authentication");
+}
+
+
+/**
+ * Attempts to refresh the authentication token using the `refreshToken`. If successful, the new token is set in the cookies. Otherwise, redirects to the login page.
+ * @param req - Next.js request object (NextRequest).
+ * @param refreshToken - The refresh token used to obtain a new authentication token.
+ * @returns A NextResponse with the updated token or a redirect to the login page in case of an error.
+ */
+async function attemptTokenRefresh(req: NextRequest, refreshToken: string) {
+  try {
+    const refreshResponse = await fetch(new URL("/api/auth/refresh-token", req.url), {
+      method: "GET",
+      headers: { Cookie: `refreshToken=${refreshToken}` }
+    });
+
+    if (!refreshResponse.ok) {
+      return redirectToLogin(req, "Failed to refresh token");
+    }
+
+    const { token: newToken } = await refreshResponse.json();
+    const response = NextResponse.next();
+    response.cookies.set("token", newToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60,
+      sameSite: "strict"
+    });
+
+    return response;
+  }
+  catch (error) {
+    return redirectToLogin(req, "Error refreshing authentication token");
   }
 }
 
+
+/**
+ * Redirects the user to the login page with an error message, typically used when authentication fails.
+ * @param req - Next.js request object (NextRequest).
+ * @param message - The error message to be displayed or logged.
+ * @returns A NextResponse object that redirects to the login page.
+ */
+function redirectToLogin(req: NextRequest, message: string) {
+  const loginUrl = new URL("/login", req.url);
+  loginUrl.searchParams.set("error", message);
+
+  return NextResponse.redirect(loginUrl);
+}
+
+
 export const config = {
-  matcher: "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  matcher: "/((?!api/auth|_next/static|_next/image|favicon.ico).*)"
 };
