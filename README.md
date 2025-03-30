@@ -126,14 +126,10 @@ nvm use 20.18.0
 │   ├── api-doc/
 │   │   ├── page.tsx
 │   │   ├── react-swagger.tsx
-│   ├── app-demo/
-│   │   ├── page.tsx
-│   ├── actions.ts
 │   ├── favicon.ico
 │   ├── layout.tsx
 ├── lib/
 │   ├── mongodb.ts
-│   ├── secrets.mjs
 │   ├── swagger.ts
 ├── pages/
 │   ├── _app.tsx
@@ -151,12 +147,12 @@ nvm use 20.18.0
 ├── middleware.ts
 ├── next-env.d.ts
 ├── next.config.js
-├── package.lock.json
 ├── package.json
 ├── postcss.config.js
 ├── README.md
 ├── tailwind.config.ts
 ├── tsconfig.json
+├── yarn.lock
 ```
 
 ## 🚀 GETTING STARTED
@@ -198,10 +194,10 @@ yarn test
 
 ![Setup Environment Variables](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_secrets.png)  
 
-**2. Link to production =>**
+**2. Link to production =>**  
 [Mflix](https://mflix.vercel.app/)  
 
-**3. After being authenticated, you will be automatically redirected to the Swagger API documentation**
+**3. After being authenticated, you will be automatically redirected to the Swagger API documentation =>**  
 [Mflix](https://mflix.vercel.app/api-doc)  
 
 ***
