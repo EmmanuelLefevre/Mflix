@@ -137,7 +137,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  * @swagger
  * /api/movies:
  *   get:
- *     summary: Retrieve the entire list of movies with pagination and limit
+ *     summary: Retrieve movies with pagination and limit
  *     description: Returns a paginated/limited list of movies from the database.
  *     tags:
  *       - Movies
