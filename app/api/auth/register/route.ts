@@ -81,6 +81,19 @@ import { JWT_SECRET, REFRESH_SECRET } from "@/lib/jwt-secrets-config";
  *                   example:
  *                   - "Collection 'sessions' not found"
  *                   - "Collection 'users' not found"
+ *       405:
+ *         description: Method Not Allowed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 405
+ *                 error:
+ *                   type: string
+ *                   example: "Method Not Allowed"
  *       409:
  *         description: Conflict - User already exists.
  *         content:
@@ -112,6 +125,13 @@ import { JWT_SECRET, REFRESH_SECRET } from "@/lib/jwt-secrets-config";
  */
 export async function POST(req: NextRequest) {
   try {
+    if (req.method !== 'POST') {
+      return NextResponse.json(
+        { status: 405, error: 'Method Not Allowed' },
+        { status: 405 }
+      );
+    }
+
     const { username, email, password } = await req.json();
 
     if (!username || !email || !password) {
