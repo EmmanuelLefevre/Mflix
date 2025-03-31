@@ -486,7 +486,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const db = await MongoDBSingleton.getDbInstance();
     const body = await req.json();
     const { title, year, ...rest } = body;
 
@@ -504,7 +503,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
+    const db = await MongoDBSingleton.getDbInstance();
+
     const existingMovie = await db.collection('movies').findOne({ title, year });
+
     if (existingMovie) {
       return NextResponse.json(
         { status: 409, error: 'Movie already exists' },
