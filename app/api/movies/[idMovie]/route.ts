@@ -16,7 +16,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *       - Movies
  *     parameters:
  *       - in: path
- *         name: ObjectId
+ *         name: Id
  *         required: true
  *         schema:
  *           type: string
@@ -153,7 +153,7 @@ export async function GET(req: NextRequest, { params }: MoviesRouteContext): Pro
  *       - Movies
  *     parameters:
  *       - in: path
- *         name: ObjectId
+ *         name: Id
  *         required: true
  *         schema:
  *           type: string
@@ -427,7 +427,7 @@ export async function PUT(req: NextRequest, { params }: MoviesRouteContext): Pro
  *       - Movies
  *     parameters:
  *       - in: path
- *         name: ObjectId
+ *         name: Id
  *         required: true
  *         schema:
  *           type: string

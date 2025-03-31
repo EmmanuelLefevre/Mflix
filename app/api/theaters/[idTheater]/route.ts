@@ -16,7 +16,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *       - Theaters
  *     parameters:
  *       - in: path
- *         name: ObjectId
+ *         name: Id
  *         required: true
  *         schema:
  *           type: string
@@ -153,7 +153,7 @@ export async function GET(req: NextRequest, { params }: TheaterRouteContext): Pr
  *       - Theaters
  *     parameters:
  *       - in: path
- *         name: ObjectId
+ *         name: Id
  *         required: true
  *         schema:
  *           type: string
@@ -344,11 +344,11 @@ export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Pr
  *       - Theaters
  *     parameters:
  *       - in: path
- *         name: ObjectId
+ *         name: Id
  *         required: true
  *         schema:
  *           type: string
- *           example: "63f5b5fa6e7f16cdd60ab2a9"
+ *           example: "59a47287cfa9a3a73e51ec41"
  *         description: The ObjectId of the theater to delete.
  *     responses:
  *       200:
