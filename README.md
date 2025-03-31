@@ -9,6 +9,7 @@
 - [GETTING STARTED](#-getting-started)
 - [MISCELLANEOUS](#-miscellaneous)
 - [UNIT TESTS](#-unit-tests)
+- [PREPRODUCTION](#-preproduction)
 - [PRODUCTION](#-production)
 
 ## 👋 INTRODUCTION
@@ -183,7 +184,7 @@ yarn dev
 [Online Swagger Documentation](http://localhost:3000/api-doc)  
 
 ## ⚡ MISCELLANEOUS
-Query in Compass examples =>  
+**Query in Compass examples =>**
 
 ![Find a Film](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/compass_find_film.png)  
 
@@ -196,8 +197,12 @@ npm run test
 ```bash
 yarn test
 ```
+## 🛒 PREPRODUCTION
+```bash
+yarn build
+```
 
-## 🛒 PRODUCTION
+## 🛒🛒 PRODUCTION
 **1. Configure JWT_SECRET and REFRESH_SECRET environment variables on Vercel**  
 
 ![Setup Environment Variables](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_secrets.png)  
