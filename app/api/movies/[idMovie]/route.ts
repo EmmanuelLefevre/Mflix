@@ -8,9 +8,9 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
 
 /**
  * @swagger
- * /api/movies/{ObjectId}:
+ * /api/movies/{Id}:
  *   get:
- *     summary: Retrieve a movie by ObjectId
+ *     summary: Retrieve a movie by Id
  *     description: Fetches a movie based on the provided ObjectId.
  *     tags:
  *       - Movies
@@ -145,9 +145,9 @@ export async function GET(req: NextRequest, { params }: MoviesRouteContext): Pro
 
 /**
  * @swagger
- * /api/movies/{ObjectId}:
+ * /api/movies/{Id}:
  *   put:
- *     summary: Update a movie by ObjectId
+ *     summary: Update a movie by Id
  *     description: Updates the details of a movie based on the provided ObjectId.
  *     tags:
  *       - Movies
@@ -419,9 +419,9 @@ export async function PUT(req: NextRequest, { params }: MoviesRouteContext): Pro
 
 /**
  * @swagger
- * /api/movies/{ObjectId}:
+ * /api/movies/{Id}:
  *   delete:
- *     summary: Delete a movie by ObjectId
+ *     summary: Delete a movie by Id
  *     description: Deletes the movie with the specified ObjectId.
  *     tags:
  *       - Movies
