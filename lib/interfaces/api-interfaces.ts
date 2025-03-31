@@ -1,11 +1,11 @@
 export interface MoviesRouteContext {
-  params: { idMovie: string };
+  params: Promise<{ idMovie: string }>;
 }
 
 export interface CommentsRouteContext {
-  params: { idMovie: string, idComment: string };
+  params: Promise<{ idMovie: string, idComment: string }>;
 }
 
 export interface TheaterRouteContext {
-  params: { idTheater: string };
+  params: Promise<{ idTheater: string }>;
 }

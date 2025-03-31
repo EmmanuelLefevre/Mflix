@@ -99,7 +99,7 @@ export async function GET(req: NextRequest, { params }: MoviesRouteContext): Pro
       );
     }
 
-    const { idMovie } = params;
+    const { idMovie } = await params;
 
     if (!ObjectId.isValid(idMovie)) {
       return NextResponse.json(
@@ -245,7 +245,7 @@ export async function PUT(req: NextRequest, { params }: MoviesRouteContext): Pro
       );
     }
 
-    const { idMovie } = params;
+    const { idMovie } = await params;
 
     if (!ObjectId.isValid(idMovie)) {
       return NextResponse.json(
@@ -397,7 +397,7 @@ export async function DELETE(req: NextRequest, { params }: MoviesRouteContext): 
       );
     }
 
-    const { idMovie } = params;
+    const { idMovie } = await params;
 
     if (!ObjectId.isValid(idMovie)) {
       return NextResponse.json(
