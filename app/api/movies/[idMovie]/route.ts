@@ -62,7 +62,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   type: string
  *                   example:
  *                     - "Collection 'movies' not found"
- *                     - "Movie not found"
+ *                     - "Movies not found"
  *       405:
  *         description: Method Not Allowed
  *         content:
@@ -124,7 +124,7 @@ export async function GET(req: NextRequest, { params }: MoviesRouteContext): Pro
 
     if (!movie) {
       return NextResponse.json(
-        { status: 404, error: 'Movie not found' },
+        { status: 404, error: 'Movies not found' },
         { status: 404 }
       );
     }
