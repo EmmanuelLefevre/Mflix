@@ -9,7 +9,7 @@
 - [GETTING STARTED](#-getting-started)
 - [MISCELLANEOUS](#-miscellaneous)
 - [UNIT TESTS](#-unit-tests)
-- [PREPRODUCTION](#-preproduction)
+- [PRE PRODUCTION](#-pre-production)
 - [PRODUCTION](#-production)
 
 ## 👋 INTRODUCTION
@@ -197,7 +197,7 @@ npm run test
 ```bash
 yarn test
 ```
-## 🛒 PREPRODUCTION
+## 🛒 PRE PRODUCTION
 ```bash
 yarn build
 ```
