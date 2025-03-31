@@ -7,6 +7,7 @@
 - [ARCHITECTURE](#-architecture)
 - [DOCUMENTATIONS](#-documentations)
 - [GETTING STARTED](#-getting-started)
+- [MISCELLANEOUS](#-miscellaneous)
 - [UNIT TESTS](#-unit-tests)
 - [PRODUCTION](#-production)
 
@@ -180,6 +181,13 @@ yarn dev
 **5.Open online Swagger documentation**  
 
 [Online Swagger Documentation](http://localhost:3000/api-doc)  
+
+## ⚡ MISCELLANEOUS
+Query in Compass examples =>  
+
+![Find a Film](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/compass_find_film.png)  
+
+![Find a Theater](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/compass_find_theater.png)  
 
 ## 🧪 UNIT TESTS
 ```bash
