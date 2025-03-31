@@ -93,8 +93,6 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                     - errorMessage
 */
 export async function GET(req: NextRequest, { params }: TheaterRouteContext): Promise<NextResponse> {
-  const { idTheater } = await params;
-
   try {
     if (req.method !== 'GET') {
       return NextResponse.json(
@@ -102,6 +100,8 @@ export async function GET(req: NextRequest, { params }: TheaterRouteContext): Pr
         { status: 405 }
       );
     }
+
+    const { idTheater } = await params;
 
     if (!ObjectId.isValid(idTheater)) {
       return NextResponse.json(
@@ -271,8 +271,6 @@ export async function GET(req: NextRequest, { params }: TheaterRouteContext): Pr
  *                     - errorMessage
 */
 export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Promise<NextResponse> {
-  const { idTheater } = await params;
-
   try {
     if (req.method !== 'PUT') {
       return NextResponse.json(
@@ -280,6 +278,8 @@ export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Pr
         { status: 405 }
       );
     }
+
+    const { idTheater } = await params;
 
     if (!ObjectId.isValid(idTheater)) {
       return NextResponse.json(
