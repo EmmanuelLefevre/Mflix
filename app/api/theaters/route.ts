@@ -105,7 +105,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   type: string
  *                   example: "Invalid query parameters"
  *       404:
- *         description: Collection not found
+ *         description: Not Found
  *         content:
  *           application/json:
  *             schema:
@@ -116,7 +116,9 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 404
  *                 error:
  *                   type: string
- *                   example: "Collection 'theaters' not found"
+ *                   example:
+ *                     - "Collection 'theaters' not found"
+ *                     - "No theaters found"
  *       405:
  *         description: Method Not Allowed
  *         content:
@@ -182,6 +184,13 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       .skip((page - 1) * limit)
       .limit(limit)
       .toArray();
+
+    if (theaters.length === 0) {
+      return NextResponse.json(
+        { status: 404, error: "No theaters found" },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json(
       { status: 200, data: theaters },
