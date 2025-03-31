@@ -173,6 +173,7 @@ export async function POST(req: NextRequest) {
       email: email,
       password: hashedPassword
     };
+
     const result = await db.collection("users").insertOne(newUser);
 
     if (!result.acknowledged) {
@@ -198,6 +199,7 @@ export async function POST(req: NextRequest) {
       jwt: token,
       refreshToken: refreshToken
     };
+
     const sessionResult = await db.collection("sessions").insertOne(session);
 
     if (!sessionResult.acknowledged) {
