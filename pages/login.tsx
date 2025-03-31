@@ -12,19 +12,26 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error , setError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
+  const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setEmail(value);
+    setEmailError(null);
 
-    if (value && !emailRegex.test(value)) {
-      setEmailError("Format d'email invalide !");
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
     }
-    else {
-      setEmailError(null);
-    }
+
+    const newTimeout = setTimeout(() => {
+      if (value && !emailRegex.test(value)) {
+        setEmailError("Format d'email invalide !");
+      }
+    }, 3000);
+
+    setTypingTimeout(newTimeout);
   };
 
   const handleEmailBlur = () => {
