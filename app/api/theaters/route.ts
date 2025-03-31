@@ -157,16 +157,6 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const db = await MongoDBSingleton.getDbInstance();
-
-    const collectionExists = await checkCollectionExists(db, "theaters");
-    if (!collectionExists) {
-      return NextResponse.json(
-        { status: 404, error: "Collection 'theaters' not found" },
-        { status: 404 }
-      );
-    }
-
     const url = new URL(req.url);
     const limit = Number(url.searchParams.get("limit")) || 10;
     const page = Number(url.searchParams.get("page")) || 1;
@@ -175,6 +165,16 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       return NextResponse.json(
         { status: 400, error: "Invalid query parameters" },
         { status: 400 }
+      );
+    }
+
+    const db = await MongoDBSingleton.getDbInstance();
+
+    const collectionExists = await checkCollectionExists(db, "theaters");
+    if (!collectionExists) {
+      return NextResponse.json(
+        { status: 404, error: "Collection 'theaters' not found" },
+        { status: 404 }
       );
     }
 
