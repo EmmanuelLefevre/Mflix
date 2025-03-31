@@ -70,6 +70,19 @@ import { JWT_SECRET, REFRESH_SECRET } from "@/lib/jwt-secrets-config";
  *                     - "Collection 'users' not found"
  *                     - "Session not found"
  *                     - "User not found"
+ *       405:
+ *         description: Method Not Allowed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 405
+ *                 error:
+ *                   type: string
+ *                   example: "Method Not Allowed"
  *       500:
  *         description: Internal Server Error.
  *         content:
@@ -88,6 +101,13 @@ import { JWT_SECRET, REFRESH_SECRET } from "@/lib/jwt-secrets-config";
  */
 export async function GET(req: NextRequest) {
   try {
+    if (req.method !== 'GET') {
+      return NextResponse.json(
+        { status: 405, error: 'Method Not Allowed' },
+        { status: 405 }
+      );
+    }
+
     const refreshToken = req.cookies.get("refreshToken")?.value;
 
     if (!refreshToken) {
