@@ -445,8 +445,8 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
  *                 error:
  *                   type: string
  *                   example:
- *                   - "Title is required and must be a string"
- *                   - "Year is required and must be a number"
+ *                     - "Title is required and must be a string"
+ *                     - "Year is required and must be a number"
  *       405:
  *         description: Method Not Allowed
  *         content:
