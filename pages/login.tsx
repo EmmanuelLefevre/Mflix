@@ -18,7 +18,17 @@ const LoginPage = () => {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setEmail(value);
-    setEmailError(emailRegex.test(value) ? null : "Format d'email invalide !");
+
+    if (value && !emailRegex.test(value)) {
+      setEmailError("Format d'email invalide !");
+    }
+    else {
+      setEmailError(null);
+    }
+  };
+
+  const handleEmailBlur = () => {
+    if (!email) setEmailError(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -63,6 +73,7 @@ const LoginPage = () => {
             name="email"
             value={ email }
             onChange={ handleEmailChange }
+            onBlur={ handleEmailBlur }
             aria-describedby="email-help"
             required/>
           <p id="email-help" className="sr-only">Saisissez votre email</p>
@@ -90,7 +101,7 @@ const LoginPage = () => {
 
         </form>
       </div>
-      {/* {error && <p className="error-message">{error}</p>} */}
+      { error && <p className="error-message">{error}</p> }
     </main>
   );
 };
