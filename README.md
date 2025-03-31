@@ -198,6 +198,7 @@ npm run test
 yarn test
 ```
 ## 🛒 PRE PRODUCTION
+**Test if API is build correctly**
 ```bash
 yarn build
 ```
