@@ -161,10 +161,15 @@ import { ObjectId } from 'mongodb';
  *         content:
  *           application/json:
  *             schema:
- *           schema:
- *             data:
- *               type: array
- *               items: '#/components/schemas/Movie'
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 200
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Movie'
  *       400:
  *         description: Invalid request parameters
  *         content:
