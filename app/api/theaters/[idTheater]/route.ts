@@ -164,7 +164,40 @@ export async function GET(req: NextRequest, { params }: TheaterRouteContext): Pr
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Theater'
+ *             type: object
+ *             properties:
+ *               location:
+ *                 type: object
+ *                 properties:
+ *                   address:
+ *                     type: object
+ *                     properties:
+ *                       street1:
+ *                         type: string
+ *                         example: "340 W Market"
+ *                       street2:
+ *                         type: string
+ *                         example: "Ste backerstreet"
+ *                       city:
+ *                         type: string
+ *                         example: "Bloomington"
+ *                       state:
+ *                         type: string
+ *                         example: "MN"
+ *                       zipcode:
+ *                         type: string
+ *                         example: "55425"
+ *                   geo:
+ *                     type: object
+ *                     properties:
+ *                       type:
+ *                         type: string
+ *                         example: "Point"
+ *                       coordinates:
+ *                         type: array
+ *                         items:
+ *                           type: number
+ *                         example: [-93.24565, 44.85466]
  *     responses:
  *       200:
  *         description: Successfully updated the theater.
