@@ -1,3 +1,4 @@
+import type { RouteContext } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
 import MongoDBSingleton from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
@@ -91,7 +92,6 @@ import { ObjectId } from 'mongodb';
 */
 export async function GET(req: NextRequest, context: { params: { idTheater: string } }): Promise<NextResponse> {
   try {
-
     if (req.method !== 'GET') {
       return NextResponse.json(
         { status: 405, error: 'Method Not Allowed' },
