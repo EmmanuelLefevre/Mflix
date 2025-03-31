@@ -14,58 +14,58 @@ const allowedOrigins = ['http://localhost:3000', 'https://ton-site.com'];
 
 
 export async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
+  // const { pathname } = req.nextUrl;
 
-  const token = req.cookies.get("token")?.value;
-  const refreshToken = req.cookies.get("refreshToken")?.value;
+  // const token = req.cookies.get("token")?.value;
+  // const refreshToken = req.cookies.get("refreshToken")?.value;
 
-  const res = NextResponse.next();
+  // const res = NextResponse.next();
 
-  const origin = req.headers.get("origin");
-  if (allowedOrigins.includes(origin || '')) {
-    res.headers.set("Access-Control-Allow-Origin", origin || '*');
-    res.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.headers.set("Access-Control-Allow-Credentials", "true");
-  }
+  // const origin = req.headers.get("origin");
+  // if (allowedOrigins.includes(origin || '')) {
+  //   res.headers.set("Access-Control-Allow-Origin", origin || '*');
+  //   res.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  //   res.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  //   res.headers.set("Access-Control-Allow-Credentials", "true");
+  // }
 
-  if (token && refreshToken && pathname !== "/api-doc") {
-    return NextResponse.redirect(new URL("/api-doc", req.url));
-  }
+  // if (token && refreshToken && pathname !== "/api-doc") {
+  //   return NextResponse.redirect(new URL("/api-doc", req.url));
+  // }
 
-  if (publicRoutes.has(pathname)) {
-    return NextResponse.next();
-  }
+  // if (publicRoutes.has(pathname)) {
+  //   return NextResponse.next();
+  // }
 
-  if (pathname === "/logout") {
-    const token = req.cookies.get("token")?.value;
+  // if (pathname === "/logout") {
+  //   const token = req.cookies.get("token")?.value;
 
-    if (!token) {
-      return redirectToLogin(req, "You must be logged in to log out");
-    }
+  //   if (!token) {
+  //     return redirectToLogin(req, "You must be logged in to log out");
+  //   }
 
-    return NextResponse.next();
-  }
+  //   return NextResponse.next();
+  // }
 
-  if (!token && !refreshToken) {
-    return redirectToLogin(req, "Authentication required");
-  }
+  // if (!token && !refreshToken) {
+  //   return redirectToLogin(req, "Authentication required");
+  // }
 
-  if (token) {
-    try {
-      jwt.verify(token, JWT_SECRET);
-      return NextResponse.next();
-    }
-    catch (error) {
-      console.error("JWT invalide ou expiré :", error instanceof Error ? error.message : error);
-    }
-  }
+  // if (token) {
+  //   try {
+  //     jwt.verify(token, JWT_SECRET);
+  //     return NextResponse.next();
+  //   }
+  //   catch (error) {
+  //     console.error("JWT invalide ou expiré :", error instanceof Error ? error.message : error);
+  //   }
+  // }
 
-  if (refreshToken) {
-    return await attemptTokenRefresh(req, refreshToken);
-  }
+  // if (refreshToken) {
+  //   return await attemptTokenRefresh(req, refreshToken);
+  // }
 
-  return redirectToLogin(req, "Invalid or expired authentication");
+  // return redirectToLogin(req, "Invalid or expired authentication");
 }
 
 
