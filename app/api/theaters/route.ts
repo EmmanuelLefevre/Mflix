@@ -25,6 +25,9 @@ import { ObjectId } from 'mongodb';
  *                 street1:
  *                   type: string
  *                   example: "340 W Market"
+ *                 street2:
+ *                   type: string
+ *                   example: "Ste backerstreet"
  *                 city:
  *                   type: string
  *                   example: "Bloomington"
@@ -207,7 +210,40 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Theater'
+ *             type: object
+ *             properties:
+ *               location:
+ *                 type: object
+ *                 properties:
+ *                   address:
+ *                     type: object
+ *                     properties:
+ *                       street1:
+ *                         type: string
+ *                         example: "340 W Market"
+ *                       street2:
+ *                         type: string
+ *                         example: "Ste backerstreet"
+ *                       city:
+ *                         type: string
+ *                         example: "Bloomington"
+ *                       state:
+ *                         type: string
+ *                         example: "MN"
+ *                       zipcode:
+ *                         type: string
+ *                         example: "55425"
+ *                   geo:
+ *                     type: object
+ *                     properties:
+ *                       type:
+ *                         type: string
+ *                         example: "Point"
+ *                       coordinates:
+ *                         type: array
+ *                         items:
+ *                           type: number
+ *                         example: [-93.24565, 44.85466]
  *     responses:
  *       201:
  *         description: Successfully added the theater.
@@ -300,10 +336,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         { status: 409, error: 'Theater already exists' },
         { status: 409 }
       );
-    }
-
-    if (body._id) {
-      delete body._id;
     }
 
     const lastTheater = await db.collection('theaters')
