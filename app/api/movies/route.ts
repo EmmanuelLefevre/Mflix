@@ -1,12 +1,142 @@
 import { NextRequest, NextResponse } from 'next/server';
 import MongoDBSingleton from '@/lib/mongodb';
+import { ObjectId } from 'mongodb';
+
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Movie:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           example: "573a1390f29313caabcd42e8"
+ *         title:
+ *           type: string
+ *           example: "The Great Train Robbery"
+ *         year:
+ *           type: integer
+ *           example: 1903
+ *         plot:
+ *           type: string
+ *           example: "A group of bandits stage a brazen train hold-up..."
+ *         fullplot:
+ *           type: string
+ *           example: "Among the earliest existing films in American cinema..."
+ *         genres:
+ *           type: array
+ *           items:
+ *             type: string
+ *           example: ["Short", "Western"]
+ *         runtime:
+ *           type: integer
+ *           example: 11
+ *         cast:
+ *           type: array
+ *           items:
+ *             type: string
+ *           example: ["A.C. Abadie", "Gilbert M. 'Broncho Billy' Anderson"]
+ *         poster:
+ *           type: string
+ *           example: "https://m.media-amazon.com/images/M/MV5BMTU3NjE5NzYt..."
+ *         languages:
+ *           type: array
+ *           items:
+ *             type: string
+ *           example: ["English"]
+ *         released:
+ *           type: string
+ *           format: date-time
+ *           example: "1903-12-01T00:00:00.000+00:00"
+ *         directors:
+ *           type: array
+ *           items:
+ *             type: string
+ *           example: ["Edwin S. Porter"]
+ *         rated:
+ *           type: string
+ *           example: "TV-G"
+ *         awards:
+ *           type: object
+ *           properties:
+ *             wins:
+ *               type: integer
+ *               example: 1
+ *             nominations:
+ *               type: integer
+ *               example: 0
+ *             text:
+ *               type: string
+ *               example: "1 win."
+ *         imdb:
+ *           type: object
+ *           properties:
+ *             rating:
+ *               type: number
+ *               example: 7.4
+ *             votes:
+ *               type: integer
+ *               example: 9847
+ *             id:
+ *               type: integer
+ *               example: 439
+ *         countries:
+ *           type: array
+ *           items:
+ *             type: string
+ *           example: ["USA"]
+ *         type:
+ *           type: string
+ *           example: "movie"
+ *         tomatoes:
+ *           type: object
+ *           properties:
+ *             viewer:
+ *               type: object
+ *               properties:
+ *                 rating:
+ *                   type: number
+ *                   example: 3.7
+ *                 numReviews:
+ *                   type: integer
+ *                   example: 2559
+ *                 meter:
+ *                   type: integer
+ *                   example: 75
+ *                 fresh:
+ *                   type: integer
+ *                   example: 6
+ *             critic:
+ *               type: object
+ *               properties:
+ *                 rating:
+ *                   type: number
+ *                   example: 7.6
+ *                 numReviews:
+ *                   type: integer
+ *                   example: 6
+ *                 meter:
+ *                   type: integer
+ *                   example: 100
+ *                 rotten:
+ *                   type: integer
+ *                   example: 0
+ *         lastupdated:
+ *           type: string
+ *           example: "2015-08-13 00:27:59.177000000"
+ *         num_mflix_comments:
+ *           type: integer
+ *           example: 0
+*/
 
 /**
  * @swagger
  * /api/movies:
  *   get:
- *     summary: Retrieve the entire list of movies with pagination
- *     description: Returns a paginated list of movies from the database.
+ *     summary: Retrieve the entire list of movies with pagination and limit
+ *     description: Returns a paginated/limited list of movies from the database.
  *     tags:
  *       - Movies
  *     parameters:
@@ -31,132 +161,10 @@ import MongoDBSingleton from '@/lib/mongodb';
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: integer
- *                   example: 200
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       _id:
- *                         type: string
- *                         example: "573a1390f29313caabcd42e8"
- *                       title:
- *                         type: string
- *                         example: "The Great Train Robbery"
- *                       plot:
- *                         type: string
- *                         example: "A group of bandits stage a brazen train hold-up..."
- *                       fullplot:
- *                         type: string
- *                         example: "Among the earliest existing films in American cinema..."
- *                       genres:
- *                         type: array
- *                         items:
- *                           type: string
- *                         example: ["Short", "Western"]
- *                       runtime:
- *                         type: integer
- *                         example: 11
- *                       cast:
- *                         type: array
- *                         items:
- *                           type: string
- *                         example: ["A.C. Abadie", "Gilbert M. 'Broncho Billy' Anderson"]
- *                       poster:
- *                         type: string
- *                         example: "https://m.media-amazon.com/images/M/MV5BMTU3NjE5NzYt..."
- *                       languages:
- *                         type: array
- *                         items:
- *                           type: string
- *                         example: ["English"]
- *                       released:
- *                         type: string
- *                         format: date-time
- *                         example: "1903-12-01T00:00:00.000+00:00"
- *                       directors:
- *                         type: array
- *                         items:
- *                           type: string
- *                         example: ["Edwin S. Porter"]
- *                       rated:
- *                         type: string
- *                         example: "TV-G"
- *                       awards:
- *                         type: object
- *                         properties:
- *                           wins:
- *                             type: integer
- *                             example: 1
- *                           nominations:
- *                             type: integer
- *                             example: 0
- *                           text:
- *                             type: string
- *                             example: "1 win."
- *                       imdb:
- *                         type: object
- *                         properties:
- *                           rating:
- *                             type: number
- *                             example: 7.4
- *                           votes:
- *                             type: integer
- *                             example: 9847
- *                           id:
- *                             type: integer
- *                             example: 439
- *                       countries:
- *                         type: array
- *                         items:
- *                           type: string
- *                         example: ["USA"]
- *                       type:
- *                         type: string
- *                         example: "movie"
- *                       tomatoes:
- *                         type: object
- *                         properties:
- *                           viewer:
- *                             type: object
- *                             properties:
- *                               rating:
- *                                 type: number
- *                                 example: 3.7
- *                               numReviews:
- *                                 type: integer
- *                                 example: 2559
- *                               meter:
- *                                 type: integer
- *                                 example: 75
- *                               fresh:
- *                                 type: integer
- *                                 example: 6
- *                           critic:
- *                             type: object
- *                             properties:
- *                               rating:
- *                                 type: number
- *                                 example: 7.6
- *                               numReviews:
- *                                 type: integer
- *                                 example: 6
- *                               meter:
- *                                 type: integer
- *                                 example: 100
- *                               rotten:
- *                                 type: integer
- *                                 example: 0
- *                       lastupdated:
- *                         type: string
- *                         example: "2015-08-13 00:27:59.177000000"
- *                       num_mflix_comments:
- *                         type: integer
- *                         example: 0
+ *           schema:
+ *             data:
+ *               type: array
+ *               items: '#/components/schemas/Movie'
  *       400:
  *         description: Invalid request parameters
  *         content:
@@ -183,6 +191,19 @@ import MongoDBSingleton from '@/lib/mongodb';
  *                 error:
  *                   type: string
  *                   example: "Collection 'movies' not found"
+ *       405:
+ *         description: Method Not Allowed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 405
+ *                 error:
+ *                   type: string
+ *                   example: "Method Not Allowed"
  *       500:
  *         description: Internal Server Error.
  *         content:
@@ -201,6 +222,13 @@ import MongoDBSingleton from '@/lib/mongodb';
  */
 export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
+    if (req.method !== 'GET') {
+      return NextResponse.json(
+        { status: 405, error: 'Method Not Allowed' },
+        { status: 405 }
+      );
+    }
+
     const db = await MongoDBSingleton.getDbInstance();
 
     const collections = await db.listCollections().toArray();
@@ -238,6 +266,146 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
 
+    return NextResponse.json(
+      { status: 500, error: errorMessage },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * @swagger
+ * /api/movies:
+ *   post:
+ *     summary: Register a new movie
+ *     description: Inserts a new movie into the movies collection.
+ *     tags:
+ *       - Movies
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Movie'
+ *     responses:
+ *       201:
+ *         description: Successfully added the movie.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 201
+ *                 data:
+ *                   $ref: '#/components/schemas/Movie'
+ *       400:
+ *         description: Invalid request body
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 400
+ *                 error:
+ *                   type: string
+ *                   example:
+ *                   - "Title is required and must be a string"
+ *                   - "Year is required and must be a number"
+ *       405:
+ *         description: Method Not Allowed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 405
+ *                 error:
+ *                   type: string
+ *                   example: "Method Not Allowed"
+ *       409:
+ *         description: Conflict - Movie already exists.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 409
+ *                 error:
+ *                   type: string
+ *                   example: "Movie already exists"
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 500
+ *                 error:
+ *                   type: string
+ *                   example: "Unexpected error occurred"
+ */
+export async function POST(req: NextRequest): Promise<NextResponse> {
+  try {
+    if (req.method !== 'POST') {
+      return NextResponse.json(
+        { status: 405, error: 'Method Not Allowed' },
+        { status: 405 }
+      );
+    }
+
+    const db = await MongoDBSingleton.getDbInstance();
+    const body = await req.json();
+    const { title, year, ...rest } = body;
+
+    if (!title || typeof title !== 'string') {
+      return NextResponse.json(
+        { status: 400, error: 'Title is required and must be a string' },
+        { status: 400 }
+      );
+    }
+
+    if (!year || typeof year !== 'number') {
+      return NextResponse.json(
+        { status: 400, error: 'Year is required and must be a number' },
+        { status: 400 }
+      );
+    }
+
+    const existingMovie = await db.collection('movies').findOne({ title, year });
+    if (existingMovie) {
+      return NextResponse.json(
+        { status: 409, error: 'Movie already exists' },
+        { status: 409 }
+      );
+    }
+
+    if (body._id) {
+      delete body._id;
+    }
+
+    const movie = { title, year, ...rest };
+    movie._id = new ObjectId();
+
+    const result = await db.collection('movies').insertOne(movie);
+
+    return NextResponse.json(
+      { status: 201, message: 'Movie created', data: { _id: result.insertedId, ...body } },
+      { status: 201 }
+    );
+  }
+  catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
     return NextResponse.json(
       { status: 500, error: errorMessage },
       { status: 500 }
