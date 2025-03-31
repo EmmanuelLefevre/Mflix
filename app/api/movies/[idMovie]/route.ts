@@ -89,7 +89,7 @@ import { ObjectId } from 'mongodb';
  *                     - "Unexpected error occurred."
  *                     - errorMessage
 */
-export async function GET(req: NextRequest, { params }: { params: { idMovie: string } }): Promise<NextResponse> {
+export async function GET(req: NextRequest, context: { params: { idMovie: string } }): Promise<NextResponse> {
   try {
 
     if (req.method !== 'GET') {
@@ -99,7 +99,7 @@ export async function GET(req: NextRequest, { params }: { params: { idMovie: str
       );
     }
 
-    const { idMovie } = params;
+    const { idMovie } = context.params;
 
     if (!ObjectId.isValid(idMovie)) {
       return NextResponse.json(
@@ -236,7 +236,7 @@ export async function GET(req: NextRequest, { params }: { params: { idMovie: str
  *                     - "Unexpected error occurred."
  *                     - errorMessage
 */
-export async function PUT(req: NextRequest, { params }: { params: { idMovie: string } }): Promise<NextResponse> {
+export async function PUT(req: NextRequest, context: { params: { idMovie: string } }): Promise<NextResponse> {
   try {
     if (req.method !== 'PUT') {
       return NextResponse.json(
@@ -245,7 +245,7 @@ export async function PUT(req: NextRequest, { params }: { params: { idMovie: str
       );
     }
 
-    const { idMovie } = params;
+    const { idMovie } = context.params;
 
     if (!ObjectId.isValid(idMovie)) {
       return NextResponse.json(
@@ -388,7 +388,7 @@ export async function PUT(req: NextRequest, { params }: { params: { idMovie: str
  *                     - "Unexpected error occurred."
  *                     - errorMessage
 */
-export async function DELETE(req: NextRequest, { params }: { params: { idMovie: string } }): Promise<NextResponse> {
+export async function DELETE(req: NextRequest, context: { params: { idMovie: string } }): Promise<NextResponse> {
   try {
     if (req.method !== 'DELETE') {
       return NextResponse.json(
@@ -397,7 +397,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { idMovie: 
       );
     }
 
-    const { idMovie } = params;
+    const { idMovie } = context.params;
 
     if (!ObjectId.isValid(idMovie)) {
       return NextResponse.json(
