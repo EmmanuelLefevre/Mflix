@@ -56,7 +56,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  * @swagger
  * /api/theaters:
  *   get:
- *     summary: Retrieve the entire list of theaters with pagination and limit
+ *     summary: Retrieve theaters with pagination and limit
  *     description: Returns a paginated/limited list of theaters from the database.
  *     tags:
  *       - Theaters

@@ -8,9 +8,9 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
 
 /**
  * @swagger
- * /api/theaters/{ObjectId}:
+ * /api/theaters/{Id}:
  *   get:
- *     summary: Retrieve a specific theater by its ObjectId
+ *     summary: Retrieve a theater by Id
  *     description: Fetches a theater based on the provided ObjectId.
  *     tags:
  *       - Theaters
@@ -145,9 +145,9 @@ export async function GET(req: NextRequest, { params }: TheaterRouteContext): Pr
 
 /**
  * @swagger
- * /api/theaters/{ObjectId}:
+ * /api/theaters/{Id}:
  *   put:
- *     summary: Update a specific theater by its ObjectId
+ *     summary: Update a theater by Id
  *     description: Updates the details of a theater based on the provided ObjectId.
  *     tags:
  *       - Theaters
@@ -336,9 +336,9 @@ export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Pr
 
 /**
  * @swagger
- * /api/theaters/{ObjectId}:
+ * /api/theaters/{Id}:
  *   delete:
- *     summary: Delete a specific theater by its ObjectId
+ *     summary: Delete a theater by Id
  *     description: Deletes the theater with the specified ObjectId.
  *     tags:
  *       - Theaters
