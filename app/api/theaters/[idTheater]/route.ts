@@ -44,7 +44,7 @@ import { ObjectId } from 'mongodb';
  *                   example: 400
  *                 error:
  *                   type: string
- *                   example: "Invalid ObjectId format"
+ *                   example: "Invalid theater ObjectId format"
  *       404:
  *         description: Not Found
  *         content:
@@ -331,6 +331,19 @@ export async function PUT(req: NextRequest, { params }: { params: { idTheater: s
  *                 message:
  *                   type: string
  *                   example: "Theater deleted"
+ *       400:
+ *         description: Bad Request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 400
+ *                 error:
+ *                   type: string
+ *                   example: "Invalid theater ObjectID parameter format"
  *       404:
  *         description: Not Found
  *         content:
