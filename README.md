@@ -31,6 +31,7 @@ This repository contains all the resources and instructions necessary to establi
 - **Vercel**
 - **Swagger**: 3.0
 - **Typescript**: 5.0
+- **Sass**
 - **Tailwind**: 3.4.17
 - **Jest**: 29.7.0
 - **JWT**: 9.0.2
@@ -77,6 +78,9 @@ nvm use 20.18.0
 **NodeJS**
 - [NodeJS Documentation](https://nodejs.org/docs/latest/api/)
 - [NodeJS 20.18.0 Release Notes](https://nodejs.org/fr/blog/release/v20.18.0)  
+
+**Sass**
+- [Sass 3.4.17 Documentation](https://sass-lang.com/documentation/)  
 
 **Tailwind**
 - [Tailwind 3.4.17 Documentation](https://v3.tailwindcss.com/docs/installation)  
