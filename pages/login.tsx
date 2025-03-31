@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
+import "@/public/styles/globals.css";
 import "@/public/styles/global.scss";
 
 
