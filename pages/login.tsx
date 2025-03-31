@@ -101,7 +101,9 @@ const LoginPage = () => {
 
         </form>
       </div>
-      { error && <p className="error-message">{error}</p> }
+      <div id="login-error-container">
+        { error && <p className="api-error-message">{error}</p> }
+      </div>
     </main>
   );
 };

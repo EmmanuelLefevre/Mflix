@@ -107,89 +107,101 @@ body {
   .swagger-ui h2.title {
     color: #89BF03 !important;
   }
-  #login-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: $text;
-    font-size: $font-size-body;
-    width: 400px;
-    height: auto;
-    margin-top: 15vh;
-    border: 2px solid $primary-color;
-    border-radius: 16px;
-    h1 {
-      color: $primary-color;
-      font-family: $text-serif;
-      font-weight: $text-weight-bold;
-      font-size: $font-size-h1;
-      text-transform: uppercase;
-      margin-top: 20px;
-      user-select: none;
-    }
-    form {
+  main {
+    #login-form {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      width: 250px;
-      height: 250px;
-      label {
-        font-size: $font-size-label;
-        margin-top: 12px;
-        user-select: none;
-        &:last-of-type {
-          margin-top: 16px;
-        }
-      }
-      input {
+      align-items: center;
+      font-family: $text;
+      font-size: $font-size-body;
+      width: 400px;
+      height: auto;
+      margin-top: 15vh;
+      border: 2px solid $primary-color;
+      border-radius: 16px;
+      h1 {
         color: $primary-color;
-        font-size: $font-size-input;
-        padding: 4px 4px 4px 10px;
-        border: 1px solid $primary-color;
-        border-radius: 4px;
-        caret-color: transparent;
-        &:focus {
-          outline: none;
-          caret-color: $primary-color;
-        }
+        font-family: $text-serif;
+        font-weight: $text-weight-bold;
+        font-size: $font-size-h1;
+        text-transform: uppercase;
+        margin-top: 20px;
+        user-select: none;
       }
-      .error-message {
-        text-align: center;
-        color: $red;
-        font-size: $font-size-error;
-        margin-top: 4px;
-        height: 14px;
-        visibility: hidden;
-        opacity: 0;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-      }
-      .error-message.visible {
-        visibility: visible;
-        opacity: 1;
-      }
-      #login-button {
+      form {
         display: flex;
+        flex-direction: column;
         justify-content: center;
-        align-items: center;
-        button {
-          font-family: $text-button;
-          font-size: $font-size-button;
-          width: 120px;
-          margin: 24px 0;
-          padding: 4px 4px;
-          border: 2px solid $primary-color;
-          border-radius: 8px;
-          caret-color: transparent;
-          &:hover {
-            color: $primary-color;
-            cursor: pointer;
-          }
-          &:disabled,
-          &[aria-disabled="true"] {
-            cursor: not-allowed;
+        width: 250px;
+        height: 250px;
+        label {
+          font-size: $font-size-label;
+          margin-top: 12px;
+          user-select: none;
+          &:last-of-type {
+            margin-top: 16px;
           }
         }
+        input {
+          color: $primary-color;
+          font-size: $font-size-input;
+          padding: 4px 4px 4px 10px;
+          border: 1px solid $primary-color;
+          border-radius: 4px;
+          caret-color: transparent;
+          &:focus {
+            outline: none;
+            caret-color: $primary-color;
+          }
+        }
+        .error-message {
+          text-align: center;
+          color: $red;
+          font-size: $font-size-error;
+          margin-top: 4px;
+          height: 14px;
+          visibility: hidden;
+          opacity: 0;
+          transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .error-message.visible {
+          visibility: visible;
+          opacity: 1;
+        }
+        #login-button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          button {
+            font-family: $text-button;
+            font-size: $font-size-button;
+            width: 120px;
+            margin: 24px 0;
+            padding: 4px 4px;
+            border: 2px solid $primary-color;
+            border-radius: 8px;
+            caret-color: transparent;
+            &:hover {
+              color: $primary-color;
+              cursor: pointer;
+            }
+            &:disabled,
+            &[aria-disabled="true"] {
+              cursor: not-allowed;
+            }
+          }
+        }
+      }
+    }
+    #login-error-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      .api-error-message {
+        color: $red;
+        font-weight: $text-weight-600;
+        text-transform: capitalize;
       }
     }
   }
