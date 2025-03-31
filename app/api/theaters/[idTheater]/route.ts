@@ -1,7 +1,7 @@
-import type { RouteContext } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
 import MongoDBSingleton from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
+import { TheaterRouteContext } from '@/lib/interfaces/api-interfaces';
 
 
 /**
@@ -90,7 +90,7 @@ import { ObjectId } from 'mongodb';
  *                     - "Unexpected error occurred."
  *                     - errorMessage
 */
-export async function GET(req: NextRequest, context: { params: { idTheater: string } }): Promise<NextResponse> {
+export async function GET(req: NextRequest, { params }: TheaterRouteContext): Promise<NextResponse> {
   try {
     if (req.method !== 'GET') {
       return NextResponse.json(
@@ -99,7 +99,7 @@ export async function GET(req: NextRequest, context: { params: { idTheater: stri
       );
     }
 
-    const { idTheater } = context.params;
+    const { idTheater } = params;
 
     if (!ObjectId.isValid(idTheater)) {
       return NextResponse.json(
@@ -236,7 +236,7 @@ export async function GET(req: NextRequest, context: { params: { idTheater: stri
  *                     - "Unexpected error occurred."
  *                     - errorMessage
 */
-export async function PUT(req: NextRequest, context: { params: { idTheater: string } }): Promise<NextResponse> {
+export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Promise<NextResponse> {
   try {
     if (req.method !== 'PUT') {
       return NextResponse.json(
@@ -245,7 +245,7 @@ export async function PUT(req: NextRequest, context: { params: { idTheater: stri
       );
     }
 
-    const { idTheater } = context.params;
+    const { idTheater } = params;
 
     if (!ObjectId.isValid(idTheater)) {
       return NextResponse.json(
@@ -388,7 +388,7 @@ export async function PUT(req: NextRequest, context: { params: { idTheater: stri
  *                     - "Unexpected error occurred."
  *                     - errorMessage
 */
-export async function DELETE(req: NextRequest, context: { params: { idTheater: string } }): Promise<NextResponse> {
+export async function DELETE(req: NextRequest, { params }: TheaterRouteContext): Promise<NextResponse> {
   try {
     if (req.method !== 'DELETE') {
       return NextResponse.json(
@@ -397,7 +397,7 @@ export async function DELETE(req: NextRequest, context: { params: { idTheater: s
       );
     }
 
-    const { idTheater } = context.params;
+    const { idTheater } = params;
 
     if (!ObjectId.isValid(idTheater)) {
       return NextResponse.json(
