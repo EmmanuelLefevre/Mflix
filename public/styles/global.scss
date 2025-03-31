@@ -1,0 +1,196 @@
+/*===============FONT-FACE IMPORTS===============*/
+@font-face {
+  font-family: 'roboto';
+  src: url('../fonts/Roboto-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'roboto';
+  src: url('../fonts/Roboto-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'roboto';
+  src: url('../fonts/Roboto-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'roboto';
+  src: url('../fonts/Roboto-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'roboto condensed';
+  src: url('../fonts/RobotoCondensed-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'roboto serif';
+  src: url('../fonts/RobotoSerif-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'roboto serif';
+  src: url('../fonts/RobotoSerif-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+
+/*===============RESET===============*/
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*===============VARIABLES===============*/
+/*------Colors------*/
+$white: white;
+$black: black;
+$grey: #afafaf;
+$grey-light: #dadada;
+$red: #eb0000;
+
+$primary-color: #89BF03;
+$secondary-color: #226A90;
+
+/*------Fonts------*/
+// Roboto
+$text: 'roboto', sans-serif;
+// Roboto condensed
+$text-button: 'roboto condensed', sans-serif;
+// Roboto serif
+$text-serif: 'roboto serif', serif;
+
+$text-weight: 400;
+$text-weight-500: 500;
+$text-weight-600: 600;
+$text-weight-bold: 700;
+
+/*------Fonts size------*/
+$font-size-button: 16px;
+$font-size-body: 16px;
+$font-size-error: 12px;
+$font-size-h1: 26px;
+$font-size-label: 15px;
+$font-size-input: 14px;
+
+
+/*===============APP===============*/
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  color: rgb(var(--foreground-rgb));
+  height: 100vh;
+  width: 100vw;
+  background: $grey-light;
+  .swagger-ui h2.title {
+    color: #89BF03 !important;
+  }
+  #login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: $text;
+    font-size: $font-size-body;
+    width: 400px;
+    height: auto;
+    margin-top: 15vh;
+    border: 2px solid $primary-color;
+    border-radius: 16px;
+    h1 {
+      color: $primary-color;
+      font-family: $text-serif;
+      font-weight: $text-weight-bold;
+      font-size: $font-size-h1;
+      text-transform: uppercase;
+      margin-top: 20px;
+      user-select: none;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 250px;
+      height: 250px;
+      label {
+        font-size: $font-size-label;
+        margin-top: 12px;
+        user-select: none;
+        &:last-of-type {
+          margin-top: 16px;
+        }
+      }
+      input {
+        color: $primary-color;
+        font-size: $font-size-input;
+        padding: 4px 4px 4px 10px;
+        border: 1px solid $primary-color;
+        border-radius: 4px;
+        caret-color: transparent;
+        &:focus {
+          outline: none;
+          caret-color: $primary-color;
+        }
+      }
+      .error-message {
+        text-align: center;
+        color: $red;
+        font-size: $font-size-error;
+        margin-top: 4px;
+        height: 14px;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      .error-message.visible {
+        visibility: visible;
+        opacity: 1;
+      }
+      #login-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        button {
+          font-family: $text-button;
+          font-size: $font-size-button;
+          width: 120px;
+          margin: 24px 0;
+          padding: 4px 4px;
+          border: 2px solid $primary-color;
+          border-radius: 8px;
+          caret-color: transparent;
+          &:hover {
+            color: $primary-color;
+            cursor: pointer;
+          }
+          &:disabled,
+          &[aria-disabled="true"] {
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+  }
+}
