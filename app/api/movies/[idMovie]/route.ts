@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import MongoDBSingleton from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
+import { MoviesRouteContext } from '@/lib/interfaces/api-interfaces';
 
 
 /**
@@ -89,9 +90,8 @@ import { ObjectId } from 'mongodb';
  *                     - "Unexpected error occurred."
  *                     - errorMessage
 */
-export async function GET(req: NextRequest, context: { params: { idMovie: string } }): Promise<NextResponse> {
+export async function GET(req: NextRequest, { params }: MoviesRouteContext): Promise<NextResponse> {
   try {
-
     if (req.method !== 'GET') {
       return NextResponse.json(
         { status: 405, error: 'Method Not Allowed' },
@@ -99,7 +99,7 @@ export async function GET(req: NextRequest, context: { params: { idMovie: string
       );
     }
 
-    const { idMovie } = context.params;
+    const { idMovie } = params;
 
     if (!ObjectId.isValid(idMovie)) {
       return NextResponse.json(
@@ -236,7 +236,7 @@ export async function GET(req: NextRequest, context: { params: { idMovie: string
  *                     - "Unexpected error occurred."
  *                     - errorMessage
 */
-export async function PUT(req: NextRequest, context: { params: { idMovie: string } }): Promise<NextResponse> {
+export async function PUT(req: NextRequest, { params }: MoviesRouteContext): Promise<NextResponse> {
   try {
     if (req.method !== 'PUT') {
       return NextResponse.json(
@@ -245,7 +245,7 @@ export async function PUT(req: NextRequest, context: { params: { idMovie: string
       );
     }
 
-    const { idMovie } = context.params;
+    const { idMovie } = params;
 
     if (!ObjectId.isValid(idMovie)) {
       return NextResponse.json(
@@ -388,7 +388,7 @@ export async function PUT(req: NextRequest, context: { params: { idMovie: string
  *                     - "Unexpected error occurred."
  *                     - errorMessage
 */
-export async function DELETE(req: NextRequest, context: { params: { idMovie: string } }): Promise<NextResponse> {
+export async function DELETE(req: NextRequest, { params }: MoviesRouteContext): Promise<NextResponse> {
   try {
     if (req.method !== 'DELETE') {
       return NextResponse.json(
@@ -397,7 +397,7 @@ export async function DELETE(req: NextRequest, context: { params: { idMovie: str
       );
     }
 
-    const { idMovie } = context.params;
+    const { idMovie } = params;
 
     if (!ObjectId.isValid(idMovie)) {
       return NextResponse.json(
