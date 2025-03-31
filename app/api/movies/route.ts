@@ -405,7 +405,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const result = await db.collection('movies').insertOne(movie);
 
     return NextResponse.json(
-      { status: 201, message: 'Movie created', data: { _id: result.insertedId, ...body } },
+      { status: 201, message: 'Movie created', data: { _id: result.insertedId, title, year, ...rest } },
       { status: 201 }
     );
   }
