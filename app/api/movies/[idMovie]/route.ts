@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import MongoDBSingleton from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
+
+import MongoDBSingleton from '@/lib/mongodb';
 import { MoviesRouteContext } from '@/lib/interfaces/api-interfaces';
+import { checkCollectionExists } from "@/lib/check-collection-exists";
 
 
 /**
@@ -110,9 +112,8 @@ export async function GET(req: NextRequest, { params }: MoviesRouteContext): Pro
 
     const db = await MongoDBSingleton.getDbInstance();
 
-    const collections = await db.listCollections().toArray();
-    const collectionNames = collections.map(col => col.name);
-    if (!collectionNames.includes('movies')) {
+    const collectionExists = await checkCollectionExists(db, "movies");
+    if (!collectionExists) {
       return NextResponse.json(
         { status: 404, error: "Collection 'movies' not found" },
         { status: 404 }
@@ -266,9 +267,8 @@ export async function PUT(req: NextRequest, { params }: MoviesRouteContext): Pro
 
     const db = await MongoDBSingleton.getDbInstance();
 
-    const collections = await db.listCollections().toArray();
-    const collectionNames = collections.map(col => col.name);
-    if (!collectionNames.includes('movies')) {
+    const collectionExists = await checkCollectionExists(db, "movies");
+    if (!collectionExists) {
       return NextResponse.json(
         { status: 404, error: "Collection 'movies' not found" },
         { status: 404 }
@@ -408,9 +408,8 @@ export async function DELETE(req: NextRequest, { params }: MoviesRouteContext): 
 
     const db = await MongoDBSingleton.getDbInstance();
 
-    const collections = await db.listCollections().toArray();
-    const collectionNames = collections.map(col => col.name);
-    if (!collectionNames.includes('movies')) {
+    const collectionExists = await checkCollectionExists(db, "movies");
+    if (!collectionExists) {
       return NextResponse.json(
         { status: 404, error: "Collection 'movies' not found" },
         { status: 404 }

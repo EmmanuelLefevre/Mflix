@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 import MongoDBSingleton from "@/lib/mongodb";
 import { JWT_SECRET, REFRESH_SECRET } from "@/lib/jwt-secrets-config";
+import { checkCollectionExists } from "@/lib/check-collection-exists";
 
 
 /**
@@ -145,19 +146,14 @@ export async function POST(req: NextRequest) {
 
     const db = await MongoDBSingleton.getDbInstance();
 
-    const collections = await db.listCollections().toArray();
-    const collectionNames = collections.map(col => col.name);
-    if (!collectionNames.includes("users")) {
-      return NextResponse.json(
-        { status: 404, error: "Collection 'users' not found" },
-        { status: 404 }
-      );
-    }
-    if (!collectionNames.includes("sessions")) {
-      return NextResponse.json(
-        { status: 404, error: "Collection 'sessions' not found" },
-        { status: 404 }
-      );
+    const requiredCollections = ["users", "sessions"];
+    for (const collection of requiredCollections) {
+      if (!(await checkCollectionExists(db, collection))) {
+        return NextResponse.json(
+          { error: `Collection '${collection}' not found` },
+          { status: 404 }
+        );
+      }
     }
 
     const user = await db.collection("users").findOne({ email });

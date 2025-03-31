@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import MongoDBSingleton from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
+
+import MongoDBSingleton from '@/lib/mongodb';
+import { checkCollectionExists } from "@/lib/check-collection-exists";
 
 
 /**
@@ -155,9 +157,8 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     const db = await MongoDBSingleton.getDbInstance();
 
-    const collections = await db.listCollections().toArray();
-    const collectionNames = collections.map(col => col.name);
-    if (!collectionNames.includes('theaters')) {
+    const collectionExists = await checkCollectionExists(db, "theaters");
+    if (!collectionExists) {
       return NextResponse.json(
         { status: 404, error: "Collection 'theaters' not found" },
         { status: 404 }
@@ -319,7 +320,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const db = await MongoDBSingleton.getDbInstance();
     const body = await req.json();
     const { location } = body;
 
@@ -329,12 +329,14 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         { status: 400 }
       );
     }
+    const db = await MongoDBSingleton.getDbInstance();
 
-    const existingTheater = await db.collection('theaters').findOne({ location });
-    if (existingTheater) {
+    const collectionExists = await checkCollectionExists(db, "theaters");
+
+    if (!collectionExists) {
       return NextResponse.json(
-        { status: 409, error: 'Theater already exists' },
-        { status: 409 }
+        { status: 404, error: "Collection 'theaters' not found" },
+        { status: 404 }
       );
     }
 
