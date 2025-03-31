@@ -70,6 +70,19 @@ import { JWT_SECRET } from "@/lib/jwt-secrets-config";
  *                   example:
  *                   - "Collection 'sessions' not found"
  *                   - "Session not found or already deleted"
+ *       405:
+ *         description: Method Not Allowed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 405
+ *                 error:
+ *                   type: string
+ *                   example: "Method Not Allowed"
  *       500:
  *         description: Internal Server Error.
  *         content:
@@ -88,6 +101,13 @@ import { JWT_SECRET } from "@/lib/jwt-secrets-config";
  */
 export async function POST(req: NextRequest) {
   try {
+    if (req.method !== 'POST') {
+      return NextResponse.json(
+        { status: 405, error: 'Method Not Allowed' },
+        { status: 405 }
+      );
+    }
+
     const token = req.cookies.get("token")?.value;
     const refreshToken = req.cookies.get("refreshToken")?.value;
 
