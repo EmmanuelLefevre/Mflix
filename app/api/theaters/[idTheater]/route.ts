@@ -7,8 +7,8 @@ import { ObjectId } from 'mongodb';
  * @swagger
  * /api/theaters/{ObjectId}:
  *   get:
- *     summary: Retrieve a specific theater by its ID
- *     description: Fetches a theater based on the provided ID.
+ *     summary: Retrieve a specific theater by its ObjectId
+ *     description: Fetches a theater based on the provided ObjectId.
  *     tags:
  *       - Theaters
  *     parameters:
@@ -44,7 +44,7 @@ import { ObjectId } from 'mongodb';
  *                   example: 400
  *                 error:
  *                   type: string
- *                   example: "Invalid theater ID format"
+ *                   example: "Invalid ObjectId format"
  *       404:
  *         description: Not Found
  *         content:
@@ -103,7 +103,7 @@ export async function GET(req: NextRequest, { params }: { params: { idTheater: s
 
     if (!ObjectId.isValid(idTheater)) {
       return NextResponse.json(
-        { status: 400, error: 'Invalid theater ID format' },
+        { status: 400, error: 'Invalid theater ObjectId format' },
         { status: 400 }
       );
     }
@@ -146,8 +146,8 @@ export async function GET(req: NextRequest, { params }: { params: { idTheater: s
  * @swagger
  * /api/theaters/{ObjectId}:
  *   put:
- *     summary: Update a specific theater by its ID
- *     description: Updates the details of a theater based on the provided ID.
+ *     summary: Update a specific theater by its ObjectId
+ *     description: Updates the details of a theater based on the provided ObjectId.
  *     tags:
  *       - Theaters
  *     parameters:
@@ -291,7 +291,8 @@ export async function PUT(req: NextRequest, { params }: { params: { idTheater: s
       { status: 200, message: 'Theater updated', data: { _id: idTheater, location } },
       { status: 200 }
     );
-  } catch (error) {
+  }
+  catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unexpected error occurred';
     return NextResponse.json(
       { status: 500, error: errorMessage },
@@ -304,8 +305,8 @@ export async function PUT(req: NextRequest, { params }: { params: { idTheater: s
  * @swagger
  * /api/theaters/{ObjectId}:
  *   delete:
- *     summary: Delete a specific theater by its ID
- *     description: Deletes the theater with the specified ID.
+ *     summary: Delete a specific theater by its ObjectId
+ *     description: Deletes the theater with the specified ObjectId.
  *     tags:
  *       - Theaters
  *     parameters:
@@ -387,7 +388,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { idTheater
 
     if (!ObjectId.isValid(idTheater)) {
       return NextResponse.json(
-        { status: 400, error: 'Invalid theater ID format' },
+        { status: 400, error: 'Invalid theater ObjectId format' },
         { status: 400 }
       );
     }
@@ -416,7 +417,8 @@ export async function DELETE(req: NextRequest, { params }: { params: { idTheater
       { status: 200, message: 'Theater deleted' },
       { status: 200 }
     );
-  } catch (error) {
+  }
+  catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unexpected error occurred';
     return NextResponse.json(
       { status: 500, error: errorMessage },
