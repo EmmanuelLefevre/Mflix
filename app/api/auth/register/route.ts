@@ -22,11 +22,11 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *           schema:
  *             type: object
  *             required:
- *               - username
+ *               - name
  *               - email
  *               - password
  *             properties:
- *               username:
+ *               name:
  *                 type: string
  *                 example: "Neo"
  *               email:
@@ -69,7 +69,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example:
  *                     - "Email is required and must be a string"
  *                     - "Password is required and must be a string"
- *                     - "Username is required and must be a string"
+ *                     - "Name is required and must be a string"
  *       404:
  *         description: Not Found
  *         content:
@@ -136,13 +136,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { username, email, password } = await req.json();
+    const { name, email, password } = await req.json();
 
 
     const errors: string[] = [];
 
-    if (!username || typeof username !== "string") {
-      errors.push("Username is required and must be a string");
+    if (!name || typeof name !== "string") {
+      errors.push("Name is required and must be a string");
     }
 
     if (!email || typeof email !== "string") {
@@ -183,7 +183,7 @@ export async function POST(req: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = {
-      name: username,
+      name: name,
       email: email,
       password: hashedPassword
     };
@@ -198,12 +198,12 @@ export async function POST(req: NextRequest) {
     }
 
     const token = jwt.sign(
-      { email, username },
+      { email, name },
       JWT_SECRET,
       { expiresIn: "15m" }
     );
     const refreshToken = jwt.sign(
-      { email, username },
+      { email, name },
       REFRESH_SECRET,
       { expiresIn: "7d" }
     );
@@ -224,7 +224,7 @@ export async function POST(req: NextRequest) {
     }
 
     const response = NextResponse.json(
-      { status: 201, message: `Merci pour la création de compte ${username} 😍`, jwt: token },
+      { status: 201, message: `Merci pour la création de compte ${name} 😍`, jwt: token },
       { status: 201}
     );
 
