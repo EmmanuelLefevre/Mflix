@@ -136,6 +136,7 @@ export async function GET(req: NextRequest, { params }: MoviesRouteContext): Pro
   }
   catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unexpected error occurred';
+
     return NextResponse.json(
       { status: 500, error: errorMessage },
       { status: 500 }
@@ -410,6 +411,7 @@ export async function PUT(req: NextRequest, { params }: MoviesRouteContext): Pro
   }
   catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unexpected error occurred';
+
     return NextResponse.json(
       { status: 500, error: errorMessage },
       { status: 500 }
@@ -548,6 +550,7 @@ export async function DELETE(req: NextRequest, { params }: MoviesRouteContext): 
   }
   catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unexpected error occurred';
+
     return NextResponse.json(
       { status: 500, error: errorMessage },
       { status: 500 }

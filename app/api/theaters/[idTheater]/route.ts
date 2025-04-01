@@ -136,6 +136,7 @@ export async function GET(req: NextRequest, { params }: TheaterRouteContext): Pr
   }
   catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unexpected error occurred';
+
     return NextResponse.json(
       { status: 500, error: errorMessage },
       { status: 500 }
@@ -327,6 +328,7 @@ export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Pr
   }
   catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unexpected error occurred';
+
     return NextResponse.json(
       { status: 500, error: errorMessage },
       { status: 500 }
@@ -465,6 +467,7 @@ export async function DELETE(req: NextRequest, { params }: TheaterRouteContext):
   }
   catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unexpected error occurred';
+
     return NextResponse.json(
       { status: 500, error: errorMessage },
       { status: 500 }

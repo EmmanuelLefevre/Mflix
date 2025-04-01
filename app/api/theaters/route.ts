@@ -372,6 +372,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   }
   catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
+
     return NextResponse.json(
       { status: 500, error: errorMessage },
       { status: 500 }

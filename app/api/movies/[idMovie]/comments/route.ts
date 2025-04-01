@@ -212,6 +212,7 @@ export async function GET(req: NextRequest, { params }: MoviesRouteContext): Pro
   }
   catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
+
     return NextResponse.json(
       { status: 500, error: errorMessage },
       { status: 500 }
@@ -407,6 +408,7 @@ export async function POST(req: NextRequest, { params }: MoviesRouteContext): Pr
   }
   catch (error) {
     const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
+
     return NextResponse.json(
       { status: 500, error: errorMessage },
       { status: 500 }
