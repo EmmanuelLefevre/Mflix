@@ -203,6 +203,8 @@ yarn dev
 
 ![Find a Theater](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/compass_find_theater.png)  
 
+![Find a Comment by Id](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/compass_find_comment_by_id.png)  
+
 ## 🧪 UNIT TESTS
 ```bash
 npm run test
