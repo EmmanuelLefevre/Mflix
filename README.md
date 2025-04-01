@@ -178,7 +178,10 @@ npm install
 yarn install
 ```
 **2. Set up .env.local file**  
-Use the .env.local.example to setup your configuration.
+Use the .env.local.example to setup your configuration.  
+
+Generate two robust tokens (64 characters, uppercase, lowercase, numbers but without special characters) with this online tool =>  
+[Token Generator](https://it-tools.tech/token-generator)  
 
 **3. Launch the project locally**
 ```bash
@@ -235,6 +238,13 @@ Allow all IP addresses for connection from the application layer (Network Access
 ⚠️⚠️⚠️ Be careful, this practice is dangerous and reprehensible in business. ⚠️⚠️⚠️  
 
 ## 🏭 VERCEL SETUP
+**1. Create an account**  
+
+[Link to create an account on Vercel](https://www.mongodb.com/fr-fr/cloud/atlas/register)  
+
+**2. Choose your versioning tool**  
+[Link to create an account on MongoDB Atlas](https://www.mongodb.com/fr-fr/cloud/atlas/register)  
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?project-name=with-mongodb&repository-name=with-mongodb&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-mongodb&integration-ids=oac_jnzmjqM10gllKmSrG0SGrHOH)  
 
 ## ⚡ MISCELLANEOUS
 **Query in Compass examples =>**
