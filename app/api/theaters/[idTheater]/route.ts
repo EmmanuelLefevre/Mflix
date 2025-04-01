@@ -226,7 +226,7 @@ export async function GET(req: NextRequest, { params }: TheaterRouteContext): Pr
  *                   type: string
  *                   example:
  *                     - "Invalid theater ObjectID parameter format"
- *                     - "Location is required and must be an object"
+ *                     - "Request body is required and must be an object"
  *       404:
  *         description: Not Found
  *         content:
