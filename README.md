@@ -264,19 +264,19 @@ Connect yourself with your versioning tool !
 
 [Link to create an account on Vercel](https://vercel.com/signup)  
 
-**2. Configure JWT_SECRET and REFRESH_SECRET environment variables on Vercel**  
-
-![Setup Environment Variables](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_secrets.png)  
-
-**3. Link your project with Vercel**  
+**2. Link your project with Vercel**  
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?project-name=with-mongodb&repository-name=with-mongodb&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-mongodb&integration-ids=oac_jnzmjqM10gllKmSrG0SGrHOH)  
 
 ![Vercel Deploy](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_deploy.png)  
 
-At last, check if you have nicely link your main/master branch with Vercel.  
+Next, check if you have nicely link your main/master branch with Vercel.  
 
 ![Vercel Branch](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_branch.png)  
+
+**3. Configure JWT_SECRET and REFRESH_SECRET environment variables on Vercel**  
+
+![Setup Environment Variables](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_secrets.png)  
 
 **4. Link to production =>**  
 [Mflix](https://movies-pi-ruby.vercel.app/)  
