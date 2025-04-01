@@ -499,16 +499,19 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const body = await req.json();
     const { title, year, ...rest } = body;
 
-    if (!title || typeof title !== 'string') {
-      return NextResponse.json(
-        { status: 400, error: 'Title is required and must be a string' },
-        { status: 400 }
-      );
+    const errors: string[] = [];
+
+    if (!title || typeof title !== "string") {
+      errors.push("Title is required and must be a string");
     }
 
-    if (!year || typeof year !== 'number') {
+    if (!year || typeof year !== "number") {
+      errors.push("Year is required and must be a number");
+    }
+
+    if (errors.length > 0) {
       return NextResponse.json(
-        { status: 400, error: 'Year is required and must be a number' },
+        { status: 400, errors },
         { status: 400 }
       );
     }
