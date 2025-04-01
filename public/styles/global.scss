@@ -120,6 +120,7 @@ body {
       margin-top: 15vh;
       border: 2px solid $primary-color;
       border-radius: 16px;
+      background-color: $white;
       h1 {
         color: $primary-color;
         font-family: $text-serif;
@@ -134,7 +135,7 @@ body {
         flex-direction: column;
         justify-content: center;
         width: 250px;
-        height: 260px;
+        height: auto;
         label {
           font-size: $font-size-label;
           margin-top: 12px;
@@ -188,6 +189,9 @@ body {
             }
             &:disabled,
             &[aria-disabled="true"] {
+              background-color: #e0e0e0;
+              color: #b0b0b0;
+              opacity: 0.6;
               cursor: not-allowed;
             }
           }
