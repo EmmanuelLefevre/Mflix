@@ -274,7 +274,7 @@ Next, check if you have nicely link your main/master branch with Vercel.
 
 ![Vercel Branch](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_branch.png)  
 
-**3. Configure JWT_SECRET and REFRESH_SECRET environment variables on Vercel**  
+**3. Configure JWT_SECRET and REFRESH_SECRET environment variables**  
 
 ![Setup Environment Variables](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_secrets.png)  
 
