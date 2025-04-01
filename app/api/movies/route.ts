@@ -15,18 +15,9 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *         _id:
  *           type: string
  *           example: "573a1390f29313caabcd42e8"
- *         title:
- *           type: string
- *           example: "The Great Train Robbery"
- *         year:
- *           type: integer
- *           example: 1903
  *         plot:
  *           type: string
  *           example: "A group of bandits stage a brazen train hold-up..."
- *         fullplot:
- *           type: string
- *           example: "Among the earliest existing films in American cinema..."
  *         genres:
  *           type: array
  *           items:
@@ -40,9 +31,15 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *           items:
  *             type: string
  *           example: ["A.C. Abadie", "Gilbert M. 'Broncho Billy' Anderson"]
- *         poster:
+ *         num_mflix_comments:
+ *           type: integer
+ *           example: 0
+ *         title:
  *           type: string
- *           example: "https://m.media-amazon.com/images/M/MV5BMTU3NjE5NzYt..."
+ *           example: "The Great Train Robbery"
+ *         fullplot:
+ *           type: string
+ *           example: "Among the earliest existing films in American cinema..."
  *         languages:
  *           type: array
  *           items:
@@ -72,6 +69,12 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *             text:
  *               type: string
  *               example: "1 win."
+ *         lastupdated:
+ *           type: string
+ *           example: "2015-08-13 00:27:59.177000000"
+ *         year:
+ *           type: integer
+ *           example: 1903
  *         imdb:
  *           type: object
  *           properties:
@@ -125,12 +128,9 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 rotten:
  *                   type: integer
  *                   example: 0
- *         lastupdated:
+ *         poster:
  *           type: string
- *           example: "2015-08-13 00:27:59.177000000"
- *         num_mflix_comments:
- *           type: integer
- *           example: 0
+ *           example: "https://m.media-amazon.com/images/M/MV5BMTU3NjE5NzYt..."
 */
 
 /**
@@ -303,18 +303,9 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
  *           schema:
  *             type: object
  *             properties:
- *               title:
- *                 type: string
- *                 example: "The Great Train Robbery"
- *               year:
- *                 type: integer
- *                 example: 1903
  *               plot:
  *                 type: string
  *                 example: "A group of bandits stage a brazen train hold-up..."
- *               fullplot:
- *                 type: string
- *                 example: "Among the earliest existing films in American cinema..."
  *               genres:
  *                 type: array
  *                 items:
@@ -328,9 +319,15 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
  *                 items:
  *                   type: string
  *                 example: ["A.C. Abadie", "Gilbert M. 'Broncho Billy' Anderson"]
- *               poster:
+ *               num_mflix_comments:
+ *                 type: integer
+ *                 example: 0
+ *               title:
  *                 type: string
- *                 example: "https://m.media-amazon.com/images/M/MV5BMTU3NjE5NzYt..."
+ *                 example: "The Great Train Robbery"
+ *               fullplot:
+ *                 type: string
+ *                 example: "Among the earliest existing films in American cinema..."
  *               languages:
  *                 type: array
  *                 items:
@@ -360,6 +357,12 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
  *                   text:
  *                     type: string
  *                     example: "1 win."
+ *               lastupdated:
+ *                 type: string
+ *                 example: "2015-08-13 00:27:59.177000000"
+ *               year:
+ *                 type: integer
+ *                 example: 1903
  *               imdb:
  *                 type: object
  *                 properties:
@@ -413,12 +416,9 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
  *                       rotten:
  *                         type: integer
  *                         example: 0
- *               lastupdated:
+ *               poster:
  *                 type: string
- *                 example: "2015-08-13 00:27:59.177000000"
- *               num_mflix_comments:
- *                 type: integer
- *                 example: 0
+ *                 example: "https://m.media-amazon.com/images/M/MV5BMTU3NjE5NzYt..."
  *     responses:
  *       201:
  *         description: Successfully added the movie.
