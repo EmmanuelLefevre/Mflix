@@ -124,7 +124,7 @@ export async function GET(req: NextRequest, { params }: MovieRouteContext): Prom
 
     if (!movie) {
       return NextResponse.json(
-        { status: 404, error: 'Movies not found' },
+        { status: 404, error: 'Movie not found' },
         { status: 404 }
       );
     }
