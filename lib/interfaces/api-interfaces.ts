@@ -1,8 +1,8 @@
-export interface CommentsRouteContext {
+export interface CommentRouteContext {
   params: Promise<{ idMovie: string, idComment: string }>;
 }
 
-export interface MoviesRouteContext {
+export interface MovieRouteContext {
   params: Promise<{ idMovie: string }>;
 }
 
