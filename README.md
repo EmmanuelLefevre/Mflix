@@ -222,7 +222,7 @@ yarn dev
 
 ![Add a User](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_add_user.png)  
 
-**8. Set user password**  
+**8. Setup user password**  
 
 ![Set User Password](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_set_password.png)  
 
