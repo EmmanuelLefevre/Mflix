@@ -6,8 +6,9 @@
 - [REQUIREMENTS](#-requirements)
 - [ARCHITECTURE](#-architecture)
 - [DOCUMENTATIONS](#-documentations)
-- [MONGODB ATLAS](#-mongodb-atlas)
 - [GETTING STARTED](#-getting-started)
+- [MONGODB ATLAS SETUP](#-mongodb-atlas-setup)
+- [VERCEL SETUP](#-vercel-setup)
 - [MISCELLANEOUS](#-miscellaneous)
 - [UNIT TESTS](#-unit-tests)
 - [PRE PRODUCTION](#-pre-production)
@@ -168,38 +169,6 @@ nvm use 20.18.0
 ├── yarn.lock
 ```
 
-## 🧳 MONGODB ATLAS
-**1. Create an account**  
-[Link to create an account on MongoDB Atlas](https://www.mongodb.com/fr-fr/cloud/atlas/register)  
-
-**2. Create a cluster**  
-![Create Cluster](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_create_cluster.png)  
-
-**3. Deploy the cluster**  
-![Deploy the Cluster](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_deploy_cluster.png)  
-
-**4. Link cluster to your tool choice**  
-![Link Cluster to your Tool Choice](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_connect.png)  
-
-**5. Choose your favorite tool**  
-![Choose your favorite tool](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_connection_method.png)  
-
-**6. Copy your string connection**  
-![Copy your string connection](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_string_connection.png)  
-
-**7. Add a user**  
-![Add a User](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_add_a_user.png)  
-
-**8. Set user password**  
-![Set User Password](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_set_password.png)  
-
-**9. Add the dataset “sample_mflix”**  
-![Set User Password](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_set_password.png)  
-
-**10. Optional**  
-Allow all IP addresses for connection from the application layer (Network Access).  
-⚠️⚠️⚠️ Be careful, this practice is dangerous and reprehensible in business. ⚠️⚠️⚠️  
-
 ## 🚀 GETTING STARTED
 **1. Install libraries (⚠️ place yourself in Mflix directory !!!)**
 ```bash
@@ -224,8 +193,39 @@ yarn dev
 
 [Online Swagger Documentation](http://localhost:3000/api-doc)  
 
-**5. Vercel setup**
+## 🧳 MONGODB ATLAS SETUP
+**1. Create an account**  
+[Link to create an account on MongoDB Atlas](https://www.mongodb.com/fr-fr/cloud/atlas/register)  
 
+**2. Create a cluster**  
+![Create Cluster](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_create_cluster.png)  
+
+**3. Deploy the cluster**  
+![Deploy the Cluster](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_deploy_cluster.png)  
+
+**4. Link cluster to your tool choice**  
+![Link Cluster to your Tool Choice](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_connect.png)  
+
+**5. Choose your favorite tool**  
+![Choose your favorite tool](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_connection_method.png)  
+
+**6. Copy your string connection**  
+![Copy your string connection](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_string_connection.png)  
+
+**7. Add a user**  
+![Add a User](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_add_user.png)  
+
+**8. Set user password**  
+![Set User Password](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_set_password.png)  
+
+**9. Add the dataset “sample_mflix”**  
+![Set User Password](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_set_password.png)  
+
+**10. Optional**  
+Allow all IP addresses for connection from the application layer (Network Access).  
+⚠️⚠️⚠️ Be careful, this practice is dangerous and reprehensible in business. ⚠️⚠️⚠️  
+
+## 🏭 VERCEL SETUP
 
 ## ⚡ MISCELLANEOUS
 **Query in Compass examples =>**
@@ -255,10 +255,10 @@ yarn build
 ![Setup Environment Variables](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_secrets.png)  
 
 **2. Link to production =>**  
-[Mflix](https://mflix.vercel.app/)  
+[Mflix](https://movies-pi-ruby.vercel.app/)  
 
 **3. After being authenticated, you will be automatically redirected to the Swagger API documentation =>**  
-[Mflix](https://mflix.vercel.app/api-doc)  
+[Mflix](https://movies-pi-ruby.vercel.app/api-doc)  
 
 ***
 
