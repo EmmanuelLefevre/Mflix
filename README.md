@@ -204,31 +204,31 @@ yarn dev
 
 **3. Deploy the cluster**  
 
-![Deploy the Cluster](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_deploy_cluster.png)  
+![Deploy Cluster](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_deploy_cluster.png)  
 
 **4. Link cluster to your tool choice**  
 
-![Link Cluster to your Tool Choice](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_connect.png)  
+![Link Cluster Tool Choice](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_connect.png)  
 
 **5. Choose your favorite tool**  
 
-![Choose your favorite tool](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_connection_method.png)  
+![Choose Favorite Tool](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_connection_method.png)  
 
 **6. Copy your string connection**  
 
-![Copy your string connection](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_string_connection.png)  
+![Copy String Connection](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_string_connection.png)  
 
-**7. Add a user**  
+**7. Add a user ("Database Access" tab)**  
 
-![Add a User](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_add_user.png)  
+![Add User](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_add_user.png)  
 
 **8. Setup user password**  
 
 ![Set User Password](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_set_password.png)  
 
-**9. Add the dataset “sample_mflix”**  
+**9. Load the dataset “sample_mflix”**  
 
-![Set User Password](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_set_password.png)  
+![Load Dataset](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_load_dataset.png)  
 
 **10. Optional**  
 Allow all IP addresses for connection from the application layer (Network Access).  
