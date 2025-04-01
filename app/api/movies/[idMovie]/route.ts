@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 
 import MongoDBSingleton from '@/lib/mongodb';
-import { MoviesRouteContext } from '@/lib/interfaces/api-interfaces';
+import { MovieRouteContext } from '@/lib/interfaces/api-interfaces';
 import { checkCollectionExists } from "@/lib/check-collection-exists";
 
 
@@ -92,7 +92,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                     - "Unexpected error occurred."
  *                     - errorMessage
 */
-export async function GET(req: NextRequest, { params }: MoviesRouteContext): Promise<NextResponse> {
+export async function GET(req: NextRequest, { params }: MovieRouteContext): Promise<NextResponse> {
   try {
     if (req.method !== 'GET') {
       return NextResponse.json(
@@ -355,7 +355,7 @@ export async function GET(req: NextRequest, { params }: MoviesRouteContext): Pro
  *                     - "Unexpected error occurred."
  *                     - errorMessage
 */
-export async function PUT(req: NextRequest, { params }: MoviesRouteContext): Promise<NextResponse> {
+export async function PUT(req: NextRequest, { params }: MovieRouteContext): Promise<NextResponse> {
   try {
     if (req.method !== 'PUT') {
       return NextResponse.json(
@@ -506,7 +506,7 @@ export async function PUT(req: NextRequest, { params }: MoviesRouteContext): Pro
  *                     - "Unexpected error occurred."
  *                     - errorMessage
 */
-export async function DELETE(req: NextRequest, { params }: MoviesRouteContext): Promise<NextResponse> {
+export async function DELETE(req: NextRequest, { params }: MovieRouteContext): Promise<NextResponse> {
   try {
     if (req.method !== 'DELETE') {
       return NextResponse.json(

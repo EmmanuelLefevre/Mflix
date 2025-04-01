@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
 
 import MongoDBSingleton from '@/lib/mongodb';
-import { MoviesRouteContext } from '@/lib/interfaces/api-interfaces';
+import { MovieRouteContext } from '@/lib/interfaces/api-interfaces';
 import { checkCollectionExists } from "@/lib/check-collection-exists";
 
 
@@ -137,7 +137,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   type: string
  *                   example: "Unexpected error occurred"
  */
-export async function GET(req: NextRequest, { params }: MoviesRouteContext): Promise<NextResponse> {
+export async function GET(req: NextRequest, { params }: MovieRouteContext): Promise<NextResponse> {
   try {
     if (req.method !== 'GET') {
       return NextResponse.json(
@@ -325,7 +325,7 @@ export async function GET(req: NextRequest, { params }: MoviesRouteContext): Pro
  *                   type: string
  *                   example: "Unexpected error occurred"
  */
-export async function POST(req: NextRequest, { params }: MoviesRouteContext): Promise<NextResponse> {
+export async function POST(req: NextRequest, { params }: MovieRouteContext): Promise<NextResponse> {
   try {
     if (req.method !== 'POST') {
       return NextResponse.json(
