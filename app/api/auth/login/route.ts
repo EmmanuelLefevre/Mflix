@@ -62,7 +62,9 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 400
  *                 error:
  *                   type: string
- *                   example: "Username, email, and password are required"
+ *                   example:
+ *                     - "Email is required and must be a string"
+ *                     - "Password is required and must be a string"
  *       401:
  *         description: Unauthorized - Invalid credentials.
  *         content:
@@ -104,6 +106,19 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 error:
  *                   type: string
  *                   example: "Method Not Allowed"
+ *       409:
+ *         description: Conflict
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 409
+ *                 error:
+ *                   type: string
+ *                   example: "User already authenticated"
  *       500:
  *         description: Internal Server Error.
  *         content:
@@ -131,15 +146,29 @@ export async function POST(req: NextRequest) {
 
     const existingToken = req.cookies.get("token")?.value;
 
-    if (existingToken ) {
-      return NextResponse.redirect(new URL("/api-doc", req.url));
+    if (existingToken) {
+      return NextResponse.json(
+        { status: 409, error: "User already authenticated" },
+        { status: 409 }
+      );
     }
 
     const { email, password } = await req.json();
 
-    if (!email || !password) {
+
+    const errors: string[] = [];
+
+    if (!email || typeof email !== "string") {
+      errors.push("Email is required and must be a string");
+    }
+
+    if (!password || typeof password !== "string") {
+      errors.push("Password is required and must be a string");
+    }
+
+    if (errors.length > 0) {
       return NextResponse.json(
-        { status: 400, error: "Email and password are required" },
+        { status: 400, errors },
         { status: 400 }
       );
     }
