@@ -348,7 +348,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const lastTheater = await db.collection('theaters')
+    const lastTheater = await db
+      .collection('theaters')
       .find()
       .sort({ theaterId: -1 })
       .limit(1)
@@ -362,7 +363,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       _id: new ObjectId()
     };
 
-    const result = await db.collection('theaters').insertOne(theater);
+    const result = await db
+      .collection('theaters')
+      .insertOne(theater);
 
     return NextResponse.json(
       { status: 201, message: 'Theater created', data: { _id: result.insertedId, theaterId, location } },

@@ -181,8 +181,8 @@ export async function GET(req: NextRequest, { params }: MovieRouteContext): Prom
     }
 
     const movie = await db
-    .collection("movies")
-    .findOne({ _id: new ObjectId(idMovie) });
+      .collection("movies")
+      .findOne({ _id: new ObjectId(idMovie) });
 
     if (!movie) {
       return NextResponse.json(
