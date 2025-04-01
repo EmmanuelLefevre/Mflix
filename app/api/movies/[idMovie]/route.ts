@@ -36,7 +36,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 data:
  *                   $ref: '#/components/schemas/Movie'
  *       400:
- *         description: Invalid request parameters
+ *         description: Bad request
  *         content:
  *           application/json:
  *             schema:
@@ -47,7 +47,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 400
  *                 error:
  *                   type: string
- *                   example: "Invalid movie ObjectId format"
+ *                   example: "Invalid movie ObjectId parameter format"
  *       404:
  *         description: Not Found
  *         content:
@@ -105,7 +105,7 @@ export async function GET(req: NextRequest, { params }: MovieRouteContext): Prom
 
     if (!ObjectId.isValid(idMovie)) {
       return NextResponse.json(
-        { status: 400, error: 'Invalid movie ObjectId format' },
+        { status: 400, error: 'Invalid movie ObjectId parameter format' },
         { status: 400 }
       );
     }
@@ -527,7 +527,7 @@ export async function DELETE(req: NextRequest, { params }: MovieRouteContext): P
 
     if (!ObjectId.isValid(idMovie)) {
       return NextResponse.json(
-        { status: 400, error: 'Invalid movie ObjectId format' },
+        { status: 400, error: 'Invalid movie ObjectId parameter format' },
         { status: 400 }
       );
     }

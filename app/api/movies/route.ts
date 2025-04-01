@@ -173,7 +173,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   items:
  *                     $ref: '#/components/schemas/Movie'
  *       400:
- *         description: Invalid request parameters
+ *         description: Bad Request
  *         content:
  *           application/json:
  *             schema:
@@ -433,7 +433,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
  *                 data:
  *                   $ref: '#/components/schemas/Movie'
  *       400:
- *         description: Invalid request body
+ *         description: Bad Request
  *         content:
  *           application/json:
  *             schema:

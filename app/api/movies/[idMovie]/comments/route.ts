@@ -79,7 +79,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   items:
  *                     $ref: '#/components/schemas/Comment'
  *       400:
- *         description: Invalid request parameters
+ *         description: Bad Request
  *         content:
  *           application/json:
  *             schema:
@@ -91,7 +91,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 error:
  *                   type: string
  *                   example:
- *                     - "Invalid movie ID"
+ *                     - "Invalid movie ObjectID parameter format"
  *                     - "Invalid query parameters"
  *       404:
  *         description: Not Found
@@ -152,7 +152,7 @@ export async function GET(req: NextRequest, { params }: MovieRouteContext): Prom
 
     if (!ObjectId.isValid(idMovie)) {
       return NextResponse.json(
-        { status: 400, error: 'Invalid movie ID' },
+        { status: 400, error: 'Invalid movie ObjectID parameter format' },
         { status: 400 }
       );
     }
@@ -266,7 +266,7 @@ export async function GET(req: NextRequest, { params }: MovieRouteContext): Prom
  *                 data:
  *                   $ref: '#/components/schemas/Comment'
  *       400:
- *         description: Invalid request body
+ *         description: Bad Request
  *         content:
  *           application/json:
  *             schema:
@@ -280,7 +280,7 @@ export async function GET(req: NextRequest, { params }: MovieRouteContext): Prom
  *                   example:
  *                     - "Name is required and must be a string"
  *                     - "Email is required and must be a string"
- *                     - "Invalid movie ID"
+ *                     - "Invalid movie ObjectID parameter format"
  *                     - "Text is required and must be a string"
  *       404:
  *         description: Not Found
@@ -338,7 +338,7 @@ export async function POST(req: NextRequest, { params }: MovieRouteContext): Pro
 
     if (!ObjectId.isValid(idMovie)) {
       return NextResponse.json({
-        status: 400, error: 'Invalid movie ID' },
+        status: 400, error: 'Invalid movie ObjectID parameter format' },
         { status: 400 }
       );
     }

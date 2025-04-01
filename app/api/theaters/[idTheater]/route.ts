@@ -36,7 +36,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 data:
  *                   $ref: '#/components/schemas/Theater'
  *       400:
- *         description: Invalid request parameters
+ *         description: Bad Request
  *         content:
  *           application/json:
  *             schema:
@@ -47,7 +47,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 400
  *                 error:
  *                   type: string
- *                   example: "Invalid theater ObjectId format"
+ *                   example: "Invalid theater ObjectId parameter format"
  *       404:
  *         description: Not Found
  *         content:
@@ -105,7 +105,7 @@ export async function GET(req: NextRequest, { params }: TheaterRouteContext): Pr
 
     if (!ObjectId.isValid(idTheater)) {
       return NextResponse.json(
-        { status: 400, error: 'Invalid theater ObjectId format' },
+        { status: 400, error: 'Invalid theater ObjectId parameter format' },
         { status: 400 }
       );
     }
@@ -443,7 +443,7 @@ export async function DELETE(req: NextRequest, { params }: TheaterRouteContext):
 
     if (!ObjectId.isValid(idTheater)) {
       return NextResponse.json(
-        { status: 400, error: 'Invalid theater ObjectId format' },
+        { status: 400, error: 'Invalid theater ObjectId parameter format' },
         { status: 400 }
       );
     }

@@ -92,7 +92,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   items:
  *                     $ref: '#/components/schemas/Theater'
  *       400:
- *         description: Invalid request parameters
+ *         description: Bad Request
  *         content:
  *           application/json:
  *             schema:
@@ -268,7 +268,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
  *                 data:
  *                   $ref: '#/components/schemas/Theater'
  *       400:
- *         description: Invalid request body
+ *         description: Bad Request
  *         content:
  *           application/json:
  *             schema:
@@ -279,7 +279,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
  *                   example: 400
  *                 error:
  *                   type: string
- *                   example: "Location is required and must be an object"
+ *                   example: "Request body is required and must be an object"
  *       405:
  *         description: Method Not Allowed
  *         content:
@@ -330,11 +330,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     }
 
     const body = await req.json();
-    const { location } = body;
 
-    if (!location || typeof location !== 'object') {
+    if (!body || typeof body !== 'object') {
       return NextResponse.json(
-        { status: 400, error: 'Location is required and must be an object' },
+        { status: 400, error: 'Request body is required and must be an object' },
         { status: 400 }
       );
     }
