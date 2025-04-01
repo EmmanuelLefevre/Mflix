@@ -380,8 +380,8 @@ export async function POST(req: NextRequest, { params }: MovieRouteContext): Pro
     }
 
     const movie = await db
-    .collection("movies")
-    .findOne({ _id: new ObjectId(idMovie) });
+      .collection("movies")
+      .findOne({ _id: new ObjectId(idMovie) });
 
     if (!movie) {
       return NextResponse.json(
@@ -399,7 +399,9 @@ export async function POST(req: NextRequest, { params }: MovieRouteContext): Pro
       date: new Date()
     };
 
-    await db.collection("comments").insertOne(newComment);
+    await db
+      .collection("comments")
+      .insertOne(newComment);
 
     return NextResponse.json(
       { status: 201, message: 'Comment added', data: newComment },

@@ -120,7 +120,9 @@ export async function GET(req: NextRequest, { params }: TheaterRouteContext): Pr
       );
     }
 
-    const theater = await db.collection('theaters').findOne({ _id: new ObjectId(idTheater) });
+    const theater = await db
+      .collection('theaters')
+      .findOne({ _id: new ObjectId(idTheater) });
 
     if (!theater) {
       return NextResponse.json(
@@ -308,10 +310,12 @@ export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Pr
       );
     }
 
-    const result = await db.collection('theaters').updateOne(
-      { _id: new ObjectId(idTheater) },
-      { $set: body }
-    );
+    const result = await db
+      .collection('theaters')
+      .updateOne(
+        { _id: new ObjectId(idTheater) },
+        { $set: body }
+      );
 
     if (result.matchedCount === 0) {
       return NextResponse.json(
@@ -454,7 +458,9 @@ export async function DELETE(req: NextRequest, { params }: TheaterRouteContext):
       );
     }
 
-    const result = await db.collection('theaters').deleteOne({ _id: new ObjectId(idTheater) });
+    const result = await db
+      .collection('theaters')
+      .deleteOne({ _id: new ObjectId(idTheater) });
 
     if (result.deletedCount === 0) {
       return NextResponse.json(

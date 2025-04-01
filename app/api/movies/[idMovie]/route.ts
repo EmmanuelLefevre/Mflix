@@ -120,7 +120,9 @@ export async function GET(req: NextRequest, { params }: MovieRouteContext): Prom
       );
     }
 
-    const movie = await db.collection('movies').findOne({ _id: new ObjectId(idMovie) });
+    const movie = await db
+      .collection('movies')
+      .findOne({ _id: new ObjectId(idMovie) });
 
     if (!movie) {
       return NextResponse.json(
@@ -392,10 +394,12 @@ export async function PUT(req: NextRequest, { params }: MovieRouteContext): Prom
       );
     }
 
-    const result = await db.collection('movies').updateOne(
-      { _id: new ObjectId(idMovie) },
-      { $set: body }
-    );
+    const result = await db
+      .collection('movies')
+      .updateOne(
+        { _id: new ObjectId(idMovie) },
+        { $set: body }
+      );
 
     if (result.matchedCount === 0) {
       return NextResponse.json(
@@ -538,7 +542,9 @@ export async function DELETE(req: NextRequest, { params }: MovieRouteContext): P
       );
     }
 
-    const result = await db.collection('movies').deleteOne({ _id: new ObjectId(idMovie) });
+    const result = await db
+      .collection('movies')
+      .deleteOne({ _id: new ObjectId(idMovie) });
 
     if (result.deletedCount === 0) {
       return NextResponse.json(

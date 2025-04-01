@@ -526,7 +526,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const existingMovie = await db.collection('movies').findOne({ title, year });
+    const existingMovie = await db
+      .collection('movies')
+      .findOne({ title, year });
 
     if (existingMovie) {
       return NextResponse.json(
@@ -538,7 +540,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const movie = { title, year, ...rest };
     movie._id = new ObjectId();
 
-    const result = await db.collection('movies').insertOne(movie);
+    const result = await db
+      .collection('movies')
+      .insertOne(movie);
 
     return NextResponse.json(
       { status: 201, message: 'Movie created', data: { _id: result.insertedId, title, year, ...rest } },
