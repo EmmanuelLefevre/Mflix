@@ -20,7 +20,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *         required: true
  *         schema:
  *           type: string
- *           example: "59a47287cfa9a3a73e51e9d7"
+ *           example: "573a1390f29313caabcd446f"
  *         description: The ObjectId of the movie to retrieve.
  *     responses:
  *       200:
@@ -158,7 +158,7 @@ export async function GET(req: NextRequest, { params }: MovieRouteContext): Prom
  *         required: true
  *         schema:
  *           type: string
- *           example: "59a47287cfa9a3a73e51e9d7"
+ *           example: "573a1390f29313caabcd446f"
  *         description: The ObjectId of the movie to update.
  *     requestBody:
  *       required: true

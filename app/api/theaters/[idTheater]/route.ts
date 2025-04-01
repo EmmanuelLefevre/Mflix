@@ -20,7 +20,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *         required: true
  *         schema:
  *           type: string
- *           example: "59a47287cfa9a3a73e51e9d7"
+ *           example: "59a47286cfa9a3a73e51e72d"
  *         description: The ObjectId of the theater to retrieve.
  *     responses:
  *       200:
@@ -158,7 +158,7 @@ export async function GET(req: NextRequest, { params }: TheaterRouteContext): Pr
  *         required: true
  *         schema:
  *           type: string
- *           example: "59a47287cfa9a3a73e51e9d7"
+ *           example: "59a47286cfa9a3a73e51e72d"
  *         description: The ObjectId of the theater to update.
  *     requestBody:
  *       required: true
@@ -353,7 +353,7 @@ export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Pr
  *         required: true
  *         schema:
  *           type: string
- *           example: "59a47287cfa9a3a73e51ec41"
+ *           example: "59a47286cfa9a3a73e51e72d"
  *         description: The ObjectId of the theater to delete.
  *     responses:
  *       200:
