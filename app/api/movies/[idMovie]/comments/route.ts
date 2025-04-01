@@ -27,7 +27,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *           example: "573a1390f29313caabcd680a"
  *         text:
  *           type: string
- *           example: "Perspiciatis sequi nesciunt maiores. Molestiae earum odio voluptas animi ipsam. Dolorem libero temporibus omnis quaerat deleniti atque. Tempore delectus esse explicabo nemo."
+ *           example: "Perspiciatis sequi nesciunt maiores. Molestiae earum odio voluptas."
  *         date:
  *           type: string
  *           format: date-time
@@ -48,7 +48,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *         required: true
  *         schema:
  *           type: string
- *           example: "573a1390f29313caabcd680a"
+ *           example: "573a1390f29313caabcd446f"
  *         description: The ObjectID of the movie
  *       - in: query
  *         name: limit
@@ -107,7 +107,9 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   type: string
  *                   example:
  *                     - "Collection 'comments' not found"
+ *                     - "Collection 'movies' not found"
  *                     - "No comments found"
+ *                     - "Movie not found"
  *       405:
  *         description: Method Not Allowed
  *         content:
@@ -168,10 +170,23 @@ export async function GET(req: NextRequest, { params }: MoviesRouteContext): Pro
 
     const db = await MongoDBSingleton.getDbInstance();
 
-    const collectionExists = await checkCollectionExists(db, "comments");
-    if (!collectionExists) {
-      return NextResponse.json({
-        status: 404, error: "Collection 'comments' not found" },
+    const requiredCollections = ["movies", "comments"];
+    for (const collection of requiredCollections) {
+      if (!(await checkCollectionExists(db, collection))) {
+        return NextResponse.json(
+          { error: `Collection '${collection}' not found` },
+          { status: 404 }
+        );
+      }
+    }
+
+    const movie = await db
+    .collection("movies")
+    .findOne({ _id: new ObjectId(idMovie) });
+
+    if (!movie) {
+      return NextResponse.json(
+        { status: 404, error: 'Movie not found' },
         { status: 404 }
       );
     }
@@ -218,7 +233,7 @@ export async function GET(req: NextRequest, { params }: MoviesRouteContext): Pro
  *         required: true
  *         schema:
  *           type: string
- *           example: "573a1390f29313caabcd680a"
+ *           example: "573a1390f29313caabcd446f"
  *         description: The ObjectID of the movie
  *     requestBody:
  *       required: true
@@ -235,7 +250,7 @@ export async function GET(req: NextRequest, { params }: MoviesRouteContext): Pro
  *                 example: "thomas_morris@fakegmail.com"
  *               text:
  *                 type: string
- *                 example: "Thomas Morris"
+ *                 example: "Test first comment"
  *     responses:
  *       201:
  *         description: Successfully added the comment.
@@ -263,8 +278,9 @@ export async function GET(req: NextRequest, { params }: MoviesRouteContext): Pro
  *                   type: string
  *                   example:
  *                     - "Name is required and must be a string"
- *                     - "Email is required and must be a number"
- *                     - "Text is required and must be a number"
+ *                     - "Email is required and must be a string"
+ *                     - "Invalid movie ID"
+ *                     - "Text is required and must be a string"
  *       404:
  *         description: Not Found
  *         content:
@@ -279,7 +295,7 @@ export async function GET(req: NextRequest, { params }: MoviesRouteContext): Pro
  *                   type: string
  *                   example:
  *                     - "Collection 'comments' not found"
- *                     - "No comments found"
+ *                     - "Collection 'movies' not found"
  *                     - "Movie not found"
  *       405:
  *         description: Method Not Allowed
@@ -329,23 +345,43 @@ export async function POST(req: NextRequest, { params }: MoviesRouteContext): Pr
     const body = await req.json();
     const { name, email, text } = body;
 
-    if (!name || !email || !text) {
+    const errors: string[] = [];
+
+    if (!name || typeof name !== "string") {
+      errors.push("Name is required and must be a string");
+    }
+
+    if (!email || typeof email !== "string") {
+      errors.push("Email is required and must be a number");
+    }
+
+    if (!text || typeof text !== "string") {
+      errors.push("Text is required and must be a string");
+    }
+
+    if (errors.length > 0) {
       return NextResponse.json(
-        {status: 400, error: 'Missing required fields' },
+        { status: 400, errors },
         { status: 400 }
       );
     }
 
     const db = await MongoDBSingleton.getDbInstance();
-    const collectionExists = await checkCollectionExists(db, "movies");
-    if (!collectionExists) {
-      return NextResponse.json(
-        { status: 404, error: "Collection 'movies' not found" },
-        { status: 404 }
-      );
+
+    const requiredCollections = ["movies", "comments"];
+    for (const collection of requiredCollections) {
+      if (!(await checkCollectionExists(db, collection))) {
+        return NextResponse.json(
+          { error: `Collection '${collection}' not found` },
+          { status: 404 }
+        );
+      }
     }
 
-    const movie = await db.collection("movies").findOne({ _id: new ObjectId(idMovie) });
+    const movie = await db
+    .collection("movies")
+    .findOne({ _id: new ObjectId(idMovie) });
+
     if (!movie) {
       return NextResponse.json(
         { status: 404, error: 'Movie not found' },
