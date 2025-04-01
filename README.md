@@ -8,7 +8,6 @@
 - [DOCUMENTATIONS](#-documentations)
 - [GETTING STARTED](#-getting-started)
 - [MONGODB ATLAS SETUP](#-mongodb-atlas-setup)
-- [VERCEL SETUP](#-vercel-setup)
 - [MISCELLANEOUS](#-miscellaneous)
 - [UNIT TESTS](#-unit-tests)
 - [PRE PRODUCTION](#-pre-production)
@@ -237,22 +236,6 @@ yarn dev
 Allow all IP addresses for connection from the application layer (Network Access).  
 ⚠️⚠️⚠️ Be careful, this practice is dangerous and reprehensible in business. ⚠️⚠️⚠️  
 
-## 🏭 VERCEL SETUP
-**1. Create an account**  
-Connect yourself with your versioning tool !  
-
-[Link to create an account on Vercel](https://vercel.com/signup)  
-
-**2. Link your project with Vercel**  
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?project-name=with-mongodb&repository-name=with-mongodb&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-mongodb&integration-ids=oac_jnzmjqM10gllKmSrG0SGrHOH)  
-
-![Vercel Deploy](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_deploy.png)  
-
-At last, check if you have nicely link your main/master branch with Vercel.  
-
-![Vercel Branch](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_branch.png)  
-
 ## ⚡ MISCELLANEOUS
 **Queries in Compass, examples =>**
 
@@ -269,21 +252,36 @@ npm run test
 ```bash
 yarn test
 ```
-## 🛒 PRE PRODUCTION
-**Test if API is build correctly**
+## 🛒🛒 PRE PRODUCTION
+**Test if API is build correctly on local environment**
 ```bash
 yarn build
 ```
 
-## 🛒🛒 PRODUCTION
-**1. Configure JWT_SECRET and REFRESH_SECRET environment variables on Vercel**  
+## 🏭 PRODUCTION
+**1. Create an account**  
+Connect yourself with your versioning tool !  
+
+[Link to create an account on Vercel](https://vercel.com/signup)  
+
+**2. Configure JWT_SECRET and REFRESH_SECRET environment variables on Vercel**  
 
 ![Setup Environment Variables](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_secrets.png)  
 
-**2. Link to production =>**  
+**3. Link your project with Vercel**  
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?project-name=with-mongodb&repository-name=with-mongodb&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-mongodb&integration-ids=oac_jnzmjqM10gllKmSrG0SGrHOH)  
+
+![Vercel Deploy](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_deploy.png)  
+
+At last, check if you have nicely link your main/master branch with Vercel.  
+
+![Vercel Branch](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_branch.png)  
+
+**4. Link to production =>**  
 [Mflix](https://movies-pi-ruby.vercel.app/)  
 
-**3. After being authenticated, you will be automatically redirected to the Swagger API documentation =>**  
+**5. After being authenticated, you will be automatically redirected to the Swagger API documentation =>**  
 [Mflix Swagger Documentation](https://movies-pi-ruby.vercel.app/api-doc)  
 
 ***
