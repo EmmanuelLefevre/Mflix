@@ -120,7 +120,7 @@ nvm use 20.18.0
 │   │   ├── movies/
 │   │   │   ├── [idMovie]/
 │   │   │   │   ├── comments/
-│   │   │   │   │   ├── [idComments]/
+│   │   │   │   │   ├── [idComment]/
 │   │   │   │   │   │   ├── route.ts
 │   │   │   │   │   ├── route.ts
 │   │   │   │   ├── route.ts
