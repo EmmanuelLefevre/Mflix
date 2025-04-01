@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import "@/public/styles/globals.css";
@@ -16,6 +16,11 @@ const LoginPage = () => {
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
 
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const passwordCriteriaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]*$/;
   const passwordLengthRegex = /^.{8,}$/;
@@ -31,7 +36,7 @@ const LoginPage = () => {
 
     const newTimeout = setTimeout(() => {
       if (value && !emailRegex.test(value)) {
-        setEmailError("Format d'email invalide !");
+        setEmailError("Invalid email format !");
       }
     }, 3000);
 
@@ -47,9 +52,9 @@ const LoginPage = () => {
 
     const newTimeout = setTimeout(() => {
       if (!passwordCriteriaRegex.test(value)) {
-        setPasswordError("Minuscule, majuscule, chiffre et caractère spécial !");
+        setPasswordError("Lowercase, uppercase, number and special character !");
       } else if (!passwordLengthRegex.test(value)) {
-        setPasswordError("8 caractères minimum !");
+        setPasswordError("8 characters minimum !");
       }
     }, 3000);
 
@@ -75,7 +80,7 @@ const LoginPage = () => {
 
       if (!response.ok) {
         const data = await response.json();
-        setError(data.error || "Échec de la connexion !");
+        setError(data.error || "Login failed !");
 
         return;
       }
@@ -83,7 +88,7 @@ const LoginPage = () => {
       router.push("/api-doc");
     }
     catch (err) {
-      setError("Une erreur inattendue est survenue !");
+      setError("An unexpected error has occurred !");
     }
     finally {
       setIsLoading(false);
@@ -92,7 +97,7 @@ const LoginPage = () => {
 
   return (
     <main>
-      <div id="login-form">
+      <div id="login-form" className={ isMounted ? "fadeInDown" : "" }>
         <h1>Login</h1>
         <form onSubmit={ handleSubmit }>
 
@@ -105,7 +110,7 @@ const LoginPage = () => {
             onBlur={ handleEmailBlur }
             aria-describedby="email-help"
             required/>
-          <p id="email-help" className="sr-only">Saisissez votre email</p>
+          <p id="email-help" className="sr-only">Enter your email</p>
           <p className={`error-message ${ emailError ? "visible" : "" }`}>{ emailError }</p>
 
           <label htmlFor="password">Password</label>
@@ -116,16 +121,16 @@ const LoginPage = () => {
             onChange={ handlePasswordChange }
             aria-describedby="password-help"
             required/>
-          <p id="password-help" className="sr-only">Saisissez votre mot de passe</p>
+          <p id="password-help" className="sr-only">Enter your password</p>
           <p className={`error-message ${ passwordError ? "visible" : "" }`}>{ passwordError }</p>
 
           <div id="login-button">
             <button
               type="submit"
-              aria-label="Bouton de connexion à la documentation Swagger"
+              aria-label="Swagger documentation login button"
               disabled={ !email || !password || !!emailError || !!passwordError }
               aria-disabled={ !email || !password }
-              aria-busy={ isLoading }>Se connecter
+              aria-busy={ isLoading }>Connect
             </button>
           </div>
 
