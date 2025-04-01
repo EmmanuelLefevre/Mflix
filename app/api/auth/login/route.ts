@@ -215,7 +215,7 @@ export async function POST(req: NextRequest) {
 
     const session = {
       user_id: user._id.toString(),
-      token: token,
+      jwt: token,
       refreshToken: refreshToken
     };
 
