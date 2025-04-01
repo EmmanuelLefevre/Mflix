@@ -239,15 +239,22 @@ Allow all IP addresses for connection from the application layer (Network Access
 
 ## 🏭 VERCEL SETUP
 **1. Create an account**  
+Connect yourself with your versioning tool !  
 
-[Link to create an account on Vercel](https://www.mongodb.com/fr-fr/cloud/atlas/register)  
+[Link to create an account on Vercel](https://vercel.com/signup)  
 
 **2. Choose your versioning tool**  
-[Link to create an account on MongoDB Atlas](https://www.mongodb.com/fr-fr/cloud/atlas/register)  
+
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?project-name=with-mongodb&repository-name=with-mongodb&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-mongodb&integration-ids=oac_jnzmjqM10gllKmSrG0SGrHOH)  
 
+![Vercel Deploy](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_deploy.png)  
+
+At last, check if you have nicely link your main/master branch with Vercel.  
+
+![Vercel Branch](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/vercel_branch.png)  
+
 ## ⚡ MISCELLANEOUS
-**Query in Compass examples =>**
+**Queries in Compass, examples =>**
 
 ![Find a Film](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/compass_find_film.png)  
 
