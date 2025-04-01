@@ -129,26 +129,32 @@ nvm use 20.18.0
 │   │   │   ├── [idTheater]/
 │   │   │   │   ├── route.ts
 │   │   │   ├── route.ts
+│   │   ├── users/
+│   │   │   ├── [idUser]/
+│   │   │   │   ├── route.ts
 │   ├── api-doc/
 │   │   ├── page.tsx
 │   │   ├── react-swagger.tsx
 │   ├── favicon.ico
 │   ├── layout.tsx
 ├── lib/
+│   ├── interfaces/
+│   │   ├── api-interfaces.ts
+│   ├── check-collection-exists.ts
+│   ├── jwt-secrets-config.ts
 │   ├── mongodb.ts
 │   ├── swagger.ts
 ├── pages/
-│   ├── _app.tsx
-│   ├── _document.tsx
 │   ├── index.tsx
+│   ├── login.tsx
 ├── public/
-│   ├── svg files
-├── styles/
-│   ├── globals.css
-├── utils/
-│   ├── validators/
-│   │   ├── secret-validator.js
+│   ├── fonts/
+│   │   ├── roboto files
+│   ├── styles/
+│   │   ├── global.scss
+│   │   ├── globals.css
 ├── .env.local
+├── .env.local.example
 ├── .gitignore
 ├── middleware.ts
 ├── next-env.d.ts
