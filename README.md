@@ -245,6 +245,12 @@ Allow all IP addresses for connection from the application layer (Network Access
 
 ![Find a Comment by Id](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/compass_find_comment_by_id.png)  
 
+**Dataset**  
+All collections are available in the dataset folder in case it needs to be integrated into another DBMS.  
+```bash
+Copy-Item -Path ".\dataset" -Destination "$env:USERPROFILE\Downloads" -Recurse
+```
+
 ## 🧪 UNIT TESTS
 ```bash
 npm run test
