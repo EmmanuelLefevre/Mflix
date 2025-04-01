@@ -179,6 +179,28 @@ yarn install
 Use the .env.local.example to setup your configuration.
 
 **3. MongoDB Atlas**
+[Create an account on MongoDB Atlas](https://www.mongodb.com/fr-fr/cloud/atlas/register)  
+
+Create a cluster  
+![Create Cluster](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_create_cluster.png)  
+
+Deploy the cluster  
+![Deploy the Cluster](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_deploy_cluster.png)  
+
+Link cluster to your tool choice  
+![Link Cluster to your Tool Choice](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_connect.png)  
+
+Choose your favorite tool  
+![Choose your favorite tool](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_connection_method.png)  
+
+Copy your string connection  
+![Copy your string connection](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_string_connection.png)  
+
+Add a user  
+![Add a User](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_add_a_user.png)  
+
+Set user password  
+![Set User Password](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/mongo_atlas_set_password.png)  
 
 **4. Launch the project locally**
 ```bash
