@@ -13,9 +13,12 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error , setError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null);
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const passwordCriteriaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]*$/;
+  const passwordLengthRegex = /^.{8,}$/;
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -29,6 +32,24 @@ const LoginPage = () => {
     const newTimeout = setTimeout(() => {
       if (value && !emailRegex.test(value)) {
         setEmailError("Format d'email invalide !");
+      }
+    }, 3000);
+
+    setTypingTimeout(newTimeout);
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setPassword(value);
+    setPasswordError(null);
+
+    if (typingTimeout) clearTimeout(typingTimeout);
+
+    const newTimeout = setTimeout(() => {
+      if (!passwordCriteriaRegex.test(value)) {
+        setPasswordError("Minuscule, majuscule, chiffre et caractère spécial !");
+      } else if (!passwordLengthRegex.test(value)) {
+        setPasswordError("8 caractères minimum !");
       }
     }, 3000);
 
@@ -85,23 +106,24 @@ const LoginPage = () => {
             aria-describedby="email-help"
             required/>
           <p id="email-help" className="sr-only">Saisissez votre email</p>
-          <p className={`error-message ${emailError ? "visible" : ""}`}>{ emailError }</p>
+          <p className={`error-message ${ emailError ? "visible" : "" }`}>{ emailError }</p>
 
           <label htmlFor="password">Password</label>
           <input
             type="password"
             name="password"
             value={ password }
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={ handlePasswordChange }
             aria-describedby="password-help"
             required/>
           <p id="password-help" className="sr-only">Saisissez votre mot de passe</p>
+          <p className={`error-message ${ passwordError ? "visible" : "" }`}>{ passwordError }</p>
 
           <div id="login-button">
             <button
               type="submit"
               aria-label="Bouton de connexion à la documentation Swagger"
-              disabled={ !email || !password }
+              disabled={ !email || !password || !!emailError || !!passwordError }
               aria-disabled={ !email || !password }
               aria-busy={ isLoading }>Se connecter
             </button>
