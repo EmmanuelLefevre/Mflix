@@ -9,3 +9,7 @@ export interface MovieRouteContext {
 export interface TheaterRouteContext {
   params: Promise<{ idTheater: string }>;
 }
+
+export interface UserRouteContext {
+  params: Promise<{ idUser: string }>;
+}
