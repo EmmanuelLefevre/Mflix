@@ -290,11 +290,10 @@ export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Pr
     }
 
     const body = await req.json();
-    const { location } = body;
 
-    if (!location || typeof location !== 'object') {
+    if (!body || typeof body !== 'object') {
       return NextResponse.json(
-        { status: 400, error: 'Location is required and must be an object' },
+        { status: 400, error: 'Request body is required and must be an object' },
         { status: 400 }
       );
     }
@@ -311,7 +310,7 @@ export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Pr
 
     const result = await db.collection('theaters').updateOne(
       { _id: new ObjectId(idTheater) },
-      { $set: { location } }
+      { $set: body }
     );
 
     if (result.matchedCount === 0) {
@@ -321,8 +320,12 @@ export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Pr
       );
     }
 
+    const updatedTheater = await db
+      .collection('theaters')
+      .findOne({ _id: new ObjectId(idTheater) });
+
     return NextResponse.json(
-      { status: 200, message: 'Theater updated', data: { _id: idTheater, location } },
+      { status: 200, message: 'Theater updated', data: { _id: idTheater, updatedTheater } },
       { status: 200 }
     );
   }

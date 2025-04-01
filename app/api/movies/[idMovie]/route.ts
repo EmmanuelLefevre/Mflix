@@ -404,8 +404,12 @@ export async function PUT(req: NextRequest, { params }: MovieRouteContext): Prom
       );
     }
 
+    const updatedMovie = await db
+      .collection('movies')
+      .findOne({ _id: new ObjectId(idMovie) });
+
     return NextResponse.json(
-      { status: 200, message: 'Movie updated', data: { _id: idMovie, result } },
+      { status: 200, message: 'Movie updated', data: { _id: idMovie, updatedMovie } },
       { status: 200 }
     );
   }
