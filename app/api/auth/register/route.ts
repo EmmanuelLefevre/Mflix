@@ -66,7 +66,10 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 400
  *                 error:
  *                   type: string
- *                   example: "Username, email, and password are required"
+ *                   example:
+ *                     - "Email is required and must be a string"
+ *                     - "Password is required and must be a string"
+ *                     - "Username is required and must be a string"
  *       404:
  *         description: Not Found
  *         content:
@@ -135,9 +138,24 @@ export async function POST(req: NextRequest) {
 
     const { username, email, password } = await req.json();
 
-    if (!username || !email || !password) {
+
+    const errors: string[] = [];
+
+    if (!username || typeof username !== "string") {
+      errors.push("Username is required and must be a string");
+    }
+
+    if (!email || typeof email !== "string") {
+      errors.push("Email is required and must be a string");
+    }
+
+    if (!password || typeof password !== "string") {
+      errors.push("Password is required and must be a string");
+    }
+
+    if (errors.length > 0) {
       return NextResponse.json(
-        { status: 400, error: "Username, email and password are required" },
+        { status: 400, errors },
         { status: 400 }
       );
     }
