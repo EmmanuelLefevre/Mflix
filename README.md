@@ -187,6 +187,9 @@ yarn dev
 
 [Online Swagger Documentation](http://localhost:3000/api-doc)  
 
+**6. Vercel setup**
+
+
 ## ⚡ MISCELLANEOUS
 **Query in Compass examples =>**
 
