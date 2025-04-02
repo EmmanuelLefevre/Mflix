@@ -360,7 +360,7 @@ export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Pr
  *           example: "59a47286cfa9a3a73e51e72d"
  *         description: The ObjectId of the theater to delete.
  *     responses:
- *       200:
+ *       204:
  *         description: Successfully deleted the theater.
  *         content:
  *           application/json:
@@ -369,7 +369,7 @@ export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Pr
  *               properties:
  *                 status:
  *                   type: integer
- *                   example: 200
+ *                   example: 204
  *                 message:
  *                   type: string
  *                   example: "Theater deleted"
@@ -470,8 +470,8 @@ export async function DELETE(req: NextRequest, { params }: TheaterRouteContext):
     }
 
     return NextResponse.json(
-      { status: 200, message: 'Theater deleted' },
-      { status: 200 }
+      { status: 204, message: 'Theater deleted' },
+      { status: 204 }
     );
   }
   catch (error) {
