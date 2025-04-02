@@ -41,7 +41,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 error:
  *                   type: string
  *                   example:
- *                     - "No token found in cookies."
+ *                     - "No tokens found in cookies."
  *                     - "Unable to extract user information from token"
  *       401:
  *         description: Unauthorized - Missing or invalid authentication token.
@@ -55,7 +55,9 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 401
  *                 error:
  *                   type: string
- *                   example: "No token provided"
+ *                   example:
+ *                     - "No refreshToken provided"
+ *                     - "No token provided"
  *       404:
  *         description: Not Found
  *         content:
@@ -114,7 +116,7 @@ export async function POST(req: NextRequest) {
 
     if (!token && !refreshToken) {
       return NextResponse.json(
-        { status: 400, error: "No token found in cookies" },
+        { status: 400, error: "No tokens found in cookies" },
         { status: 400 }
       );
     }
@@ -122,6 +124,13 @@ export async function POST(req: NextRequest) {
     if (!token) {
       return NextResponse.json(
         { status: 401, error: "No token provided" },
+        { status: 401 }
+      );
+    }
+
+    if (!refreshToken) {
+      return NextResponse.json(
+        { status: 401, error: "No refreshToken provided" },
         { status: 401 }
       );
     }
