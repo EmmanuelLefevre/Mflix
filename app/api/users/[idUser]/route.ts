@@ -46,8 +46,8 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *           example: "63f5b5fa6e7f16cdd60ab2a9"
  *         description: The ObjectId of the user to delete.
  *     responses:
- *       204:
- *         description: No Content - Successfully deleted the user and related session.
+ *       200:
+ *         description: Successfully deleted the user and related session.
  *         content:
  *           application/json:
  *             schema:
@@ -55,7 +55,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *               properties:
  *                 status:
  *                   type: integer
- *                   example: 204
+ *                   example: 200
  *                 message:
  *                   type: string
  *                   example: "User and session data deleted"
