@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ObjectId } from 'mongodb';
+import jwt from "jsonwebtoken";
 
 import MongoDBSingleton from '@/lib/mongodb';
+import { JWT_SECRET } from "@/lib/jwt-secrets-config";
 import { UserRouteContext } from '@/lib/interfaces/api-interfaces';
 import { checkCollectionExists } from "@/lib/check-collection-exists";
 
@@ -45,7 +47,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *         description: The ObjectId of the user to delete.
  *     responses:
  *       204:
- *         description: No Content - Successfully deleted the user.
+ *         description: No Content - Successfully deleted the user and related session.
  *         content:
  *           application/json:
  *             schema:
@@ -56,7 +58,10 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 204
  *                 message:
  *                   type: string
- *                   example: "User deleted"
+ *                   example: "User and session data deleted"
+ *                 farewell:
+ *                   type: string
+ *                   example: "We will miss you Neo 👋"
  *       400:
  *         description: Bad Request
  *         content:
@@ -69,7 +74,39 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 400
  *                 error:
  *                   type: string
- *                   example: "Invalid user ObjectID parameter format"
+ *                   example:
+ *                     - "Invalid user ObjectID parameter format"
+ *                     - "No refreshToken provided"
+ *                     - "No token provided"
+ *                     - "No tokens found in cookies"
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 401
+ *                 error:
+ *                   type: string
+ *                   example:
+ *                     - "Invalid refreshToken"
+ *                     - "Invalid token"
+ *       403:
+ *         description: Forbidden
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 403
+ *                 error:
+ *                   type: string
+ *                   example: "You can only delete your own account"
  *       404:
  *         description: Not Found
  *         content:
@@ -83,6 +120,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 error:
  *                   type: string
  *                   example:
+ *                     - "Collection 'sessions' not found"
  *                     - "Collection 'users' not found"
  *                     - "User not found"
  *       405:
@@ -132,14 +170,71 @@ export async function DELETE(req: NextRequest, { params }: UserRouteContext): Pr
       );
     }
 
+    const token = req.cookies.get("token")?.value;
+    const refreshToken = req.cookies.get("refreshToken")?.value;
+
+    if (!token && !refreshToken) {
+      return NextResponse.json(
+        { status: 400, error: "No tokens found in cookies" },
+        { status: 400 }
+      );
+    }
+
+    if (!token) {
+      return NextResponse.json(
+        { status: 400, error: "No token provided" },
+        { status: 400 }
+      );
+    }
+
+    if (!refreshToken) {
+      return NextResponse.json(
+        { status: 400, error: "No refreshToken provided" },
+        { status: 400 }
+      );
+    }
+
+    let decodedToken;
+    try {
+      decodedToken = jwt.verify(token, JWT_SECRET) as { _id: string, username: string };
+    }
+    catch (error) {
+      return NextResponse.json(
+        { status: 401, error: "Invalid token" },
+        { status: 401 }
+      );
+    }
+
+    let decodedRefreshToken;
+    try {
+      decodedRefreshToken = jwt.verify(refreshToken, JWT_SECRET) as { _id: string };
+    }
+    catch (error) {
+      return NextResponse.json(
+        { status: 401, error: "Invalid refreshToken" },
+        { status: 401 }
+      );
+    }
+
+    const { _id: userIdFromToken, username } = decodedToken;
+
+    if (idUser !== userIdFromToken) {
+      return NextResponse.json(
+        { status: 403, error: "You can only delete your own account" },
+        { status: 403 }
+      );
+    }
+
     const db = await MongoDBSingleton.getDbInstance();
 
-    const collectionExists = await checkCollectionExists(db, "users");
-    if (!collectionExists) {
-      return NextResponse.json(
-        { status: 404, error: "Collection 'users' not found" },
-        { status: 404 }
-      );
+    const requiredCollections = ["users", "sessions"];
+    for (const collection of requiredCollections) {
+      if (!(await checkCollectionExists(db, collection))) {
+        return NextResponse.json(
+          { error: `Collection '${collection}' not found` },
+          { status: 404 }
+        );
+      }
     }
 
     const result = await db
@@ -153,10 +248,37 @@ export async function DELETE(req: NextRequest, { params }: UserRouteContext): Pr
       );
     }
 
-    return NextResponse.json(
-      { status: 204, message: 'User deleted' },
+    await db
+      .collection("sessions")
+      .deleteMany({ jwt: token, refreshToken });
+
+    const response = NextResponse.json(
+      {
+        status: 204,
+        message: 'User and session data deleted',
+        farewell: `We will miss you ${username} 👋`
+      },
       { status: 204 }
     );
+
+    response.cookies.set("token", "", {
+      httpOnly: true,
+      secure: true,
+      path: "/",
+      maxAge: 0,
+      sameSite: "strict"
+    });
+    response.cookies.set("refreshToken", "", {
+      httpOnly: true,
+      secure: true,
+      path: "/",
+      maxAge: 0,
+      sameSite: "strict"
+    });
+
+    await MongoDBSingleton.destroyDbInstance();
+
+    return response;
   }
   catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unexpected error occurred';
