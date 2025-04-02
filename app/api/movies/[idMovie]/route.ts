@@ -444,7 +444,7 @@ export async function PUT(req: NextRequest, { params }: MovieRouteContext): Prom
  *           example: "63f5b5fa6e7f16cdd60ab2a9"
  *         description: The ObjectId of the movie to delete.
  *     responses:
- *       200:
+ *       204:
  *         description: Successfully deleted the movie.
  *         content:
  *           application/json:
@@ -453,7 +453,7 @@ export async function PUT(req: NextRequest, { params }: MovieRouteContext): Prom
  *               properties:
  *                 status:
  *                   type: integer
- *                   example: 200
+ *                   example: 204
  *                 message:
  *                   type: string
  *                   example: "Movie deleted"
@@ -554,8 +554,8 @@ export async function DELETE(req: NextRequest, { params }: MovieRouteContext): P
     }
 
     return NextResponse.json(
-      { status: 200, message: 'Movie deleted' },
-      { status: 200 }
+      { status: 204, message: 'Movie deleted' },
+      { status: 204 }
     );
   }
   catch (error) {
