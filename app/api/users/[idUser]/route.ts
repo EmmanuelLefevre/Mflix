@@ -44,7 +44,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *           example: "63f5b5fa6e7f16cdd60ab2a9"
  *         description: The ObjectId of the user to delete.
  *     responses:
- *       200:
+ *       204:
  *         description: Successfully deleted the user.
  *         content:
  *           application/json:
@@ -53,7 +53,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *               properties:
  *                 status:
  *                   type: integer
- *                   example: 200
+ *                   example: 204
  *                 message:
  *                   type: string
  *                   example: "User deleted"
@@ -154,8 +154,8 @@ export async function DELETE(req: NextRequest, { params }: UserRouteContext): Pr
     }
 
     return NextResponse.json(
-      { status: 200, message: 'User deleted' },
-      { status: 200 }
+      { status: 204, message: 'User deleted' },
+      { status: 204 }
     );
   }
   catch (error) {
