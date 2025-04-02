@@ -24,7 +24,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *         description: The ObjectId of the movie to retrieve.
  *     responses:
  *       200:
- *         description: Successfully retrieved the movie.
+ *         description: Successfully retrieved the movie. Returns an empty array if no movie is found.
  *         content:
  *           application/json:
  *             schema:
@@ -35,6 +35,56 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 200
  *                 data:
  *                   $ref: '#/components/schemas/Movie'
+ *             examples:
+ *               success:
+ *                 summary: Movie found
+ *                 value:
+ *                   status: 200
+ *                   data:
+ *                     - _id: "573a1390f29313caabcd446f"
+ *                       title: "The Great Train Robbery"
+ *                       plot: "A group of bandits stage a brazen train hold-up..."
+ *                       genres: ["Short", "Western"]
+ *                       runtime: 11
+ *                       cast:
+ *                         - "A.C. Abadie"
+ *                         - "Gilbert M. 'Broncho Billy' Anderson"
+ *                       num_mflix_comments: 0
+ *                       fullplot: "Among the earliest existing films in American cinema..."
+ *                       languages: ["English"]
+ *                       released: "1903-12-01T00:00:00.000+00:00"
+ *                       directors: ["Edwin S. Porter"]
+ *                       rated: "TV-G"
+ *                       awards:
+ *                         wins: 1
+ *                         nominations: 0
+ *                         text: "1 win."
+ *                       lastupdated: "2015-08-13 00:27:59.177000000"
+ *                       year: 1903
+ *                       imdb:
+ *                         rating: 7.4
+ *                         votes: 9847
+ *                         id: 439
+ *                       countries: ["USA"]
+ *                       type: "movie"
+ *                       tomatoes: {}
+ *                       viewer:
+ *                         rating: 3.7
+ *                         numReviews: 2559
+ *                         meter: 75
+ *                         fresh: 6
+ *                       critic:
+ *                         rating: 7.6
+ *                         numReviews: 6
+ *                         meter: 100
+ *                         rotten: 0
+ *                       poster: "https://m.media-amazon.com/images/M/MV5BMTU3NjE5NzYt..."
+ *               no_movie:
+ *                 summary: Movie not found
+ *                 value:
+ *                   status: 200
+ *                   data: []
+ *                   message: "Movie not found."
  *       400:
  *         description: Bad request
  *         content:
@@ -60,9 +110,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 404
  *                 error:
  *                   type: string
- *                   example:
- *                     - "Collection 'movies' not found"
- *                     - "Movie not found"
+ *                   example: "Collection 'movies' not found"
  *       405:
  *         description: Method Not Allowed
  *         content:
@@ -126,8 +174,8 @@ export async function GET(req: NextRequest, { params }: MovieRouteContext): Prom
 
     if (!movie) {
       return NextResponse.json(
-        { status: 404, error: 'Movie not found' },
-        { status: 404 }
+        { status: 200, error: 'Movie not found' },
+        { status: 200 }
       );
     }
 
