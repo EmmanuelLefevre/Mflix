@@ -279,7 +279,9 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
  *                   example: 400
  *                 error:
  *                   type: string
- *                   example: "Request body is required and must be an object"
+ *                   example:
+ *                     - "Location is required and must be an object"
+ *                     - "Request body is required and must be an object"
  *       405:
  *         description: Method Not Allowed
  *         content:
@@ -337,6 +339,16 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         { status: 400 }
       );
     }
+
+    const { location } = body;
+
+    if (!location) {
+      return NextResponse.json(
+        { status: 400, error: 'Location is required and must be an object' },
+        { status: 400 }
+      );
+    }
+
     const db = await MongoDBSingleton.getDbInstance();
 
     const collectionExists = await checkCollectionExists(db, "theaters");
