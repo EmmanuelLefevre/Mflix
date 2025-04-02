@@ -65,7 +65,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *           minimum: 1
  *     responses:
  *       200:
- *         description: Successfully retrieved the comments for a specific movie.
+ *         description: Successfully retrieved the list of movie comments. Returns an empty array if no comments are found.
  *         content:
  *           application/json:
  *             schema:
@@ -78,6 +78,30 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   type: array
  *                   items:
  *                     $ref: '#/components/schemas/Comment'
+ *             examples:
+ *               success:
+ *                 summary: Comments found
+ *                 value:
+ *                   status: 200
+ *                   data:
+ *                     - _id: "5a9427648b0beebeb69579e7"
+ *                       name: "Mercedes Tyler"
+ *                       email: "mercedes_tyler@fakegmail.com"
+ *                       movie_id: "573a1390f29313caabcd4323"
+ *                       text: "Eius veritatis vero facilis quaerat fuga temporibus."
+ *                       date: "2002-08-18T04:56:07.000+00:00"
+ *                     - _id: "5a9427648b0beebeb69579f5"
+ *                       name: "John Bishop"
+ *                       email: "john_bishop@fakegmail.com"
+ *                       movie_id: "573a1390f29313caabcd446f"
+ *                       text: "Id error ab at molestias dolorum incidunt."
+ *                       date: "1975-01-21T00:31:22.000+00:00"
+ *               no_comments:
+ *                 summary: No comments found
+ *                 value:
+ *                   status: 200
+ *                   data: []
+ *                   message: "No comments found."
  *       400:
  *         description: Bad Request
  *         content:
@@ -108,7 +132,6 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example:
  *                     - "Collection 'comments' not found"
  *                     - "Collection 'movies' not found"
- *                     - "No comments found"
  *                     - "Movie not found"
  *       405:
  *         description: Method Not Allowed
@@ -200,8 +223,8 @@ export async function GET(req: NextRequest, { params }: MovieRouteContext): Prom
 
     if (comments.length === 0) {
       return NextResponse.json(
-        { status: 404, error: "No comments found" },
-        { status: 404 }
+        { status: 200, error: "No comments found" },
+        { status: 200 }
       );
     }
 
