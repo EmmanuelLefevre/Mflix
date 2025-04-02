@@ -111,6 +111,17 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                         geo:
  *                           type: "Point"
  *                           coordinates: [-93.24565, 44.85466]
+ *                     - _id: "59a47286cfa9a3a73e51e72e"
+ *                       theaterId: 1008
+ *                       location:
+ *                         address:
+ *                           street1: "1621 E Monte Vista Ave"
+ *                           city: "Vacaville"
+ *                           state: "CA"
+ *                           zipcode: "95688"
+ *                         geo:
+ *                           type: "Point"
+ *                           coordinates: [-121.96328, 38.367649]
  *               no_theaters:
  *                 summary: No theaters found
  *                 value:
