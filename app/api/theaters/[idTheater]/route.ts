@@ -24,7 +24,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *         description: The ObjectId of the theater to retrieve.
  *     responses:
  *       200:
- *         description: Successfully retrieved the theater.
+ *         description: Successfully retrieved the theater. Returns an empty array if no theater is found.
  *         content:
  *           application/json:
  *             schema:
@@ -34,7 +34,35 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   type: integer
  *                   example: 200
  *                 data:
- *                   $ref: '#/components/schemas/Theater'
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Theater'
+ *                 message:
+ *                   type: string
+ *             examples:
+ *               success:
+ *                 summary: Theater found
+ *                 value:
+ *                   status: 200
+ *                   data:
+ *                     - _id: "59a47286cfa9a3a73e51e72d"
+ *                       theaterId: 1003
+ *                       location:
+ *                         address:
+ *                           street1: "340 W Market"
+ *                           street2: "Ste backerstreet"
+ *                           city: "Bloomington"
+ *                           state: "MN"
+ *                           zipcode: "55425"
+ *                         geo:
+ *                           type: "Point"
+ *                           coordinates: [-93.24565, 44.85466]
+ *               no_theater:
+ *                 summary: Theater not found
+ *                 value:
+ *                   status: 200
+ *                   data: []
+ *                   message: "Theater not found"
  *       400:
  *         description: Bad Request
  *         content:
@@ -60,9 +88,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 404
  *                 error:
  *                   type: string
- *                   example:
- *                     - "Collection 'theaters' not found"
- *                     - "Theater not found"
+ *                   example: "Collection 'theaters' not found"
  *       405:
  *         description: Method Not Allowed
  *         content:
@@ -126,8 +152,8 @@ export async function GET(req: NextRequest, { params }: TheaterRouteContext): Pr
 
     if (!theater) {
       return NextResponse.json(
-        { status: 404, error: 'Theater not found' },
-        { status: 404 }
+        { status: 200, error: 'Theater not found' },
+        { status: 200 }
       );
     }
 
