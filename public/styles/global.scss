@@ -120,13 +120,14 @@ body {
       margin-top: 15vh;
       border: 2px solid $primary-color;
       border-radius: 16px;
+      background-color: $white;
       h1 {
         color: $primary-color;
         font-family: $text-serif;
         font-weight: $text-weight-bold;
         font-size: $font-size-h1;
         text-transform: uppercase;
-        margin-top: 20px;
+        margin: 20px 0 12px 0;
         user-select: none;
       }
       form {
@@ -134,7 +135,7 @@ body {
         flex-direction: column;
         justify-content: center;
         width: 250px;
-        height: 260px;
+        height: auto;
         label {
           font-size: $font-size-label;
           margin-top: 12px;
@@ -188,6 +189,9 @@ body {
             }
             &:disabled,
             &[aria-disabled="true"] {
+              background-color: #e0e0e0;
+              color: #b0b0b0;
+              opacity: 0.6;
               cursor: not-allowed;
             }
           }
@@ -204,5 +208,23 @@ body {
         text-transform: capitalize;
       }
     }
+  }
+}
+
+
+/*===============ANIMATIONS===============*/
+.fadeInDown {
+  animation-name: fadeInDown;
+  animation-duration: 1.2s;
+  animation-timing-function: ease-out;
+}
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }

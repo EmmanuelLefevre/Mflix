@@ -233,7 +233,7 @@ export async function POST(req: NextRequest) {
     }
 
     const response = NextResponse.json(
-      { status: 200, message: `Bonjour ${user.name} 👋`, jwt: token },
+      { status: 200, message: `Bonjour ${user.name} 👋` },
       { status: 200 }
     );
 
