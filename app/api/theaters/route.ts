@@ -78,7 +78,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *         description: Page number for pagination (default is 1)
  *     responses:
  *       200:
- *         description: Successfully retrieved the list of theaters.
+ *         description: Successfully retrieved the list of theaters. Returns an empty array if no theaters are found.
  *         content:
  *           application/json:
  *             schema:
