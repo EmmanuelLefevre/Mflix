@@ -116,7 +116,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 value:
  *                   status: 200
  *                   data: []
- *                   message: "No theaters found."
+ *                   message: "No theaters found"
  *       400:
  *         description: Bad Request
  *         content:
