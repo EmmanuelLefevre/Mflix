@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ObjectId } from 'mongodb';
 import jwt from "jsonwebtoken";
 
 import MongoDBSingleton from '@/lib/mongodb';
-import { JWT_SECRET } from "@/lib/jwt-secrets-config";
+import { JWT_SECRET, REFRESH_SECRET } from "@/lib/jwt-secrets-config";
 import { checkCollectionExists } from "@/lib/check-collection-exists";
 
 
@@ -29,7 +30,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   type: string
  *                   example: "See you later Neo 👋"
  *       400:
- *         description: Bad Request - Unable to extract user information from token.
+ *         description: Bad Request
  *         content:
  *           application/json:
  *             schema:
@@ -41,10 +42,14 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 error:
  *                   type: string
  *                   example:
- *                     - "No tokens found in cookies."
+ *                     - "Invalid user ObjectID parameter format"
+ *                     - "No refreshToken provided"
+ *                     - "No token provided"
+ *                     - "No tokens found in cookies"
+ *                     - "No user ID found in token"
  *                     - "Unable to extract user information from token"
  *       401:
- *         description: Unauthorized - Missing or invalid authentication token.
+ *         description: Unauthorized
  *         content:
  *           application/json:
  *             schema:
@@ -56,8 +61,21 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 error:
  *                   type: string
  *                   example:
- *                     - "No refreshToken provided"
- *                     - "No token provided"
+ *                     - "Invalid refreshToken"
+ *                     - "Invalid token"
+ *       403:
+ *         description: Forbidden
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: integer
+ *                   example: 403
+ *                 error:
+ *                   type: string
+ *                   example: "You can only disconnect your own account"
  *       404:
  *         description: Not Found
  *         content:
@@ -71,8 +89,10 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 error:
  *                   type: string
  *                   example:
- *                   - "Collection 'sessions' not found"
- *                   - "Session not found or already deleted"
+ *                     - "Collection 'sessions' not found"
+ *                     - "Collection 'users' not found"
+ *                     - "Session not found or already deleted"
+ *                     - "User not found"
  *       405:
  *         description: Method Not Allowed
  *         content:
@@ -123,20 +143,41 @@ export async function POST(req: NextRequest) {
 
     if (!token) {
       return NextResponse.json(
-        { status: 401, error: "No token provided" },
-        { status: 401 }
+        { status: 400, error: "No token provided" },
+        { status: 400 }
       );
     }
 
     if (!refreshToken) {
       return NextResponse.json(
-        { status: 401, error: "No refreshToken provided" },
+        { status: 400, error: "No refreshToken provided" },
+        { status: 400 }
+      );
+    }
+
+    let decodedToken;
+    try {
+      decodedToken = jwt.verify(token, JWT_SECRET) as { _id: string, username: string };
+    }
+    catch (error) {
+      return NextResponse.json(
+        { status: 401, error: "Invalid token" },
         { status: 401 }
       );
     }
 
-    const decodedToken: any = jwt.verify(token, JWT_SECRET);
-    if (!decodedToken || !decodedToken.username) {
+    let decodedRefreshToken;
+    try {
+      decodedRefreshToken = jwt.verify(refreshToken, REFRESH_SECRET) as { _id: string };
+    }
+    catch (error) {
+      return NextResponse.json(
+        { status: 401, error: "Invalid refreshToken" },
+        { status: 401 }
+      );
+    }
+
+    if (!decodedToken.username) {
       return NextResponse.json(
         { status: 400, error: "Unable to extract user information from token" },
         { status: 400 }
@@ -144,13 +185,43 @@ export async function POST(req: NextRequest) {
     }
 
     const username = decodedToken.username;
+    const userIdFromToken = decodedToken._id;
+
+    if (!userIdFromToken) {
+      return NextResponse.json(
+        { status: 400, error: "No user ID found in token" },
+        { status: 400 }
+      );
+    }
+
+    const { idUser } = await req.json();
+
+    if (idUser !== userIdFromToken) {
+      return NextResponse.json(
+        { status: 403, error: "You can only disconnect your own account" },
+        { status: 403 }
+      );
+    }
 
     const db = await MongoDBSingleton.getDbInstance();
 
-    const collectionExists = await checkCollectionExists(db, "sessions");
-    if (!collectionExists) {
+    const requiredCollections = ["users", "sessions"];
+    for (const collection of requiredCollections) {
+      if (!(await checkCollectionExists(db, collection))) {
+        return NextResponse.json(
+          { error: `Collection '${collection}' not found` },
+          { status: 404 }
+        );
+      }
+    }
+
+    const user = await db
+      .collection('users')
+      .findOne({ _id: new ObjectId(userIdFromToken) })
+
+    if (!user) {
       return NextResponse.json(
-        { status: 404, error: "Collection 'sessions' not found" },
+        { status: 404, error: "User not found" },
         { status: 404 }
       );
     }
