@@ -50,10 +50,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 201
  *                 message:
  *                   type: string
- *                   example: "Merci pour la création de compte Neo 😍"
- *                 jwt:
- *                   type: string
- *                   example: "eyJhbGciOiJIUzI1NiIsInR5..."
+ *                   example: "Thank you ${name} for creating an account 😍"
  *       400:
  *         description: Bad Request - Missing required fields.
  *         content:
@@ -224,7 +221,7 @@ export async function POST(req: NextRequest) {
     }
 
     const response = NextResponse.json(
-      { status: 201, message: `Merci pour la création de compte ${name} 😍`, jwt: token },
+      { status: 201, message: `Thank you ${name} for creating an account 😍` },
       { status: 201}
     );
 

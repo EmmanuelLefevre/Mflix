@@ -46,10 +46,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 200
  *                 message:
  *                   type: string
- *                   example: "Bienvenue Neo 👋"
- *                 jwt:
- *                   type: string
- *                   example: "eyJhbGciOiJIUzI1NiIsInR5..."
+ *                   example: "Hello Neo 👋"
  *       400:
  *         description: Bad Request - Missing required fields.
  *         content:
@@ -233,7 +230,7 @@ export async function POST(req: NextRequest) {
     }
 
     const response = NextResponse.json(
-      { status: 200, message: `Bonjour ${user.name} 👋` },
+      { status: 200, message: `Hello ${user.name} 👋` },
       { status: 200 }
     );
 

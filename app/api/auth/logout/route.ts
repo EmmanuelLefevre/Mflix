@@ -27,7 +27,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 200
  *                 message:
  *                   type: string
- *                   example: "Au revoir Neo 👋"
+ *                   example: "See you later Neo 👋"
  *       400:
  *         description: Bad Request - Unable to extract user information from token.
  *         content:
@@ -155,7 +155,7 @@ export async function POST(req: NextRequest) {
     }
 
     const response = NextResponse.json(
-      { status: 200, message: `Au revoir ${username} 👋` },
+      { status: 200, message: `See you later ${username} 👋` },
       { status: 200 }
     );
 
