@@ -243,14 +243,14 @@ export async function POST(req: NextRequest) {
       httpOnly: true,
       secure: true,
       path: "/",
-      maxAge: 0,
+      expires: new Date(0),
       sameSite: "strict"
     });
     response.cookies.set("refreshToken", "", {
       httpOnly: true,
       secure: true,
       path: "/",
-      maxAge: 0,
+      expires: new Date(0),
       sameSite: "strict"
     });
 
