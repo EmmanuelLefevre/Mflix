@@ -101,7 +101,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 value:
  *                   status: 200
  *                   data: []
- *                   message: "No comments found."
+ *                   message: "No comments found"
  *       400:
  *         description: Bad Request
  *         content:

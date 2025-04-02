@@ -84,7 +84,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 value:
  *                   status: 200
  *                   data: []
- *                   message: "Movie not found."
+ *                   message: "Movie not found"
  *       400:
  *         description: Bad request
  *         content:
