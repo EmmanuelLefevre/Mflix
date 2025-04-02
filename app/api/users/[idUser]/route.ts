@@ -256,9 +256,14 @@ export async function DELETE(req: NextRequest, { params }: UserRouteContext): Pr
       );
     }
 
-    await db
-      .collection("sessions")
-      .deleteMany({ jwt: token, refreshToken });
+    try {
+      await db
+        .collection("sessions")
+        .deleteMany({ jwt: token, refreshToken });
+    }
+    catch (error) {
+      console.error("Session not found or already deleted : ", error);
+    }
 
     const response = NextResponse.json(
       {
