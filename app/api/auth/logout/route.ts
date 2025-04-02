@@ -157,7 +157,7 @@ export async function POST(req: NextRequest) {
 
     let decodedToken;
     try {
-      decodedToken = jwt.verify(token, JWT_SECRET) as { _id: string, username: string };
+      decodedToken = jwt.verify(token, JWT_SECRET) as { user_id: string, name: string };
     }
     catch (error) {
       return NextResponse.json(
@@ -168,7 +168,7 @@ export async function POST(req: NextRequest) {
 
     let decodedRefreshToken;
     try {
-      decodedRefreshToken = jwt.verify(refreshToken, REFRESH_SECRET) as { _id: string };
+      decodedRefreshToken = jwt.verify(refreshToken, REFRESH_SECRET) as { user_id: string };
     }
     catch (error) {
       return NextResponse.json(
@@ -177,29 +177,20 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!decodedToken.username) {
+    if (!decodedToken.name) {
       return NextResponse.json(
         { status: 400, error: "Unable to extract user information from token" },
         { status: 400 }
       );
     }
 
-    const username = decodedToken.username;
-    const userIdFromToken = decodedToken._id;
+    const username = decodedToken.name;
+    const userIdFromToken = decodedToken.user_id;
 
     if (!userIdFromToken) {
       return NextResponse.json(
         { status: 400, error: "No user ID found in token" },
         { status: 400 }
-      );
-    }
-
-    const { idUser } = await req.json();
-
-    if (idUser !== userIdFromToken) {
-      return NextResponse.json(
-        { status: 403, error: "You can only disconnect your own account" },
-        { status: 403 }
       );
     }
 
@@ -223,6 +214,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         { status: 404, error: "User not found" },
         { status: 404 }
+      );
+    }
+
+    const idUser = user._id.toString();
+
+    if (idUser !== userIdFromToken) {
+      return NextResponse.json(
+        { status: 403, error: "You can only disconnect your own account" },
+        { status: 403 }
       );
     }
 
