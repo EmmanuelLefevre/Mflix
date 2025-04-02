@@ -198,6 +198,10 @@ yarn dev
 [Online Swagger Documentation](http://localhost:3000/api-doc)  
 
 ## 🧳 MONGODB ATLAS SETUP
+As part of the Mflix ​​project, the use of MongoDB Atlas and Vercel was chosen to provide a scalable, secure, and high-performance solution tailored to the application's needs.  
+MongoDB Atlas, as a managed database service in the cloud, allows for simplified management and automatic data scalability, while ensuring high availability and advanced security mechanisms.  
+It also provides us with real-time monitoring and performance management tools, essential for a high-demand project like Mflix.  
+
 **1. Create an account**  
 
 [Link to create an account on MongoDB Atlas](https://www.mongodb.com/fr-fr/cloud/atlas/register)  
@@ -260,13 +264,17 @@ npm run test
 ```bash
 yarn test
 ```
-## 🛒🛒 PRE PRODUCTION
+## 🏭 PRE PRODUCTION
 **Test if API is build correctly on local environment**
 ```bash
 yarn build
 ```
 
-## 🏭 PRODUCTION
+## 🛒 PRODUCTION
+Vercel is a deployment platform optimized for modern applications such as those built with Next.js. It enables rapid deployment, automated environment management, and automatic optimizations to ensure optimal application performance.  
+By combining MongoDB Atlas for data management and Vercel for deployment, we ensure a modern, reliable, and scalable cloud infrastructure that meets Mflix's security, performance, and cost requirements.  
+Note also Vercel is the official developer and maintainer of Next.js, ensuring seamless integration and native optimizations for a seamless development experience.  
+
 **1. Create an account**  
 Connect yourself with your versioning tool !  
 
