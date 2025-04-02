@@ -79,6 +79,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                     - "No refreshToken provided"
  *                     - "No token provided"
  *                     - "No tokens found in cookies"
+ *                     - "Unable to extract user information from token"
  *       401:
  *         description: Unauthorized
  *         content:
@@ -213,6 +214,13 @@ export async function DELETE(req: NextRequest, { params }: UserRouteContext): Pr
       return NextResponse.json(
         { status: 401, error: "Invalid refreshToken" },
         { status: 401 }
+      );
+    }
+
+    if (!decodedToken || !decodedToken.username) {
+      return NextResponse.json(
+        { status: 400, error: "Unable to extract user information from token" },
+        { status: 400 }
       );
     }
 
