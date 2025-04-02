@@ -216,6 +216,46 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                         meter: 100
  *                         rotten: 0
  *                       poster: "https://m.media-amazon.com/images/M/MV5BMTU3NjE5NzYt..."
+ *                     - _id: "573a1392f29313caabcda70a"
+ *                       title: "Black Fury"
+ *                       plot: "An immigrant coal miner finds himself in the middle of a bitter labor …"
+ *                       genres: ["Crime", "Drama", "Romance"]
+ *                       runtime: 94
+ *                       rated: "APPROVED"
+ *                       cast:
+ *                         - "Paul Muni"
+ *                         - "Karen Morley"
+ *                         - "William Gargan"
+ *                         - "Barton MacLane"
+ *                       poster: "https://m.media-amazon.com/images/M/MV5BMTQwMzU0NDY0NV5BMl5BanBnXkFtZT…"
+ *                       fullplot: "An immigrant coal miner finds himself in the middle of a bitter labor …"
+ *                       languages: ["English"]
+ *                       released: "1935-05-18T00:00:00.000+00:00"
+ *                       directors: ["Michael Curtiz"]
+ *                       writers:
+ *                         - "Abem Finkel (screen play)"
+ *                         - "Carl Erickson (screen play)"
+ *                         - "Michael A. Musmanno (original story 'Jan Volkanik')"
+ *                         - "Harry R. Irving (play)"
+ *                       awards:
+ *                         wins: 0
+ *                         nominations: 2
+ *                         text: "Nominated for 1 Oscar. Another 1 nomination."
+ *                       lastupdated: "2015-09-17 04:41:44.297000000"
+ *                       year: 1935
+ *                       imdb:
+ *                         rating: 6.7
+ *                         votes: 511
+ *                         id: 26121
+ *                       countries: ["USA"]
+ *                       type: "movie"
+ *                       tomatoes: {}
+ *                       viewer:
+ *                         rating: 1
+ *                         numReviews: 40
+ *                       dvd: "2008-01-15T00:00:00.000+00:00"
+ *                       lastUpdated: "2015-08-22T19:10:15.000+00:00"
+ *                       num_mflix_comments: 0
  *               no_movies:
  *                 summary: No movies found
  *                 value:
