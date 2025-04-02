@@ -243,7 +243,7 @@ Allow all IP addresses for connection from the application layer (Network Access
 ⚠️⚠️⚠️ Be careful, this practice is dangerous and reprehensible in business. ⚠️⚠️⚠️  
 
 ## ⚡ MISCELLANEOUS
-**Queries in Compass, examples =>**
+**Queries in Compass, examples =>**  
 
 ![Find a Film](https://github.com/EmmanuelLefevre/MarkdownImg/blob/main/compass_find_film.png)  
 
