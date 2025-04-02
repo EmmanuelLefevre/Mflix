@@ -261,7 +261,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 value:
  *                   status: 200
  *                   data: []
- *                   message: "No movies found."
+ *                   message: "No movies found"
  *       400:
  *         description: Bad Request
  *         content:
