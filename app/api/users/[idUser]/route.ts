@@ -217,7 +217,7 @@ export async function DELETE(req: NextRequest, { params }: UserRouteContext): Pr
       );
     }
 
-    if (!decodedToken || !decodedToken.username) {
+    if (!decodedToken.username) {
       return NextResponse.json(
         { status: 400, error: "Unable to extract user information from token" },
         { status: 400 }
