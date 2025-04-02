@@ -33,8 +33,8 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  * @swagger
  * /api/users/{Id}:
  *   delete:
- *     summary: Delete a user by Id
- *     description: Deletes the user with the specified ObjectId.
+ *     summary: Delete a user and associated session by Id
+ *     description: Deletes the user and associated session with the specified ObjectId.
  *     tags:
  *       - Users
  *     parameters:
@@ -197,7 +197,7 @@ export async function DELETE(req: NextRequest, { params }: UserRouteContext): Pr
 
     let decodedToken;
     try {
-      decodedToken = jwt.verify(token, JWT_SECRET) as { _id: string, username: string };
+      decodedToken = jwt.verify(token, JWT_SECRET) as { user_id: string, name: string };
     }
     catch (error) {
       return NextResponse.json(
@@ -208,7 +208,7 @@ export async function DELETE(req: NextRequest, { params }: UserRouteContext): Pr
 
     let decodedRefreshToken;
     try {
-      decodedRefreshToken = jwt.verify(refreshToken, REFRESH_SECRET) as { _id: string };
+      decodedRefreshToken = jwt.verify(refreshToken, REFRESH_SECRET) as { user_id: string };
     }
     catch (error) {
       return NextResponse.json(
@@ -217,16 +217,16 @@ export async function DELETE(req: NextRequest, { params }: UserRouteContext): Pr
       );
     }
 
-    if (!decodedToken.username) {
+    if (!decodedToken.name) {
       return NextResponse.json(
         { status: 400, error: "Unable to extract user information from token" },
         { status: 400 }
       );
     }
 
-    const { _id: userIdFromToken, username } = decodedToken;
+    const { user_id: userIdFromToken, name } = decodedToken;
 
-    if (idUser !== userIdFromToken) {
+    if (idUser !== userIdFromToken.toString()) {
       return NextResponse.json(
         { status: 403, error: "You can only delete your own account" },
         { status: 403 }
@@ -262,30 +262,30 @@ export async function DELETE(req: NextRequest, { params }: UserRouteContext): Pr
         .deleteMany({ jwt: token, refreshToken });
     }
     catch (error) {
-      console.error("Session not found or already deleted : ", error);
+      console.error("Can't delete session because it's not found or already deleted : ", error);
     }
 
     const response = NextResponse.json(
       {
-        status: 204,
+        status: 200,
         message: 'User and session data deleted',
-        farewell: `We will miss you ${username} 👋`
+        farewell: `We will miss you ${name} 👋`
       },
-      { status: 204 }
+      { status: 200 }
     );
 
     response.cookies.set("token", "", {
       httpOnly: true,
       secure: true,
       path: "/",
-      maxAge: 0,
+      expires: new Date(0),
       sameSite: "strict"
     });
     response.cookies.set("refreshToken", "", {
       httpOnly: true,
       secure: true,
       path: "/",
-      maxAge: 0,
+      expires: new Date(0),
       sameSite: "strict"
     });
 
