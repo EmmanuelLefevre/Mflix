@@ -91,6 +91,32 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   type: array
  *                   items:
  *                     $ref: '#/components/schemas/Theater'
+ *                 message:
+ *                   type: string
+ *             examples:
+ *               success:
+ *                 summary: Theaters found
+ *                 value:
+ *                   status: 200
+ *                   data:
+ *                     - _id: "59a47286cfa9a3a73e51e72d"
+ *                       theaterId: 1003
+ *                       location:
+ *                         address:
+ *                           street1: "340 W Market"
+ *                           street2: "Ste backerstreet"
+ *                           city: "Bloomington"
+ *                           state: "MN"
+ *                           zipcode: "55425"
+ *                         geo:
+ *                           type: "Point"
+ *                           coordinates: [-93.24565, 44.85466]
+ *               no_theaters:
+ *                 summary: No theaters found
+ *                 value:
+ *                   status: 200
+ *                   data: []
+ *                   message: "No theaters found."
  *       400:
  *         description: Bad Request
  *         content:
@@ -187,8 +213,8 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     if (theaters.length === 0) {
       return NextResponse.json(
-        { status: 404, error: "No theaters found" },
-        { status: 404 }
+        { status: 200, error: "No theaters found" },
+        { status: 200 }
       );
     }
 
