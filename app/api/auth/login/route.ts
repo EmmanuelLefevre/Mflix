@@ -182,7 +182,9 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const user = await db.collection("users").findOne({ email });
+    const user = await db
+      .collection("users")
+      .findOne({ email });
 
     if (!user) {
       return NextResponse.json(
@@ -200,12 +202,12 @@ export async function POST(req: NextRequest) {
     }
 
     const token = jwt.sign(
-      { email, username: user.name },
+      { user_id: user._id.toString(), email, name: user.name },
       JWT_SECRET,
       { expiresIn: "15m" }
     );
     const refreshToken = jwt.sign(
-      { email, username: user.name },
+      { user_id: user._id.toString(), email, name: user.name },
       REFRESH_SECRET,
       { expiresIn: "7d" }
     );

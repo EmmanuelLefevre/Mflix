@@ -195,12 +195,12 @@ export async function POST(req: NextRequest) {
     }
 
     const token = jwt.sign(
-      { email, name },
+      { user_id: result.insertedId.toString(), email, name },
       JWT_SECRET,
       { expiresIn: "15m" }
     );
     const refreshToken = jwt.sign(
-      { email, name },
+      { user_id: result.insertedId.toString(), email, name },
       REFRESH_SECRET,
       { expiresIn: "7d" }
     );
