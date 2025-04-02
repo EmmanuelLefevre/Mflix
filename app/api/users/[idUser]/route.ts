@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 import jwt from "jsonwebtoken";
 
 import MongoDBSingleton from '@/lib/mongodb';
-import { JWT_SECRET } from "@/lib/jwt-secrets-config";
+import { JWT_SECRET, REFRESH_SECRET } from "@/lib/jwt-secrets-config";
 import { UserRouteContext } from '@/lib/interfaces/api-interfaces';
 import { checkCollectionExists } from "@/lib/check-collection-exists";
 
@@ -207,7 +207,7 @@ export async function DELETE(req: NextRequest, { params }: UserRouteContext): Pr
 
     let decodedRefreshToken;
     try {
-      decodedRefreshToken = jwt.verify(refreshToken, JWT_SECRET) as { _id: string };
+      decodedRefreshToken = jwt.verify(refreshToken, REFRESH_SECRET) as { _id: string };
     }
     catch (error) {
       return NextResponse.json(
