@@ -142,9 +142,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                   example: 404
  *                 error:
  *                   type: string
- *                   example:
- *                     - "Collection 'theaters' not found"
- *                     - "No theaters found"
+ *                   example: "Collection 'theaters' not found"
  *       405:
  *         description: Method Not Allowed
  *         content:
