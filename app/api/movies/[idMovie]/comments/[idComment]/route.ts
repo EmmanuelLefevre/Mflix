@@ -429,7 +429,7 @@ export async function PUT(req: NextRequest, { params }: CommentRouteContext): Pr
  *           example: "67eb9bdad83c04fedec747e9"
  *         description: The ObjectId of the comment to delete.
  *     responses:
- *       200:
+ *       204:
  *         description: Successfully deleted the comment.
  *         content:
  *           application/json:
@@ -438,7 +438,7 @@ export async function PUT(req: NextRequest, { params }: CommentRouteContext): Pr
  *               properties:
  *                 status:
  *                   type: integer
- *                   example: 200
+ *                   example: 204
  *                 message:
  *                   type: string
  *                   example: "Comment deleted"
@@ -578,8 +578,8 @@ export async function DELETE(req: NextRequest, { params }: CommentRouteContext):
     }
 
     return NextResponse.json(
-      { status: 200, message: 'Comment deleted' },
-      { status: 200 }
+      { status: 204, message: 'Comment deleted' },
+      { status: 204 }
     );
   }
   catch (error) {
