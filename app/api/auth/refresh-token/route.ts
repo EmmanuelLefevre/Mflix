@@ -25,9 +25,9 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *                 status:
  *                   type: integer
  *                   example: 200
- *                 token:
+ *                 message:
  *                   type: string
- *                   example: "eyJhbGciOiJIUzI1NiIsInR5..."
+ *                   example: "Token is refreshed"
  *       401:
  *         description: Unauthorized - No refresh token provided or invalid.
  *         content:
@@ -141,7 +141,9 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    const session = await db.collection("sessions").findOne({ refreshToken });
+    const session = await db
+      .collection("sessions")
+      .findOne({ refreshToken });
 
     if (!session) {
       return NextResponse.json(
@@ -150,7 +152,9 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const user = await db.collection("users").findOne({ email: decoded.email });
+    const user = await db
+      .collection("users")
+      .findOne({ email: decoded.email });
 
     if (!user) {
       return NextResponse.json(
@@ -160,24 +164,20 @@ export async function GET(req: NextRequest) {
     }
 
     const newToken = jwt.sign(
-      { email: decoded.email, username: user.name },
+      { user_id: user._id.toString(), email: decoded.email, name: user.name },
       JWT_SECRET,
       { expiresIn: "15min" }
     );
 
-    const newRefreshToken = jwt.sign(
-      { email: decoded.email, username: user.name },
-      REFRESH_SECRET,
-      { expiresIn: "7d" }
-    );
-
-    await db.collection("sessions").updateOne(
-      { refreshToken: session.refreshToken },
-      { $set: { refreshToken: newRefreshToken, jwt: newToken } }
-    );
+    await db
+        .collection("sessions")
+        .updateOne(
+          { refreshToken: session.refreshToken },
+          { $set: { jwt: newToken } }
+        );
 
     const response = NextResponse.json(
-      { status: 200, token: newToken },
+      { status: 200, message: "Token is refreshed" },
       { status: 200 }
     );
 
@@ -186,14 +186,6 @@ export async function GET(req: NextRequest) {
       secure: process.env.NODE_ENV === "production",
       path: "/",
       maxAge: 15 * 60,
-      sameSite: "strict"
-    });
-
-    response.cookies.set("refreshToken", newRefreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60,
       sameSite: "strict"
     });
 
