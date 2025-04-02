@@ -45,7 +45,7 @@ import { checkCollectionExists } from "@/lib/check-collection-exists";
  *         description: The ObjectId of the user to delete.
  *     responses:
  *       204:
- *         description: Successfully deleted the user.
+ *         description: No Content - Successfully deleted the user.
  *         content:
  *           application/json:
  *             schema:

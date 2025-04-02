@@ -361,7 +361,7 @@ export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Pr
  *         description: The ObjectId of the theater to delete.
  *     responses:
  *       204:
- *         description: Successfully deleted the theater.
+ *         description: No Content - Successfully deleted the theater.
  *         content:
  *           application/json:
  *             schema:

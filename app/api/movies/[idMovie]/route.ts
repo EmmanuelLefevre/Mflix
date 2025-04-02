@@ -445,7 +445,7 @@ export async function PUT(req: NextRequest, { params }: MovieRouteContext): Prom
  *         description: The ObjectId of the movie to delete.
  *     responses:
  *       204:
- *         description: Successfully deleted the movie.
+ *         description: No Content - Successfully deleted the movie.
  *         content:
  *           application/json:
  *             schema:

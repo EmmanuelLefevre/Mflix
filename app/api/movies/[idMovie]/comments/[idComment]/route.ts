@@ -430,7 +430,7 @@ export async function PUT(req: NextRequest, { params }: CommentRouteContext): Pr
  *         description: The ObjectId of the comment to delete.
  *     responses:
  *       204:
- *         description: Successfully deleted the comment.
+ *         description: No Content - Successfully deleted the comment.
  *         content:
  *           application/json:
  *             schema:
