@@ -222,7 +222,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     if (theaters.length === 0) {
       return NextResponse.json(
-        { status: 200, error: "No theaters found" },
+        { status: 200, message: "No theaters found" },
         { status: 200 }
       );
     }

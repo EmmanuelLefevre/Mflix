@@ -184,7 +184,7 @@ export async function GET(req: NextRequest, { params }: CommentRouteContext): Pr
 
     if (!comment) {
       return NextResponse.json(
-        { status: 200, error: 'Comment not found' },
+        { status: 200, message: 'Comment not found' },
         { status: 200 }
       );
     }

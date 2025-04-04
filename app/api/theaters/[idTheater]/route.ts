@@ -152,7 +152,7 @@ export async function GET(req: NextRequest, { params }: TheaterRouteContext): Pr
 
     if (!theater) {
       return NextResponse.json(
-        { status: 200, error: 'Theater not found' },
+        { status: 200, message: 'Theater not found' },
         { status: 200 }
       );
     }
