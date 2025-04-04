@@ -156,6 +156,7 @@ nvm use 20.18.0
 │   ├── styles/
 │   │   ├── global.scss
 │   │   ├── globals.css
+├── tests/
 ├── .env.local
 ├── .env.local.example
 ├── .gitignore
