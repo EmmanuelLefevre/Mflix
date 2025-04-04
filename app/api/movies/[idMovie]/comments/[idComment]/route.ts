@@ -173,7 +173,7 @@ export async function GET(req: NextRequest, { params }: CommentRouteContext): Pr
 
     if (!movie) {
       return NextResponse.json(
-        { status: 404, error: 'Movie not found' },
+        { status: 404, data: [], error: 'Movie not found' },
         { status: 404 }
       );
     }

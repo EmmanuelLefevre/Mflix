@@ -223,7 +223,7 @@ export async function GET(req: NextRequest, { params }: MovieRouteContext): Prom
 
     if (comments.length === 0) {
       return NextResponse.json(
-        { status: 200, message: "No comments found" },
+        { status: 200, data: [], message: "No comments found" },
         { status: 200 }
       );
     }

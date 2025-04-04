@@ -174,7 +174,7 @@ export async function GET(req: NextRequest, { params }: MovieRouteContext): Prom
 
     if (!movie) {
       return NextResponse.json(
-        { status: 200, message: 'Movie not found' },
+        { status: 200, data: [], message: 'Movie not found' },
         { status: 200 }
       );
     }

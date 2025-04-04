@@ -356,7 +356,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     if (movies.length === 0) {
       return NextResponse.json(
-        { status: 200, message: "No movies found" },
+        { status: 200, data: [], message: "No movies found" },
         { status: 200 }
       );
     }
