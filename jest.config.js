@@ -11,11 +11,13 @@ module.exports = {
   testMatch: ["**/tests/**/*.spec.ts"],
   collectCoverage: true,
   coverageDirectory: 'coverage',
-  testPathIgnorePatterns: ['/node_modules/', '/.next/'],
-  globals: {
-    "ts-jest": {
-      tsconfig: "tsconfig.json"
-    }
-  },
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/.next/',
+    '/lib'
+  ],
+  coveragePathIgnorePatterns: [
+    '<rootDir>/lib/',
+  ],
   setupFiles: ["<rootDir>/jest.setup.js"]
 };
