@@ -159,6 +159,8 @@ nvm use 20.18.0
 ├── .env.local
 ├── .env.local.example
 ├── .gitignore
+├── jest.config.js
+├── jest.setup.js
 ├── middleware.ts
 ├── next-env.d.ts
 ├── next.config.js
