@@ -1,9 +1,11 @@
 import { createSwaggerSpec } from "next-swagger-doc";
 
+import { CommentSchema } from '@/docs/schemas/comment.schema';
 import { MovieSchema } from '@/docs/schemas/movie.schema';
 import { TheaterSchema } from '@/docs/schemas/theater.schema';
 import { UserSchema } from '@/docs/schemas/user.schema';
 
+import { CommentsPaths } from '@/docs/paths/comments.paths';
 import { MoviesPaths } from '@/docs/paths/movies.paths';
 import { TheatersPaths } from '@/docs/paths/theaters.paths';
 import { UsersPaths } from '@/docs/paths/users.paths';
@@ -23,6 +25,7 @@ export const getApiDocs = async () => {
         }
       },
       paths: {
+        ...CommentsPaths,
         ...MoviesPaths,
         ...TheatersPaths,
         ...UsersPaths
@@ -36,6 +39,7 @@ export const getApiDocs = async () => {
           }
         },
         schemas: {
+          Comment: CommentSchema,
           Movie: MovieSchema,
           Theater: TheaterSchema,
           User: UserSchema
