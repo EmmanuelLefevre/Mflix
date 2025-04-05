@@ -142,7 +142,7 @@ nvm use 20.18.0
 │   ├── collections files
 ├── docs/
 │   ├── paths/
-│   │   ├── auth.paths.ts
+│   │   ├── auths.paths.ts
 │   │   ├── comments.paths.ts
 │   │   ├── movies.paths.ts
 │   │   ├── theaters.paths.ts
