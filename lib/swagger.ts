@@ -1,5 +1,9 @@
 import { createSwaggerSpec } from "next-swagger-doc";
 
+import { TheaterSchema } from '@/docs/schemas/theater.schema';
+import { TheatersPaths } from '@/docs/paths/theaters.paths';
+
+
 export const getApiDocs = async () => {
   const spec = createSwaggerSpec({
     apiFolder: "app/api",
@@ -13,6 +17,9 @@ export const getApiDocs = async () => {
           email: "julien.couraud@reseau-cd.net",
         },
       },
+      paths: {
+        ...TheatersPaths
+      },
       components: {
         securitySchemes: {
           BearerAuth: {
@@ -20,6 +27,9 @@ export const getApiDocs = async () => {
             scheme: "bearer",
             bearerFormat: "JWT",
           },
+        },
+        schemas: {
+          ...TheaterSchema
         },
       },
       security: [],
