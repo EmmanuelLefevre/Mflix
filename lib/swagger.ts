@@ -1,8 +1,10 @@
 import { createSwaggerSpec } from "next-swagger-doc";
 
+import { MovieSchema } from '@/docs/schemas/movie.schema';
 import { TheaterSchema } from '@/docs/schemas/theater.schema';
 import { UserSchema } from '@/docs/schemas/user.schema';
 
+import { MoviesPaths } from '@/docs/paths/movies.paths';
 import { TheatersPaths } from '@/docs/paths/theaters.paths';
 import { UsersPaths } from '@/docs/paths/users.paths';
 
@@ -17,10 +19,11 @@ export const getApiDocs = async () => {
         version: "1.0",
         description: "Julien Couraud TP",
         contact: {
-          email: "julien.couraud@reseau-cd.net",
-        },
+          email: "julien.couraud@reseau-cd.net"
+        }
       },
       paths: {
+        ...MoviesPaths,
         ...TheatersPaths,
         ...UsersPaths
       },
@@ -30,15 +33,17 @@ export const getApiDocs = async () => {
             type: "http",
             scheme: "bearer",
             bearerFormat: "JWT",
-          },
+          }
         },
         schemas: {
+          ...MovieSchema,
           ...TheaterSchema,
           ...UserSchema
-        },
+        }
       },
       security: [],
-    },
+    }
   });
+
   return spec;
 }
