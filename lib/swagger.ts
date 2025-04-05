@@ -36,9 +36,9 @@ export const getApiDocs = async () => {
           }
         },
         schemas: {
-          ...MovieSchema,
-          ...TheaterSchema,
-          ...UserSchema
+          Movie: MovieSchema,
+          Theater: TheaterSchema,
+          User: UserSchema
         }
       },
       security: [],
