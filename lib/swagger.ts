@@ -1,7 +1,10 @@
 import { createSwaggerSpec } from "next-swagger-doc";
 
 import { TheaterSchema } from '@/docs/schemas/theater.schema';
+import { UserSchema } from '@/docs/schemas/user.schema';
+
 import { TheatersPaths } from '@/docs/paths/theaters.paths';
+import { UsersPaths } from '@/docs/paths/users.paths';
 
 
 export const getApiDocs = async () => {
@@ -18,7 +21,8 @@ export const getApiDocs = async () => {
         },
       },
       paths: {
-        ...TheatersPaths
+        ...TheatersPaths,
+        ...UsersPaths
       },
       components: {
         securitySchemes: {
@@ -29,7 +33,8 @@ export const getApiDocs = async () => {
           },
         },
         schemas: {
-          ...TheaterSchema
+          ...TheaterSchema,
+          ...UserSchema
         },
       },
       security: [],
