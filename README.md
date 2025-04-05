@@ -140,6 +140,18 @@ nvm use 20.18.0
 │   ├── layout.tsx
 ├── dataset/
 │   ├── collections files
+├── docs/
+│   ├── paths/
+│   │   ├── auth.paths.ts
+│   │   ├── comments.paths.ts
+│   │   ├── movies.paths.ts
+│   │   ├── theaters.paths.ts
+│   │   ├── users.paths.ts
+│   ├── schemas/
+│   │   ├── comment.schema.ts
+│   │   ├── movie.schema.ts
+│   │   ├── theater.schema.ts
+│   │   ├── user.schema.ts
 ├── lib/
 │   ├── interfaces/
 │   │   ├── api-interfaces.ts
