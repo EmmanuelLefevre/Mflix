@@ -5,6 +5,7 @@ import { MovieSchema } from '@/docs/schemas/movie.schema';
 import { TheaterSchema } from '@/docs/schemas/theater.schema';
 import { UserSchema } from '@/docs/schemas/user.schema';
 
+import { AuthsPaths } from '@/docs/paths/auths.paths';
 import { CommentsPaths } from '@/docs/paths/comments.paths';
 import { MoviesPaths } from '@/docs/paths/movies.paths';
 import { TheatersPaths } from '@/docs/paths/theaters.paths';
@@ -25,6 +26,7 @@ export const getApiDocs = async () => {
         }
       },
       paths: {
+        ...AuthsPaths,
         ...CommentsPaths,
         ...MoviesPaths,
         ...TheatersPaths,
