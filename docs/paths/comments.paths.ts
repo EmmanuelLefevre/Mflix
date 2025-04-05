@@ -335,7 +335,7 @@ export const CommentsPaths = {
       }
     }
   },
-  "/api/movies/{idMovie}/comments/{id}": {
+  "/api/movies/{IdMovie}/comments/{Id}": {
     get: {
       summary: "Retrieve a comment by Id",
       description: "Fetches a comment based on the provided ObjectId for a specific movie.",
@@ -343,7 +343,7 @@ export const CommentsPaths = {
       parameters: [
         {
           in: "path",
-          name: "idMovie",
+          name: "IdMovie",
           required: true,
           schema: {
             type: "string",
@@ -353,7 +353,7 @@ export const CommentsPaths = {
         },
         {
           in: "path",
-          name: "id",
+          name: "Id",
           required: true,
           schema: {
             type: "string",
@@ -516,7 +516,7 @@ export const CommentsPaths = {
       parameters: [
         {
           in: "path",
-          name: "idMovie",
+          name: "IdMovie",
           required: true,
           schema: {
             type: "string",
@@ -526,7 +526,7 @@ export const CommentsPaths = {
         },
         {
           in: "path",
-          name: "id",
+          name: "Id",
           required: true,
           schema: {
             type: "string",
@@ -681,7 +681,7 @@ export const CommentsPaths = {
       parameters: [
         {
           in: "path",
-          name: "idMovie",
+          name: "IdMovie",
           required: true,
           schema: {
             type: "string",
@@ -691,7 +691,7 @@ export const CommentsPaths = {
         },
         {
           in: "path",
-          name: "id",
+          name: "Id",
           required: true,
           schema: {
             type: "string",
