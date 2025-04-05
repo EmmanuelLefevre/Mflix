@@ -11,10 +11,10 @@ export const UsersPaths = {
           required: true,
           schema: {
             type: "string",
-            example: "63f5b5fa6e7f16cdd60ab2a9",
+            example: "63f5b5fa6e7f16cdd60ab2a9"
           },
-          description: "The ObjectId of the user to delete.",
-        },
+          description: "The ObjectId of the user to delete."
+        }
       ],
       responses: {
         200: {
@@ -35,11 +35,11 @@ export const UsersPaths = {
                   farewell: {
                     type: "string",
                     example: "We will miss you Neo 👋"
-                  },
-                },
-              },
-            },
-          },
+                  }
+                }
+              }
+            }
+          }
         },
         400: {
           description: "Bad Request",
@@ -54,12 +54,12 @@ export const UsersPaths = {
                   },
                   error: {
                     type: "string",
-                    example: "Invalid user ObjectID parameter format",
-                  },
-                },
-              },
-            },
-          },
+                    example: "Invalid user ObjectID parameter format"
+                  }
+                }
+              }
+            }
+          }
         },
         401: {
           description: "Unauthorized",
@@ -74,12 +74,12 @@ export const UsersPaths = {
                   },
                   error: {
                     type: "string",
-                    example: "Invalid refreshToken",
-                  },
-                },
-              },
-            },
-          },
+                    example: "Invalid refreshToken"
+                  }
+                }
+              }
+            }
+          }
         },
         403: {
           description: "Forbidden",
@@ -94,12 +94,12 @@ export const UsersPaths = {
                   },
                   error: {
                     type: "string",
-                    example: "You can only delete your own account",
-                  },
-                },
-              },
-            },
-          },
+                    example: "You can only delete your own account"
+                  }
+                }
+              }
+            }
+          }
         },
         404: {
           description: "Not Found",
@@ -114,12 +114,12 @@ export const UsersPaths = {
                   },
                   error: {
                     type: "string",
-                    example: "User not found",
-                  },
-                },
-              },
-            },
-          },
+                    example: "User not found"
+                  }
+                }
+              }
+            }
+          }
         },
         405: {
           description: "Method Not Allowed",
@@ -134,12 +134,12 @@ export const UsersPaths = {
                   },
                   error: {
                     type: "string",
-                    example: "Method Not Allowed",
-                  },
-                },
-              },
-            },
-          },
+                    example: "Method Not Allowed"
+                  }
+                }
+              }
+            }
+          }
         },
         500: {
           description: "Internal Server Error.",
@@ -154,14 +154,14 @@ export const UsersPaths = {
                   },
                   error: {
                     type: "string",
-                    example: "Unexpected error occurred.",
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
+                    example: "Unexpected error occurred."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 };
