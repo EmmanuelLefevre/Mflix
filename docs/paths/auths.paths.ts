@@ -49,7 +49,7 @@ export const AuthsPaths = {
           }
         },
         400: {
-          description: "Bad Request - Missing required fields.",
+          description: "Bad Request",
           content: {
             "application/json": {
               schema: {
@@ -60,11 +60,23 @@ export const AuthsPaths = {
                     example: 400
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Email is required and must be a string",
-                      "Password is required and must be a string"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                email: {
+                  summary: "Email is missing or invalid",
+                  value: {
+                    status: 400,
+                    error: "Email is required and must be a string"
+                  }
+                },
+                password: {
+                  summary: "Password is missing or invalid",
+                  value: {
+                    status: 400,
+                    error: "Password is required and must be a string"
                   }
                 }
               }
@@ -72,7 +84,7 @@ export const AuthsPaths = {
           }
         },
         401: {
-          description: "Unauthorized - Invalid credentials.",
+          description: "Unauthorized",
           content: {
             "application/json": {
               schema: {
@@ -84,7 +96,7 @@ export const AuthsPaths = {
                   },
                   error: {
                     type: "string",
-                    example: "Invalid username or password"
+                    example: "Invalid credentials"
                   }
                 }
               }
@@ -103,11 +115,23 @@ export const AuthsPaths = {
                     example: 404
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Collection 'sessions' not found",
-                      "Collection 'users' not found"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                no_sessions_collection: {
+                  summary: "Collection 'sessions' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'sessions' not found"
+                  }
+                },
+                no_users_collection: {
+                  summary: "Collection 'users' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'users' not found"
                   }
                 }
               }
@@ -264,12 +288,30 @@ export const AuthsPaths = {
                     example: 400
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Email is required and must be a string",
-                      "Password is required and must be a string",
-                      "Name is required and must be a string"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                email: {
+                  summary: "Email is required",
+                  value: {
+                    status: 400,
+                    error: "Email is required and must be a string"
+                  }
+                },
+                name: {
+                  summary: "Name is required",
+                  value: {
+                    status: 400,
+                    error: "Name is required and must be a string"
+                  }
+                },
+                password: {
+                  summary: "Password is required",
+                  value: {
+                    status: 400,
+                    error: "Password is required and must be a string"
                   }
                 }
               }
@@ -288,11 +330,23 @@ export const AuthsPaths = {
                     example: 404
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Collection 'sessions' not found",
-                      "Collection 'users' not found"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                no_sessions_collection: {
+                  summary: "Collection 'sessions' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'sessions' not found"
+                  }
+                },
+                no_users_collection: {
+                  summary: "Collection 'users' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'users' not found"
                   }
                 }
               }
@@ -429,15 +483,44 @@ export const AuthsPaths = {
                     example: 400
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Invalid user ObjectID parameter format",
-                      "No refreshToken provided",
-                      "No token provided",
-                      "No tokens found in cookies",
-                      "No user ID found in token",
-                      "Unable to extract user information from token"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                no_refreshToken: {
+                  summary: "No refreshToken provided",
+                  value: {
+                    status: 400,
+                    error: "No refreshToken provided"
+                  }
+                },
+                no_token: {
+                  summary: "No token provided",
+                  value: {
+                    status: 400,
+                    error: "No token provided"
+                  }
+                },
+                no_tokens_in_cookies: {
+                  summary: "No tokens in cookies",
+                  value: {
+                    status: 400,
+                    error: "No tokens found in cookies"
+                  }
+                },
+                unable_to_extract_user_id_from_token: {
+                  summary: "Unable to extract user ID from token",
+                  value: {
+                    status: 400,
+                    error: "Unable to extract user ID from token"
+                  }
+                },
+                unable_to_extract_user_name_from_token: {
+                  summary: "Unable to extract user name from token",
+                  value: {
+                    status: 400,
+                    error: "Unable to extract user name from token"
                   }
                 }
               }
@@ -461,6 +544,22 @@ export const AuthsPaths = {
                       "Invalid refreshToken",
                       "Invalid token"
                     ]
+                  }
+                }
+              },
+              examples: {
+                invalid_refreshToken: {
+                  summary: "Invalid refreshToken",
+                  value: {
+                    status: 401,
+                    error: "Invalid refreshToken"
+                  }
+                },
+                invalid_token: {
+                  summary: "Invalid token",
+                  value: {
+                    status: 401,
+                    error: "Invalid token"
                   }
                 }
               }
@@ -499,13 +598,37 @@ export const AuthsPaths = {
                     example: 404
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Collection 'sessions' not found",
-                      "Collection 'users' not found",
-                      "Session not found or already deleted",
-                      "User not found"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                no_session: {
+                  summary: "Session not found or already deleted",
+                  value: {
+                    status: 404,
+                    error: "Session not found or already deleted"
+                  }
+                },
+                no_sessions_collection: {
+                  summary: "Collection 'sessions' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'sessions' not found"
+                  }
+                },
+                no_user: {
+                  summary: "User not found",
+                  value: {
+                    status: 404,
+                    error: "User not found"
+                  }
+                },
+                no_users_collection: {
+                  summary: "Collection 'users' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'users' not found"
                   }
                 }
               }

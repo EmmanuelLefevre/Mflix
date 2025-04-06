@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
 
     if (!decodedToken.name) {
       return NextResponse.json(
-        { status: 400, error: "Unable to extract user information from token" },
+        { status: 400, error: "Unable to extract user name from token" },
         { status: 400 }
       );
     }
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
 
     if (!userIdFromToken) {
       return NextResponse.json(
-        { status: 400, error: "No user ID found in token" },
+        { status: 400, error: "Unable to extract user ID from token" },
         { status: 400 }
       );
     }
