@@ -276,7 +276,8 @@ export const TheatersPaths = {
                     example: 201
                   },
                   message: {
-                    type: "string"
+                    type: "string",
+                    example: "Theater created"
                   },
                   data: {
                     type: "array",
@@ -846,10 +847,12 @@ export const TheatersPaths = {
               schema: {
                 type: "object",
                 properties: {
-                  status: {type: "integer",
+                  status: {
+                    type: "integer",
                     example: 200
                   },
-                  message: {type: "string",
+                  message: {
+                    type: "string",
                     example: "Theater deleted"
                   }
                 }
