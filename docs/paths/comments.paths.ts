@@ -106,11 +106,23 @@ export const CommentsPaths = {
                     example: 400
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Invalid movie ObjectID parameter format",
-                      "Invalid query parameters"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                invalid_movie_id_parameter: {
+                  summary: "Invalid movie ObjectID parameter format",
+                  value: {
+                    status: 400,
+                    error: "Invalid movie ObjectID parameter format"
+                  }
+                },
+                invalid_parameters: {
+                  summary: "Invalid query parameters",
+                  value: {
+                    status: 400,
+                    error: "Invalid query parameters"
                   }
                 }
               }
@@ -129,12 +141,30 @@ export const CommentsPaths = {
                     example: 404
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Collection 'comments' not found",
-                      "Collection 'movies' not found",
-                      "Movie not found"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                no_comments_collection: {
+                  summary: "Collection 'comments' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'comments' not found"
+                  }
+                },
+                no_movie: {
+                  summary: "Movie not found",
+                  value: {
+                    status: 404,
+                    error: "Movie not found"
+                  }
+                },
+                no_movies_collection: {
+                  summary: "Collection 'movies' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'movies' not found"
                   }
                 }
               }
