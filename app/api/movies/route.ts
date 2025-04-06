@@ -120,12 +120,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const movie = { title, year, ...rest };
-    movie._id = new ObjectId();
+    const newMovie = { title, year, ...rest };
+    newMovie._id = new ObjectId();
 
     const result = await db
       .collection('movies')
-      .insertOne(movie);
+      .insertOne(newMovie);
 
     return NextResponse.json(
       { status: 201, message: 'Movie created', data: { _id: result.insertedId, title, year, ...rest } },

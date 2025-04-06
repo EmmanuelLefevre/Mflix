@@ -438,6 +438,10 @@ export const MoviesPaths = {
                     type: "integer",
                     example: 201
                   },
+                  message: {
+                    type: "string",
+                    message: "Movie created"
+                  },
                   data: {
                     $ref: "#/components/schemas/Movie"
                   }
@@ -458,8 +462,43 @@ export const MoviesPaths = {
                     example: 400
                   },
                   error: {
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                title: {
+                  summary: "Title is required",
+                  value: {
+                    status: 400,
+                    error: "Title is required and must be a string"
+                  }
+                },
+                year: {
+                  summary: "Year is required",
+                  value: {
+                    status: 400,
+                    error: "Year is required and must be a number"
+                  }
+                }
+              }
+            }
+          }
+        },
+        404: {
+          description: "Not Found",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  status: {
+                    type: "integer",
+                    example: 404
+                  },
+                  error: {
                     type: "string",
-                    example: "Title is required and must be a string"
+                    message: "Collection 'movies' not found"
                   }
                 }
               }
@@ -487,7 +526,7 @@ export const MoviesPaths = {
           }
         },
         409: {
-          description: "Conflict - Movie already exists.",
+          description: "Conflict",
           content: {
             "application/json": {
               schema: {
@@ -945,6 +984,10 @@ export const MoviesPaths = {
                     type: "integer",
                     example: 200
                   },
+                  message: {
+                    type: "string",
+                    example: "Movie updated"
+                  },
                   data: {
                     $ref: "#/components/schemas/Movie"
                   }
@@ -965,11 +1008,23 @@ export const MoviesPaths = {
                     example: 400
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Invalid movie ObjectID parameter format",
-                      "Request body is required and must be an object"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                invalid_comment_id_parameter: {
+                  summary: "Invalid comment ObjectID parameter format",
+                  value: {
+                    status: 400,
+                    error: "Invalid comment ObjectID parameter format"
+                  }
+                },
+                missing_body: {
+                  summary: "Missing or invalid request body",
+                  value: {
+                    status: 400,
+                    error: "Request body is required and must be an object"
                   }
                 }
               }
@@ -988,11 +1043,23 @@ export const MoviesPaths = {
                     example: 404
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Collection 'movies' not found",
-                      "Movie not found"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                no_movie: {
+                  summary: "Movie not found",
+                  value: {
+                    status: 404,
+                    error: "Movie not found"
+                  }
+                },
+                no_movies_collection: {
+                  summary: "Collection 'movies' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'movies' not found"
                   }
                 }
               }
@@ -1125,11 +1192,23 @@ export const MoviesPaths = {
                     example: 404
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Collection 'movies' not found",
-                      "Movie not found"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                no_movie: {
+                  summary: "Movie not found",
+                  value: {
+                    status: 404,
+                    error: "Movie not found"
+                  }
+                },
+                no_movies_collection: {
+                  summary: "Collection 'movies' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'movies' not found"
                   }
                 }
               }
