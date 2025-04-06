@@ -277,7 +277,7 @@ export const AuthsPaths = {
           }
         },
         400: {
-          description: "Bad Request - Missing required fields.",
+          description: "Bad Request",
           content: {
             "application/json": {
               schema: {
@@ -374,7 +374,7 @@ export const AuthsPaths = {
           }
         },
         409: {
-          description: "Conflict - User already exists.",
+          description: "Conflict",
           content: {
             "application/json": {
               schema: {
@@ -539,11 +539,7 @@ export const AuthsPaths = {
                     example: 401
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Invalid refreshToken",
-                      "Invalid token"
-                    ]
+                    type: "string"
                   }
                 }
               },
@@ -719,8 +715,8 @@ export const AuthsPaths = {
             }
           }
         },
-        401: {
-          description: "Unauthorized - No refresh token provided or invalid.",
+        400: {
+          description: "Unauthorized",
           content: {
             "application/json": {
               schema: {
@@ -728,7 +724,7 @@ export const AuthsPaths = {
                 properties: {
                   status: {
                     type: "integer",
-                    example: 401
+                    example: 400
                   },
                   error: {
                     type: "string",
@@ -740,7 +736,7 @@ export const AuthsPaths = {
           }
         },
         403: {
-          description: "Forbidden - Invalid refresh token.",
+          description: "Forbidden",
           content: {
             "application/json": {
               schema: {
@@ -778,6 +774,36 @@ export const AuthsPaths = {
                       "Session not found",
                       "User not found"
                     ]
+                  }
+                }
+              },
+              examples: {
+                no_session: {
+                  summary: "Session not found",
+                  value: {
+                    status: 404,
+                    error: "Session not found"
+                  }
+                },
+                no_sessions_collection: {
+                  summary: "Collection 'sessions' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'sessions' not found"
+                  }
+                },
+                no_user: {
+                  summary: "User not found",
+                  value: {
+                    status: 404,
+                    error: "User not found"
+                  }
+                },
+                no_users_collection: {
+                  summary: "Collection 'users' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'users' not found"
                   }
                 }
               }

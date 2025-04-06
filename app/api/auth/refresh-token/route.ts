@@ -19,8 +19,8 @@ export async function GET(req: NextRequest) {
 
     if (!refreshToken) {
       return NextResponse.json(
-        { status: 401, error: "No refresh token provided" },
-        { status: 401 }
+        { status: 400, error: "No refresh token provided" },
+        { status: 400 }
       );
     }
 
