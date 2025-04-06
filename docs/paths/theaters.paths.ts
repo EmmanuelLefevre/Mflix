@@ -709,7 +709,7 @@ export const TheatersPaths = {
                     error: "Collection 'theaters' not found"
                   }
                 },
-                no_theaters: {
+                no_theater: {
                   summary: "No theater",
                   value: {
                     status: 400,
@@ -841,7 +841,7 @@ export const TheatersPaths = {
                     error: "Collection 'theaters' not found"
                   }
                 },
-                no_theaters: {
+                no_theater: {
                   summary: "No theater",
                   value: {
                     status: 400,
