@@ -108,14 +108,25 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const lastTheater = await db
+    const existingTheater = await db
+      .collection('theaters')
+      .findOne({ location });
+
+    if (existingTheater) {
+      return NextResponse.json(
+        { status: 409, error: 'Theater already exists' },
+        { status: 409 }
+      );
+    }
+
+    const newTheater = await db
       .collection('theaters')
       .find()
       .sort({ theaterId: -1 })
       .limit(1)
       .toArray();
 
-    const theaterId = lastTheater.length > 0 ? lastTheater[0].theaterId + 1 : 1;
+    const theaterId = newTheater.length > 0 ? newTheater[0].theaterId + 1 : 1;
 
     const theater = {
       theaterId,
