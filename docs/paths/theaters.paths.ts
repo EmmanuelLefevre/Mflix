@@ -165,7 +165,7 @@ export const TheatersPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -177,7 +177,7 @@ export const TheatersPaths = {
                   },
                   error: {
                     type: "string",
-                    example: "Unexpected error occurred."
+                    example: "Unexpected error occurred"
                   }
                 }
               }
@@ -260,8 +260,14 @@ export const TheatersPaths = {
                     type: "integer",
                     example: 201
                   },
+                  message: {
+                    type: "string"
+                  },
                   data: {
-                    $ref: "#/components/schemas/Theater"
+                    type: "array",
+                    items: {
+                      $ref: "#/components/schemas/Theater"
+                    }
                   }
                 }
               }
@@ -280,8 +286,43 @@ export const TheatersPaths = {
                     example: 400
                   },
                   error: {
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                missing_body: {
+                  summary: "Missing or invalid request body",
+                  value: {
+                    status: 400,
+                    error: "Request body is required and must be an object"
+                  }
+                },
+                missing_location: {
+                  summary: "Missing location in request body",
+                  value: {
+                    status: 400,
+                    error: "Location is required and must be an object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        404: {
+          description: "Not Found",
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                properties: {
+                  status: {
+                    type: "integer",
+                    example: 404
+                  },
+                  error: {
                     type: "string",
-                    example: "Location is required and must be an object"
+                    example: "Collection 'theaters' not found"
                   }
                 }
               }
@@ -309,7 +350,7 @@ export const TheatersPaths = {
           }
         },
         409: {
-          description: "Conflict - Theater already exists.",
+          description: "Conflict",
           content: {
             "application/json": {
               schema: {
@@ -329,7 +370,7 @@ export const TheatersPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -490,7 +531,7 @@ export const TheatersPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -502,7 +543,7 @@ export const TheatersPaths = {
                   },
                   error: {
                     type: "string",
-                    example: "Unexpected error occurred."
+                    example: "Unexpected error occurred"
                   }
                 }
               }
@@ -597,6 +638,10 @@ export const TheatersPaths = {
                     type: "integer",
                     example: 200
                   },
+                  message: {
+                    type: "string",
+                    example: "Theater updated"
+                  },
                   data: {
                     $ref: "#/components/schemas/Theater"
                   }
@@ -617,8 +662,23 @@ export const TheatersPaths = {
                     example: 400
                   },
                   error: {
-                    type: "string",
-                    example: "Invalid theater ObjectID parameter format"
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                invalid_parameter: {
+                  summary: "Invalid ID parameter",
+                  value: {
+                    status: 400,
+                    error: "Invalid theater ObjectID parameter format"
+                  }
+                },
+                missing_body: {
+                  summary: "Missing or invalid request body",
+                  value: {
+                    status: 400,
+                    error: "Request body is required and must be an object"
                   }
                 }
               }
@@ -637,8 +697,23 @@ export const TheatersPaths = {
                     example: 404
                   },
                   error: {
-                    type: "string",
-                    example: "Theater not found"
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                no_collection: {
+                  summary: "Collection not found",
+                  value: {
+                    status: 400,
+                    error: "Collection 'theaters' not found"
+                  }
+                },
+                no_theaters: {
+                  summary: "No theater",
+                  value: {
+                    status: 400,
+                    error: "Theater not found"
                   }
                 }
               }
@@ -666,7 +741,7 @@ export const TheatersPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -678,7 +753,7 @@ export const TheatersPaths = {
                   },
                   error: {
                     type: "string",
-                    example: "Unexpected error occurred."
+                    example: "Unexpected error occurred"
                   }
                 }
               }
@@ -754,8 +829,23 @@ export const TheatersPaths = {
                     example: 404
                   },
                   error: {
-                    type: "string",
-                    example: "Theater not found"
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                no_collection: {
+                  summary: "Collection not found",
+                  value: {
+                    status: 400,
+                    error: "Collection 'theaters' not found"
+                  }
+                },
+                no_theaters: {
+                  summary: "No theater",
+                  value: {
+                    status: 400,
+                    error: "Theater not found"
                   }
                 }
               }
@@ -783,7 +873,7 @@ export const TheatersPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -795,7 +885,7 @@ export const TheatersPaths = {
                   },
                   error: {
                     type: "string",
-                    example: "Unexpected error occurred."
+                    example: "Unexpected error occurred"
                   }
                 }
               }
