@@ -751,14 +751,14 @@ export const TheatersPaths = {
                 no_collection: {
                   summary: "Collection not found",
                   value: {
-                    status: 400,
+                    status: 404,
                     error: "Collection 'theaters' not found"
                   }
                 },
                 no_theater: {
                   summary: "No theater",
                   value: {
-                    status: 400,
+                    status: 404,
                     error: "Theater not found"
                   }
                 }
@@ -900,14 +900,14 @@ export const TheatersPaths = {
                 no_collection: {
                   summary: "Collection not found",
                   value: {
-                    status: 400,
+                    status: 404,
                     error: "Collection 'theaters' not found"
                   }
                 },
                 no_theater: {
                   summary: "No theater",
                   value: {
-                    status: 400,
+                    status: 404,
                     error: "Theater not found"
                   }
                 }
