@@ -53,8 +53,44 @@ export const UsersPaths = {
                     example: 400
                   },
                   error: {
-                    type: "string",
-                    example: "Invalid user ObjectID parameter format"
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                invalid_parameter: {
+                  summary: "Invalid ID parameter",
+                  value: {
+                    status: 400,
+                    error: "Invalid user ObjectID parameter format"
+                  }
+                },
+                no_refreshToken: {
+                  summary: "No refreshToken provided",
+                  value: {
+                    status: 400,
+                    error: "No refreshToken provided"
+                  }
+                },
+                no_token: {
+                  summary: "No token provided",
+                  value: {
+                    status: 400,
+                    error: "No token provided"
+                  }
+                },
+                no_tokens_in_cookies: {
+                  summary: "No tokens in cookies",
+                  value: {
+                    status: 400,
+                    error: "No tokens found in cookies"
+                  }
+                },
+                unable_to_extract_user_infos: {
+                  summary: "Unable to extract user infos",
+                  value: {
+                    status: 400,
+                    error: "Unable to extract user information from token"
                   }
                 }
               }
@@ -113,8 +149,23 @@ export const UsersPaths = {
                     example: 404
                   },
                   error: {
-                    type: "string",
-                    example: "User not found"
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                no_collection: {
+                  summary: "Collection not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'users' not found"
+                  }
+                },
+                no_user: {
+                  summary: "No user",
+                  value: {
+                    status: 404,
+                    error: "User not found"
                   }
                 }
               }
@@ -142,7 +193,7 @@ export const UsersPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -153,8 +204,23 @@ export const UsersPaths = {
                     example: 500
                   },
                   error: {
-                    type: "string",
-                    example: "Unexpected error occurred."
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                unknown: {
+                  summary: "Unknown error",
+                  value: {
+                    status: 500,
+                    error: "Unknown error occurred"
+                  }
+                },
+                unexpected: {
+                  summary: "Unexpected error",
+                  value: {
+                    status: 500,
+                    error: "Instanceof Error"
                   }
                 }
               }
