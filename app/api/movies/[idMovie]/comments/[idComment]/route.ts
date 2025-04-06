@@ -110,11 +110,11 @@ export async function PUT(req: NextRequest, { params }: CommentRouteContext): Pr
     const errors: string[] = [];
 
     if (!ObjectId.isValid(idMovie)) {
-      errors.push("Invalid movie ObjectId format");
+      errors.push("Invalid movie ObjectId parameter format");
     }
 
     if (!ObjectId.isValid(idComment)) {
-      errors.push("Invalid comment ObjectId format");
+      errors.push("Invalid comment ObjectId parameter format");
     }
 
     if (errors.length > 0) {
@@ -215,11 +215,11 @@ export async function DELETE(req: NextRequest, { params }: CommentRouteContext):
     const errors: string[] = [];
 
     if (!ObjectId.isValid(idMovie)) {
-      errors.push("Invalid movie ObjectId format");
+      errors.push("Invalid movie ObjectId parameter format");
     }
 
     if (!ObjectId.isValid(idComment)) {
-      errors.push("Invalid comment ObjectId format");
+      errors.push("Invalid comment ObjectId parameter format");
     }
 
     if (errors.length > 0) {

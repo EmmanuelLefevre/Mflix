@@ -280,6 +280,10 @@ export const CommentsPaths = {
                     type: "integer",
                     example: 201
                   },
+                  message: {
+                    type: "string",
+                    example: "Comment added"
+                  },
                   data: {
                     $ref: "#/components/schemas/Comment"
                   }
@@ -300,13 +304,37 @@ export const CommentsPaths = {
                     example: 400
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Name is required and must be a string",
-                      "Email is required and must be a string",
-                      "Invalid movie ObjectID parameter format",
-                      "Text is required and must be a string"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                email: {
+                  summary: "Email is required",
+                  value: {
+                    status: 400,
+                    error: "Email is required and must be a string"
+                  }
+                },
+                name: {
+                  summary: "Name is required",
+                  value: {
+                    status: 400,
+                    error: "Name is required and must be a string"
+                  }
+                },
+                text: {
+                  summary: "Text is required",
+                  value: {
+                    status: 400,
+                    error: "Text is required and must be a string"
+                  }
+                },
+                invalid_movie_id_parameter: {
+                  summary: "Invalid movie ObjectID parameter format",
+                  value: {
+                    status: 400,
+                    error: "Invalid movie ObjectID parameter format"
                   }
                 }
               }
@@ -325,12 +353,30 @@ export const CommentsPaths = {
                     example: 404
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Collection 'comments' not found",
-                      "Collection 'movies' not found",
-                      "Movie not found"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                no_comments_collection: {
+                  summary: "Collection 'comments' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'comments' not found"
+                  }
+                },
+                no_movie: {
+                  summary: "Movie not found",
+                  value: {
+                    status: 404,
+                    error: "Movie not found"
+                  }
+                },
+                no_movies_collection: {
+                  summary: "Collection 'movies' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'movies' not found"
                   }
                 }
               }
@@ -488,11 +534,23 @@ export const CommentsPaths = {
                     example: 400
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Invalid comment ObjectId parameter format",
-                      "Invalid movie ObjectId parameter format"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                invalid_comment_id_parameter: {
+                  summary: "Invalid comment ObjectID parameter format",
+                  value: {
+                    status: 400,
+                    error: "Invalid comment ObjectID parameter format"
+                  }
+                },
+                invalid_movie_id_parameter: {
+                  summary: "Invalid movie ObjectID parameter format",
+                  value: {
+                    status: 400,
+                    error: "Invalid movie ObjectID parameter format"
                   }
                 }
               }
@@ -511,13 +569,37 @@ export const CommentsPaths = {
                     example: 404
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Collection 'comments' not found",
-                      "Collection 'movies' not found",
-                      "Comment not found for this movie",
-                      "Movie not found"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                no_comment_found_for_movie: {
+                  summary: "Comment not found for this movie",
+                  value: {
+                    status: 404,
+                    error: "Comment not found for this movie"
+                  }
+                },
+                no_comments_collection: {
+                  summary: "Collection 'comments' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'comments' not found"
+                  }
+                },
+                no_movie: {
+                  summary: "Movie not found",
+                  value: {
+                    status: 404,
+                    error: "Movie not found"
+                  }
+                },
+                no_movies_collection: {
+                  summary: "Collection 'movies' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'movies' not found"
                   }
                 }
               }
@@ -643,6 +725,10 @@ export const CommentsPaths = {
                     type: "integer",
                     example: 200
                   },
+                  message: {
+                    type: "string",
+                    example: "Comment updated"
+                  },
                   data: {
                     $ref: "#/components/schemas/Comment"
                   }
@@ -663,12 +749,30 @@ export const CommentsPaths = {
                     example: 400
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Invalid comment ObjectId parameter format",
-                      "Invalid movie ObjectId parameter format",
-                      "Request body is required and must be an object"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                invalid_comment_id_parameter: {
+                  summary: "Invalid comment ID parameter",
+                  value: {
+                    status: 400,
+                    error: "Invalid comment ObjectId parameter format"
+                  }
+                },
+                invalid_movie_id_parameter: {
+                  summary: "Invalid movie ID parameter",
+                  value: {
+                    status: 400,
+                    error: "Invalid movie ObjectId parameter format"
+                  }
+                },
+                missing_body: {
+                  summary: "Missing or invalid request body",
+                  value: {
+                    status: 400,
+                    error: "Request body is required and must be an object"
                   }
                 }
               }
@@ -687,14 +791,44 @@ export const CommentsPaths = {
                     example: 404
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Collection 'comments' not found",
-                      "Collection 'movies' not found",
-                      "Comment not found",
-                      "Comment not found for this movie",
-                      "Movie not found"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                no_comment: {
+                  summary: "Comment not found",
+                  value: {
+                    status: 404,
+                    error: "Comment not found"
+                  }
+                },
+                no_comment_found_for_movie: {
+                  summary: "Comment not found for this movie",
+                  value: {
+                    status: 404,
+                    error: "Comment not found for this movie"
+                  }
+                },
+                no_comments_collection: {
+                  summary: "Collection 'comments' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'comments' not found"
+                  }
+                },
+                no_movie: {
+                  summary: "Movie not found",
+                  value: {
+                    status: 404,
+                    error: "Movie not found"
+                  }
+                },
+                no_movies_collection: {
+                  summary: "Collection 'movies' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'movies' not found"
                   }
                 }
               }
@@ -817,11 +951,23 @@ export const CommentsPaths = {
                     example: 400
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Invalid comment ObjectID parameter format",
-                      "Invalid movie ObjectID parameter format"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                invalid_comment_id_parameter: {
+                  summary: "Invalid comment ID parameter",
+                  value: {
+                    status: 400,
+                    error: "Invalid comment ObjectId parameter format"
+                  }
+                },
+                invalid_movie_id_parameter: {
+                  summary: "Invalid movie ID parameter",
+                  value: {
+                    status: 400,
+                    error: "Invalid movie ObjectId parameter format"
                   }
                 }
               }
@@ -840,14 +986,44 @@ export const CommentsPaths = {
                     example: 404
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Collection 'comments' not found",
-                      "Collection 'movies' not found",
-                      "Comment not found",
-                      "Comment not found for this movie",
-                      "Movie not found"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                no_comment: {
+                  summary: "Comment not found",
+                  value: {
+                    status: 404,
+                    error: "Comment not found"
+                  }
+                },
+                no_comment_found_for_movie: {
+                  summary: "Comment not found for this movie",
+                  value: {
+                    status: 404,
+                    error: "Comment not found for this movie"
+                  }
+                },
+                no_comments_collection: {
+                  summary: "Collection 'comments' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'comments' not found"
+                  }
+                },
+                no_movie: {
+                  summary: "Movie not found",
+                  value: {
+                    status: 404,
+                    error: "Movie not found"
+                  }
+                },
+                no_movies_collection: {
+                  summary: "Collection 'movies' not found",
+                  value: {
+                    status: 404,
+                    error: "Collection 'movies' not found"
                   }
                 }
               }
