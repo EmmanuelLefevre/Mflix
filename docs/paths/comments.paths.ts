@@ -162,7 +162,7 @@ export const CommentsPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -173,8 +173,23 @@ export const CommentsPaths = {
                     example: 500
                   },
                   error: {
-                    type: "string",
-                    example: "Unexpected error occurred"
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                unknown: {
+                  summary: "Unknown error",
+                  value: {
+                    status: 500,
+                    error: "Unknown error occurred"
+                  }
+                },
+                unexpected: {
+                  summary: "Unexpected error",
+                  value: {
+                    status: 500,
+                    error: "Instanceof Error"
                   }
                 }
               }
@@ -313,7 +328,7 @@ export const CommentsPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -324,8 +339,23 @@ export const CommentsPaths = {
                     example: 500
                   },
                   error: {
-                    type: "string",
-                    example: "Unexpected error occurred"
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                unknown: {
+                  summary: "Unknown error",
+                  value: {
+                    status: 500,
+                    error: "Unknown error occurred"
+                  }
+                },
+                unexpected: {
+                  summary: "Unexpected error",
+                  value: {
+                    status: 500,
+                    error: "Instanceof Error"
                   }
                 }
               }
@@ -485,7 +515,7 @@ export const CommentsPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -496,11 +526,23 @@ export const CommentsPaths = {
                     example: 500
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Unexpected error occurred.",
-                      "errorMessage"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                unknown: {
+                  summary: "Unknown error",
+                  value: {
+                    status: 500,
+                    error: "Unknown error occurred"
+                  }
+                },
+                unexpected: {
+                  summary: "Unexpected error",
+                  value: {
+                    status: 500,
+                    error: "Instanceof Error"
                   }
                 }
               }
@@ -650,7 +692,7 @@ export const CommentsPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -661,11 +703,23 @@ export const CommentsPaths = {
                     example: 500
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Unexpected error occurred.",
-                      "errorMessage"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                unknown: {
+                  summary: "Unknown error",
+                  value: {
+                    status: 500,
+                    error: "Unknown error occurred"
+                  }
+                },
+                unexpected: {
+                  summary: "Unexpected error",
+                  value: {
+                    status: 500,
+                    error: "Instanceof Error"
                   }
                 }
               }
@@ -791,7 +845,7 @@ export const CommentsPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -802,11 +856,23 @@ export const CommentsPaths = {
                     example: 500
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Unexpected error occurred.",
-                      "errorMessage"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                unknown: {
+                  summary: "Unknown error",
+                  value: {
+                    status: 500,
+                    error: "Unknown error occurred"
+                  }
+                },
+                unexpected: {
+                  summary: "Unexpected error",
+                  value: {
+                    status: 500,
+                    error: "Instanceof Error"
                   }
                 }
               }

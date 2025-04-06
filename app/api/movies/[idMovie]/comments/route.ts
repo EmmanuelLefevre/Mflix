@@ -81,7 +81,7 @@ export async function GET(req: NextRequest, { params }: MovieRouteContext): Prom
     );
   }
   catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
+    const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
 
     return NextResponse.json(
       { status: 500, error: errorMessage },
@@ -177,7 +177,7 @@ export async function POST(req: NextRequest, { params }: MovieRouteContext): Pro
     );
   }
   catch (error) {
-    const errorMessage = error instanceof Error ? error.message : "Unexpected error occurred";
+    const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
 
     return NextResponse.json(
       { status: 500, error: errorMessage },

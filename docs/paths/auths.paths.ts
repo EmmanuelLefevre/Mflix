@@ -155,7 +155,7 @@ export const AuthsPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -166,11 +166,30 @@ export const AuthsPaths = {
                     example: 500
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Unexpected error occurred",
-                      "errorMessage"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                unknown: {
+                  summary: "Unknown error",
+                  value: {
+                    status: 500,
+                    error: "Unknown error occurred"
+                  }
+                },
+                unexpected: {
+                  summary: "Unexpected error",
+                  value: {
+                    status: 500,
+                    error: "Instanceof Error"
+                  }
+                },
+                creation_failed: {
+                  summary: "Session creation failed",
+                  value: {
+                    status: 500,
+                    error: "Session creation failed"
                   }
                 }
               }
@@ -321,7 +340,7 @@ export const AuthsPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -332,11 +351,37 @@ export const AuthsPaths = {
                     example: 500
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Unexpected error occurred",
-                      "errorMessage"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                unknown: {
+                  summary: "Unknown error",
+                  value: {
+                    status: 500,
+                    error: "Unknown error occurred"
+                  }
+                },
+                unexpected: {
+                  summary: "Unexpected error",
+                  value: {
+                    status: 500,
+                    error: "Instanceof Error"
+                  }
+                },
+                session_creation_failed: {
+                  summary: "Session creation failed",
+                  value: {
+                    status: 500,
+                    error: "Session creation failed"
+                  }
+                },
+                user_registration_failed: {
+                  summary: "User registration failed",
+                  value: {
+                    status: 500,
+                    error: "User registration failed"
                   }
                 }
               }
@@ -488,7 +533,7 @@ export const AuthsPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -499,11 +544,23 @@ export const AuthsPaths = {
                     example: 500
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Unexpected error occurred",
-                      "errorMessage"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                unknown: {
+                  summary: "Unknown error",
+                  value: {
+                    status: 500,
+                    error: "Unknown error occurred"
+                  }
+                },
+                unexpected: {
+                  summary: "Unexpected error",
+                  value: {
+                    status: 500,
+                    error: "Instanceof Error"
                   }
                 }
               }
@@ -625,7 +682,7 @@ export const AuthsPaths = {
           }
         },
         500: {
-          description: "Internal Server Error.",
+          description: "Internal Server Error",
           content: {
             "application/json": {
               schema: {
@@ -636,11 +693,23 @@ export const AuthsPaths = {
                     example: 500
                   },
                   error: {
-                    type: "string",
-                    example: [
-                      "Unexpected error occurred",
-                      "errorMessage"
-                    ]
+                    type: "string"
+                  }
+                }
+              },
+              examples: {
+                unknown: {
+                  summary: "Unknown error",
+                  value: {
+                    status: 500,
+                    error: "Unknown error occurred"
+                  }
+                },
+                unexpected: {
+                  summary: "Unexpected error",
+                  value: {
+                    status: 500,
+                    error: "Instanceof Error"
                   }
                 }
               }
