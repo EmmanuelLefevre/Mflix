@@ -13,7 +13,7 @@ jest.mock('@/lib/check-collection-exists');
 /*============ GET ALL MOVIES ============*/
 /*========================================*/
 describe('GET /api/movies', () => {
-  const mockDb = {
+  const mockDbGetAll = {
     collection: jest.fn().mockReturnThis(),
     find: jest.fn().mockReturnThis(),
     skip: jest.fn().mockReturnThis(),
@@ -26,7 +26,7 @@ describe('GET /api/movies', () => {
   });
 
   it('return 200 with movies', async () => {
-    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDb);
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbGetAll);
     (checkCollectionExists as jest.Mock).mockResolvedValue(true);
 
     const fakeMovies = [
@@ -124,7 +124,7 @@ describe('GET /api/movies', () => {
       }
     ];
 
-    mockDb.toArray.mockResolvedValue(fakeMovies);
+    mockDbGetAll.toArray.mockResolvedValue(fakeMovies);
 
     const req = {
       method: 'GET',
@@ -140,9 +140,9 @@ describe('GET /api/movies', () => {
   });
 
   it("return 200 with an empty array", async () => {
-    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDb);
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbGetAll);
     (checkCollectionExists as jest.Mock).mockResolvedValue(true);
-    mockDb.toArray.mockResolvedValue([]);
+    mockDbGetAll.toArray.mockResolvedValue([]);
 
     const req = {
       method: 'GET',
@@ -171,7 +171,7 @@ describe('GET /api/movies', () => {
   });
 
   it("return 404 if collection 'movies' doesn't exists", async () => {
-    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDb);
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbGetAll);
     (checkCollectionExists as jest.Mock).mockResolvedValue(false);
 
     const req = {
@@ -236,10 +236,13 @@ describe('GET /api/movies', () => {
 /*============ CREATE A MOVIE ============*/
 /*========================================*/
 describe('POST /api/movies', () => {
-  const mockDb = {
-    collection: jest.fn().mockReturnThis(),
+  const collectionMock = {
     findOne: jest.fn(),
-    insertOne: jest.fn(),
+    insertOne: jest.fn()
+  };
+
+  const mockDbPost = {
+    collection: jest.fn().mockReturnValue(collectionMock)
   };
 
   beforeEach(() => {
@@ -252,11 +255,11 @@ describe('POST /api/movies', () => {
       json: async () => body,
     }) as unknown as NextRequest;
 
-  it("return 201 and create a movie", async () => {
-    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDb);
+  it("return 201 and created movie", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbPost);
     (checkCollectionExists as jest.Mock).mockResolvedValue(true);
-    mockDb.findOne.mockResolvedValue(null);
-    mockDb.insertOne.mockResolvedValue({ insertedId: 'fakeObjectId123' });
+    collectionMock.findOne.mockResolvedValue(null);
+    collectionMock.insertOne.mockResolvedValue({ insertedId: 'fakeObjectId123' });
 
     const body = { title: 'Inception', year: 2010, director: 'Christopher Nolan' };
     const req = buildRequest(body);
@@ -286,9 +289,9 @@ describe('POST /api/movies', () => {
   });
 
   it("return 409 if movie already exists", async () => {
-    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDb);
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbPost);
     (checkCollectionExists as jest.Mock).mockResolvedValue(true);
-    mockDb.findOne.mockResolvedValue({ title: 'Inception', year: 2010 });
+    collectionMock.findOne.mockResolvedValue({ title: 'Inception', year: 2010 });
 
     const req = buildRequest({ title: 'Inception', year: 2010 });
 
@@ -300,7 +303,7 @@ describe('POST /api/movies', () => {
   });
 
   it("return 404 if collection 'movies' doesn't exists", async () => {
-    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDb);
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbPost);
     (checkCollectionExists as jest.Mock).mockResolvedValue(false);
 
     const req = buildRequest({ title: 'Inception', year: 2010 });
