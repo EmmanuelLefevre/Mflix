@@ -199,8 +199,8 @@ describe('GET /api/movies', () => {
     expect(body.error).toBe('Method Not Allowed');
   });
 
-  it("return 500 in case of unexpected errror", async () => {
-    (MongoDBSingleton.getDbInstance as jest.Mock).mockRejectedValue(new Error('DB down'));
+  it("return 500 with Error instance", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockRejectedValue(new Error('Error instance'));
 
     const req = {
       method: 'GET',
@@ -211,7 +211,24 @@ describe('GET /api/movies', () => {
     const body = await res.json();
 
     expect(res.status).toBe(500);
-    expect(body.error).toBe('DB down');
+    expect(body.error).toBe('Error instance');
+  });
+
+  it("return 500 in case of unknown error", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockImplementation(() => {
+      throw "Error in string and not instance of Error";
+    });
+
+    const req = {
+      method: 'GET',
+      url: 'http://localhost/api/movies?limit=10&page=1'
+    } as unknown as NextRequest;
+
+    const res = await GET(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(body.error).toBe('Unknown error occurred');
   });
 });
 
@@ -235,7 +252,7 @@ describe('POST /api/movies', () => {
       json: async () => body,
     }) as unknown as NextRequest;
 
-  it("retrun 201 and create a movie", async () => {
+  it("return 201 and create a movie", async () => {
     (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDb);
     (checkCollectionExists as jest.Mock).mockResolvedValue(true);
     mockDb.findOne.mockResolvedValue(null);
@@ -305,15 +322,41 @@ describe('POST /api/movies', () => {
     expect(json.error).toBe('Method Not Allowed');
   });
 
-  it("return 500 in case of unexpected errror", async () => {
-    (MongoDBSingleton.getDbInstance as jest.Mock).mockRejectedValue(new Error('DB crashed'));
+  it("return 500 with Error instance", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockRejectedValue(new Error('Error instance'));
 
-    const req = buildRequest({ title: 'Inception', year: 2010 });
+    const body = JSON.stringify({ title: 'Matrix', year: 1999 });
+
+    const req = new Request('http://localhost/api/movies', {
+      method: 'POST',
+      body,
+      headers: { 'Content-Type': 'application/json' }
+    }) as unknown as NextRequest;
 
     const res = await POST(req);
     const json = await res.json();
 
     expect(res.status).toBe(500);
-    expect(json.error).toBe('DB crashed');
+    expect(json.error).toBe('Error instance');
+  });
+
+  it("return 500 in case of unknown error", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockImplementation(() => {
+      throw 'Error in string and not instance of Error';
+    });
+
+    const body = JSON.stringify({ title: 'Inception', year: 2010 });
+
+    const req = new Request('http://localhost/api/movies', {
+      method: 'POST',
+      body,
+      headers: { 'Content-Type': 'application/json' }
+    }) as unknown as NextRequest;
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.error).toBe('Unknown error occurred');
   });
 });
