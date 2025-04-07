@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 
-import { GET } from '@/app/api/movies/route';
+import { GET, POST } from '@/app/api/movies/route';
 import MongoDBSingleton from '@/lib/mongodb';
 import { checkCollectionExists } from '@/lib/check-collection-exists';
 
@@ -8,6 +8,10 @@ import { checkCollectionExists } from '@/lib/check-collection-exists';
 jest.mock('@/lib/mongodb');
 jest.mock('@/lib/check-collection-exists');
 
+
+/*========================================*/
+/*============ GET ALL MOVIES ============*/
+/*========================================*/
 describe('GET /api/movies', () => {
   const mockDb = {
     collection: jest.fn().mockReturnThis(),
@@ -153,7 +157,7 @@ describe('GET /api/movies', () => {
     expect(body.message).toBe('No movies found');
   });
 
-  it('return 400 if invalid query parameters', async () => {
+  it("return 400 if invalid query parameters", async () => {
     const req = {
       method: 'GET',
       url: 'http://localhost/api/movies?limit=1000&page=-1'
@@ -182,7 +186,7 @@ describe('GET /api/movies', () => {
     expect(body.error).toBe("Collection 'movies' not found");
   });
 
-  it('return 405 if method is not allowed', async () => {
+  it("return 405 if method is not allowed", async () => {
     const req = {
       method: 'POST',
       url: 'http://localhost/api/movies'
@@ -195,7 +199,7 @@ describe('GET /api/movies', () => {
     expect(body.error).toBe('Method Not Allowed');
   });
 
-  it('return 500 in case of unexpected errror', async () => {
+  it("return 500 in case of unexpected errror", async () => {
     (MongoDBSingleton.getDbInstance as jest.Mock).mockRejectedValue(new Error('DB down'));
 
     const req = {
@@ -208,5 +212,108 @@ describe('GET /api/movies', () => {
 
     expect(res.status).toBe(500);
     expect(body.error).toBe('DB down');
+  });
+});
+
+/*========================================*/
+/*============ CREATE A MOVIE ============*/
+/*========================================*/
+describe('POST /api/movies', () => {
+  const mockDb = {
+    collection: jest.fn().mockReturnThis(),
+    findOne: jest.fn(),
+    insertOne: jest.fn(),
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const buildRequest = (body: object, method: string = 'POST') =>
+    ({
+      method,
+      json: async () => body,
+    }) as unknown as NextRequest;
+
+  it("retrun 201 and create a movie", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDb);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDb.findOne.mockResolvedValue(null);
+    mockDb.insertOne.mockResolvedValue({ insertedId: 'fakeObjectId123' });
+
+    const body = { title: 'Inception', year: 2010, director: 'Christopher Nolan' };
+    const req = buildRequest(body);
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(201);
+    expect(json.message).toBe('Movie created');
+    expect(json.data).toEqual(expect.objectContaining({
+      _id: 'fakeObjectId123',
+      title: 'Inception',
+      year: 2010,
+      director: 'Christopher Nolan',
+    }));
+  });
+
+  it("return 400 if invalid or missing fields", async () => {
+    const req = buildRequest({ title: 123, year: "2010" });
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.errors).toContain("Title is required and must be a string");
+    expect(json.errors).toContain("Year is required and must be a number");
+  });
+
+  it("return 409 if movie already exists", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDb);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDb.findOne.mockResolvedValue({ title: 'Inception', year: 2010 });
+
+    const req = buildRequest({ title: 'Inception', year: 2010 });
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(409);
+    expect(json.error).toBe('Movie already exists');
+  });
+
+  it("return 404 if collection 'movies' doesn't exists", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDb);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(false);
+
+    const req = buildRequest({ title: 'Inception', year: 2010 });
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(404);
+    expect(json.error).toBe("Collection 'movies' not found");
+  });
+
+  it("return 405 if method is not allowed", async () => {
+    const req = buildRequest({ title: 'Inception', year: 2010 }, 'GET');
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(405);
+    expect(json.error).toBe('Method Not Allowed');
+  });
+
+  it("return 500 in case of unexpected errror", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockRejectedValue(new Error('DB crashed'));
+
+    const req = buildRequest({ title: 'Inception', year: 2010 });
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.error).toBe('DB crashed');
   });
 });
