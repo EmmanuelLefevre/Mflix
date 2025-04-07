@@ -277,15 +277,44 @@ describe('POST /api/movies', () => {
     }));
   });
 
-  it("return 400 if invalid or missing fields", async () => {
-    const req = buildRequest({ title: 123, year: "2010" });
+  it("return 400 if title is required", async () => {
+    const req = buildRequest({ year: 2010 });
 
     const res = await POST(req);
     const json = await res.json();
 
     expect(res.status).toBe(400);
-    expect(json.errors).toContain("Title is required and must be a string");
-    expect(json.errors).toContain("Year is required and must be a number");
+    expect(json.errors).toContain("Title is required");
+  });
+
+  it("return 400 if title is invalid", async () => {
+    const req = buildRequest({ title: 123, year: 2010 });
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.errors).toContain("Title must be a string");
+  });
+
+  it("return 400 if year is required", async () => {
+    const req = buildRequest({ title: "Inception" });
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.errors).toContain("Year is required");
+  });
+
+  it("return 400 if year is invalid", async () => {
+    const req = buildRequest({ title: "Inception", year: "2010" });
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.errors).toContain("Year must be a number");
   });
 
   it("return 404 if collection 'movies' doesn't exists", async () => {
