@@ -288,20 +288,6 @@ describe('POST /api/movies', () => {
     expect(json.errors).toContain("Year is required and must be a number");
   });
 
-  it("return 409 if movie already exists", async () => {
-    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbPost);
-    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
-    collectionMock.findOne.mockResolvedValue({ title: 'Inception', year: 2010 });
-
-    const req = buildRequest({ title: 'Inception', year: 2010 });
-
-    const res = await POST(req);
-    const json = await res.json();
-
-    expect(res.status).toBe(409);
-    expect(json.error).toBe('Movie already exists');
-  });
-
   it("return 404 if collection 'movies' doesn't exists", async () => {
     (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbPost);
     (checkCollectionExists as jest.Mock).mockResolvedValue(false);
@@ -323,6 +309,20 @@ describe('POST /api/movies', () => {
 
     expect(res.status).toBe(405);
     expect(json.error).toBe('Method Not Allowed');
+  });
+
+  it("return 409 if movie already exists", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbPost);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    collectionMock.findOne.mockResolvedValue({ title: 'Inception', year: 2010 });
+
+    const req = buildRequest({ title: 'Inception', year: 2010 });
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(409);
+    expect(json.error).toBe('Movie already exists');
   });
 
   it("return 500 with Error instance", async () => {
