@@ -284,7 +284,7 @@ describe('POST /api/movies', () => {
     const json = await res.json();
 
     expect(res.status).toBe(400);
-    expect(json.errors).toContain("Title is required");
+    expect(json.errors).toContain("Title is required and must be a string");
   });
 
   it("return 400 if title is invalid", async () => {
@@ -294,7 +294,7 @@ describe('POST /api/movies', () => {
     const json = await res.json();
 
     expect(res.status).toBe(400);
-    expect(json.errors).toContain("Title must be a string");
+    expect(json.errors).toContain("Title is required and must be a string");
   });
 
   it("return 400 if year is required", async () => {
@@ -304,7 +304,7 @@ describe('POST /api/movies', () => {
     const json = await res.json();
 
     expect(res.status).toBe(400);
-    expect(json.errors).toContain("Year is required");
+    expect(json.errors).toContain("Year is required and must be a number");
   });
 
   it("return 400 if year is invalid", async () => {
@@ -314,7 +314,7 @@ describe('POST /api/movies', () => {
     const json = await res.json();
 
     expect(res.status).toBe(400);
-    expect(json.errors).toContain("Year must be a number");
+    expect(json.errors).toContain("Year is required and must be a number");
   });
 
   it("return 404 if collection 'movies' doesn't exists", async () => {
