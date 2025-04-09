@@ -1,8 +1,11 @@
 import { NextRequest } from 'next/server';
+import { ObjectId } from 'mongodb';
 
-import { GET, POST } from '@/app/api/movies/route';
 import MongoDBSingleton from '@/lib/mongodb';
 import { checkCollectionExists } from '@/lib/check-collection-exists';
+
+import { GET, POST } from '@/app/api/movies/route';
+import { GET as GET_BY_ID } from '@/app/api/movies/[idMovie]/route';
 
 
 jest.mock('@/lib/mongodb');
@@ -386,6 +389,124 @@ describe('POST /api/movies', () => {
     }) as unknown as NextRequest;
 
     const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.error).toBe('Unknown error occurred');
+  });
+});
+
+/*============================================*/
+/*============ GET A SINGLE MOVIE ============*/
+/*============================================*/
+describe('GET /api/movies/[id]', () => {
+  const mockDbFindOne = {
+    collection: jest.fn().mockReturnThis(),
+    findOne: jest.fn()
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const buildRequest = (idMovie: string, method: string = 'GET') => (
+    { method }
+  ) as unknown as NextRequest;
+
+  const buildContext = (idMovie: string) => (
+    { params: Promise.resolve({ idMovie }) }
+  );
+
+  it('return 200 with the found movie', async () => {
+    const movie = { _id: '123', title: 'Inception' };
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbFindOne);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDbFindOne.findOne.mockResolvedValue(movie);
+
+    const req = buildRequest('123');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(async mod => mod.GET(req, await context));
+    const json = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(json.data).toEqual(movie);
+  });
+
+  it('return 200 with empty array if movie not found', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbFindOne);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDbFindOne.findOne.mockResolvedValue(null);
+
+    const req = buildRequest('123');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(async mod => mod.GET(req, await context));
+    const json = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(json.data).toEqual([]);
+    expect(json.message).toBe('Movie not found');
+  });
+
+  it("return 400 if ObjectId is invalid", async () => {
+    const req = buildRequest('invalid-id');
+    const context = buildContext('invalid-id');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(async mod => mod.GET(req, await context));
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.error).toBe('Invalid movie ObjectId parameter format');
+  });
+
+  it("return 404 if collection 'movies' doesn't exist", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbFindOne);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(false);
+
+    const req = buildRequest('123');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(async mod => mod.GET(req, await context));
+    const json = await res.json();
+
+    expect(res.status).toBe(404);
+    expect(json.error).toBe("Collection 'movies' not found");
+  });
+
+  it("return 405 if method is not allowed", async () => {
+    const req = buildRequest('123', 'POST');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(async mod => mod.GET(req, await context));
+    const json = await res.json();
+
+    expect(res.status).toBe(405);
+    expect(json.error).toBe('Method Not Allowed');
+  });
+
+  it("return 500 with Error instance", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockRejectedValue(new Error('Error instance'));
+
+    const req = buildRequest('123');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(async mod => mod.GET(req, await context));
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.error).toBe('Error instance');
+  });
+
+  it("return 500 in case of unknown error", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockImplementation(() => {
+      throw "string error";
+    });
+
+    const req = buildRequest('123');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(async mod => mod.GET(req, await context));
     const json = await res.json();
 
     expect(res.status).toBe(500);
