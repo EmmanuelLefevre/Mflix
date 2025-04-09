@@ -409,13 +409,13 @@ describe('GET /api/movies/[id]', () => {
     jest.clearAllMocks();
   });
 
-  const buildRequest = (idMovie: string, method: string = 'GET') => (
-    { method }
-  ) as unknown as NextRequest;
+  const buildRequest = (idMovie: string, method: string = 'GET') => ({
+    method
+  }) as unknown as NextRequest;
 
-  const buildContext = (idMovie: string) => (
-    { params: Promise.resolve({ idMovie }) }
-  );
+  const buildContext = (idMovie: string) => ({
+    params: Promise.resolve({ idMovie })
+  });
 
   it('return 200 with movie', async () => {
     const movie = { _id: '123', title: 'Inception' };
@@ -620,7 +620,7 @@ describe('PUT /api/movies/[id]', () => {
   });
 
   it('returns 500 with Error instance', async () => {
-    (MongoDBSingleton.getDbInstance as jest.Mock).mockRejectedValue(new Error('Internal server error'));
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockRejectedValue(new Error('Error instance'));
 
     const req = buildRequest('507f191e810c19729de860ea', { title: 'x' });
     const context = buildContext('507f191e810c19729de860ea');
@@ -629,7 +629,7 @@ describe('PUT /api/movies/[id]', () => {
     const json = await res.json();
 
     expect(res.status).toBe(500);
-    expect(json.error).toBe('Internal server error');
+    expect(json.error).toBe('Error instance');
   });
 
   it('returns 500 in case of unknown error', async () => {
@@ -641,6 +641,122 @@ describe('PUT /api/movies/[id]', () => {
     const context = buildContext('507f191e810c19729de860ea');
 
     const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.error).toBe('Unknown error occurred');
+  });
+});
+
+/*===============================================*/
+/*============ DELETE A SINGLE MOVIE ============*/
+/*===============================================*/
+describe('DELETE /api/movies/:id', () => {
+  const mockDbDelete = {
+    collection: jest.fn().mockReturnThis(),
+    deleteOne: jest.fn()
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const buildRequest = (idMovie: string, method = 'DELETE') => ({
+    method
+  }) as unknown as NextRequest;
+
+  const buildContext = (idMovie: string) => ({
+    params: Promise.resolve({ idMovie })
+  });
+
+  it('returns 200 if movie is successfully deleted', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbDelete);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDbDelete.deleteOne.mockResolvedValue({ deletedCount: 1 });
+
+    const req = buildRequest('507f191e810c19729de860ea');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.DELETE(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(json.message).toBe('Movie deleted');
+  });
+
+  it('returns 404 if movie not found', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbDelete);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDbDelete.deleteOne.mockResolvedValue({ deletedCount: 0 });
+
+    const req = buildRequest('507f191e810c19729de860ea');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.DELETE(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(404);
+    expect(json.error).toBe('Movie not found');
+  });
+
+  it('returns 400 if movie ObjectId is invalid', async () => {
+    const req = buildRequest('invalid-objectid');
+    const context = buildContext('invalid-objectid');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.DELETE(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.error).toBe('Invalid movie ObjectId parameter format');
+  });
+
+  it("returns 404 if collection 'movies' doesn't exist", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbDelete);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(false);
+
+    const req = buildRequest('507f191e810c19729de860ea');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.DELETE(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(404);
+    expect(json.error).toBe("Collection 'movies' not found");
+  });
+
+  it('returns 405 if method is not allowed', async () => {
+    const req = buildRequest('507f191e810c19729de860ea', 'POST');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.DELETE(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(405);
+    expect(json.error).toBe('Method Not Allowed');
+  });
+
+  it('returns 500 with Error instance', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockRejectedValue(new Error('Error instance'));
+
+    const req = buildRequest('507f191e810c19729de860ea');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.DELETE(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.error).toBe('Error instance');
+  });
+
+  it('returns 500 in case of unknown error', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockImplementation(() => {
+      throw 'Some string error';
+    });
+
+    const req = buildRequest('507f191e810c19729de860ea');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.DELETE(req, context));
     const json = await res.json();
 
     expect(res.status).toBe(500);
