@@ -169,6 +169,7 @@ nvm use 20.18.0
 │   │   ├── global.scss
 │   │   ├── globals.css
 ├── tests/
+│   ├── unitary/
 ├── .env.local
 ├── .env.local.example
 ├── .gitignore
