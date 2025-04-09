@@ -417,7 +417,7 @@ describe('GET /api/movies/[id]', () => {
     { params: Promise.resolve({ idMovie }) }
   );
 
-  it('return 200 with the found movie', async () => {
+  it('return 200 with movie', async () => {
     const movie = { _id: '123', title: 'Inception' };
     (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbFindOne);
     (checkCollectionExists as jest.Mock).mockResolvedValue(true);
@@ -426,7 +426,7 @@ describe('GET /api/movies/[id]', () => {
     const req = buildRequest('123');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(async mod => mod.GET(req, await context));
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.GET(req, context));
     const json = await res.json();
 
     expect(res.status).toBe(200);
@@ -441,7 +441,7 @@ describe('GET /api/movies/[id]', () => {
     const req = buildRequest('123');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(async mod => mod.GET(req, await context));
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.GET(req, context));
     const json = await res.json();
 
     expect(res.status).toBe(200);
@@ -449,11 +449,11 @@ describe('GET /api/movies/[id]', () => {
     expect(json.message).toBe('Movie not found');
   });
 
-  it("return 400 if ObjectId is invalid", async () => {
+  it("return 400 if movie ObjectId is invalid", async () => {
     const req = buildRequest('invalid-id');
     const context = buildContext('invalid-id');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(async mod => mod.GET(req, await context));
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.GET(req, context));
     const json = await res.json();
 
     expect(res.status).toBe(400);
@@ -467,7 +467,7 @@ describe('GET /api/movies/[id]', () => {
     const req = buildRequest('123');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(async mod => mod.GET(req, await context));
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.GET(req, context));
     const json = await res.json();
 
     expect(res.status).toBe(404);
@@ -478,7 +478,7 @@ describe('GET /api/movies/[id]', () => {
     const req = buildRequest('123', 'POST');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(async mod => mod.GET(req, await context));
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.GET(req, context));
     const json = await res.json();
 
     expect(res.status).toBe(405);
@@ -491,7 +491,7 @@ describe('GET /api/movies/[id]', () => {
     const req = buildRequest('123');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(async mod => mod.GET(req, await context));
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.GET(req, context));
     const json = await res.json();
 
     expect(res.status).toBe(500);
@@ -506,7 +506,141 @@ describe('GET /api/movies/[id]', () => {
     const req = buildRequest('123');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(async mod => mod.GET(req, await context));
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.GET(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.error).toBe('Unknown error occurred');
+  });
+});
+
+/*===============================================*/
+/*============ MODIFY A SINGLE MOVIE ============*/
+/*===============================================*/
+describe('PUT /api/movies/[id]', () => {
+  const mockDbUpdate = {
+    collection: jest.fn().mockReturnThis(),
+    updateOne: jest.fn(),
+    findOne: jest.fn()
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const buildRequest = (idMovie: string, body: object | null, method = 'PUT') => ({
+    method,
+    json: jest.fn().mockResolvedValue(body)
+  }) as unknown as NextRequest;
+
+  const buildContext = (idMovie: string) => ({
+    params: Promise.resolve({ idMovie })
+  });
+
+  it('returns 200 with updated movie', async () => {
+    const movie = { _id: '507f191e810c19729de860ea', title: 'Updated Title' };
+    const updateResult = { matchedCount: 1 };
+
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbUpdate);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDbUpdate.updateOne.mockResolvedValue(updateResult);
+    mockDbUpdate.findOne.mockResolvedValue(movie);
+
+    const req = buildRequest('507f191e810c19729de860ea', { title: 'Updated Title' });
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(json.message).toBe('Movie updated');
+    expect(json.data.updatedMovie).toEqual(movie);
+  });
+
+  it('returns 404 if movie not found', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbUpdate);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDbUpdate.updateOne.mockResolvedValue({ matchedCount: 0 });
+
+    const req = buildRequest('507f191e810c19729de860ea', { title: 'Try update' });
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(404);
+    expect(json.error).toBe('Movie not found');
+  });
+
+  it('returns 400 if movie ObjectId is invalid', async () => {
+    const req = buildRequest('invalid-id', { title: 'Try update' });
+    const context = buildContext('invalid-id');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.error).toBe('Invalid movie ObjectID parameter format');
+  });
+
+  it('returns 400 if body is missing or not an object', async () => {
+    const req = buildRequest('507f191e810c19729de860ea', null);
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.error).toBe('Request body is required and must be an object');
+  });
+
+  it("returns 404 if collection 'movies' doesn't exist", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbUpdate);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(false);
+
+    const req = buildRequest('507f191e810c19729de860ea', { title: 'Test' });
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(404);
+    expect(json.error).toBe("Collection 'movies' not found");
+  });
+
+  it('returns 405 if method is not allowed', async () => {
+    const req = buildRequest('507f191e810c19729de860ea', { title: 'x' }, 'POST');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(405);
+    expect(json.error).toBe('Method Not Allowed');
+  });
+
+  it('returns 500 with Error instance', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockRejectedValue(new Error('Internal server error'));
+
+    const req = buildRequest('507f191e810c19729de860ea', { title: 'x' });
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.error).toBe('Internal server error');
+  });
+
+  it('returns 500 in case of unknown error', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockImplementation(() => {
+      throw 'unexpected string error';
+    });
+
+    const req = buildRequest('507f191e810c19729de860ea', { title: 'x' });
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
     const json = await res.json();
 
     expect(res.status).toBe(500);
