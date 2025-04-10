@@ -196,4 +196,17 @@ describe('GET /api/theaters', () => {
     expect(res.status).toBe(404);
     expect(body.error).toBe("Collection 'theaters' not found");
   });
+
+  it("return 405 if method is not allowed", async () => {
+    const req = {
+      method: 'POST',
+      url: 'http://localhost/api/theaters'
+    } as unknown as NextRequest;
+
+    const res = await GET(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(405);
+    expect(body.error).toBe('Method Not Allowed');
+  });
 });
