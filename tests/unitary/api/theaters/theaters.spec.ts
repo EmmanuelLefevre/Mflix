@@ -180,4 +180,20 @@ describe('GET /api/theaters', () => {
     expect(res.status).toBe(400);
     expect(body.error).toBe('Invalid query parameters');
   });
+
+  it("return 404 if collection 'theaters' doesn't exists", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbGetAll);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(false);
+
+    const req = {
+      method: 'GET',
+      url: 'http://localhost/api/theaters?limit=10&page=1'
+    } as unknown as NextRequest;
+
+    const res = await GET(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(404);
+    expect(body.error).toBe("Collection 'theaters' not found");
+  });
 });
