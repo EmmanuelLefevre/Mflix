@@ -1,11 +1,14 @@
 import { NextRequest } from 'next/server';
-import { ObjectId } from 'mongodb';
 
 import MongoDBSingleton from '@/lib/mongodb';
 import { checkCollectionExists } from '@/lib/check-collection-exists';
 
 import { GET, POST } from '@/app/api/movies/route';
-import { GET as GET_BY_ID } from '@/app/api/movies/[idMovie]/route';
+import {
+  DELETE as DELETE_BY_ID,
+  GET as GET_BY_ID,
+  PUT as PUT_BY_ID
+} from '@/app/api/movies/[idMovie]/route';
 
 
 jest.mock('@/lib/mongodb');
@@ -426,7 +429,7 @@ describe('GET /api/movies/[id]', () => {
     const req = buildRequest('123');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.GET(req, context));
+    const res = await GET_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(200);
@@ -441,7 +444,7 @@ describe('GET /api/movies/[id]', () => {
     const req = buildRequest('123');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.GET(req, context));
+    const res = await GET_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(200);
@@ -453,7 +456,7 @@ describe('GET /api/movies/[id]', () => {
     const req = buildRequest('invalid-id');
     const context = buildContext('invalid-id');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.GET(req, context));
+    const res = await GET_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(400);
@@ -467,7 +470,7 @@ describe('GET /api/movies/[id]', () => {
     const req = buildRequest('123');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.GET(req, context));
+    const res = await GET_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(404);
@@ -478,7 +481,7 @@ describe('GET /api/movies/[id]', () => {
     const req = buildRequest('123', 'POST');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.GET(req, context));
+    const res = await GET_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(405);
@@ -491,7 +494,7 @@ describe('GET /api/movies/[id]', () => {
     const req = buildRequest('123');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.GET(req, context));
+    const res = await GET_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(500);
@@ -506,7 +509,7 @@ describe('GET /api/movies/[id]', () => {
     const req = buildRequest('123');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.GET(req, context));
+    const res = await GET_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(500);
@@ -549,7 +552,7 @@ describe('PUT /api/movies/[id]', () => {
     const req = buildRequest('507f191e810c19729de860ea', { title: 'Updated Title' });
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const res = await PUT_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(200);
@@ -565,7 +568,7 @@ describe('PUT /api/movies/[id]', () => {
     const req = buildRequest('507f191e810c19729de860ea', { title: 'Try update' });
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const res = await PUT_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(404);
@@ -576,7 +579,7 @@ describe('PUT /api/movies/[id]', () => {
     const req = buildRequest('invalid-id', { title: 'Try update' });
     const context = buildContext('invalid-id');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const res = await PUT_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(400);
@@ -587,7 +590,7 @@ describe('PUT /api/movies/[id]', () => {
     const req = buildRequest('507f191e810c19729de860ea', null);
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const res = await PUT_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(400);
@@ -601,7 +604,7 @@ describe('PUT /api/movies/[id]', () => {
     const req = buildRequest('507f191e810c19729de860ea', { title: 'Test' });
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const res = await PUT_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(404);
@@ -612,7 +615,7 @@ describe('PUT /api/movies/[id]', () => {
     const req = buildRequest('507f191e810c19729de860ea', { title: 'x' }, 'POST');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const res = await PUT_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(405);
@@ -625,7 +628,7 @@ describe('PUT /api/movies/[id]', () => {
     const req = buildRequest('507f191e810c19729de860ea', { title: 'x' });
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const res = await PUT_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(500);
@@ -640,7 +643,7 @@ describe('PUT /api/movies/[id]', () => {
     const req = buildRequest('507f191e810c19729de860ea', { title: 'x' });
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.PUT(req, context));
+    const res = await PUT_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(500);
@@ -677,7 +680,7 @@ describe('DELETE /api/movies/:id', () => {
     const req = buildRequest('507f191e810c19729de860ea');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.DELETE(req, context));
+    const res = await DELETE_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(200);
@@ -692,7 +695,7 @@ describe('DELETE /api/movies/:id', () => {
     const req = buildRequest('507f191e810c19729de860ea');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.DELETE(req, context));
+    const res = await DELETE_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(404);
@@ -703,7 +706,7 @@ describe('DELETE /api/movies/:id', () => {
     const req = buildRequest('invalid-objectid');
     const context = buildContext('invalid-objectid');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.DELETE(req, context));
+    const res = await DELETE_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(400);
@@ -717,7 +720,7 @@ describe('DELETE /api/movies/:id', () => {
     const req = buildRequest('507f191e810c19729de860ea');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.DELETE(req, context));
+    const res = await DELETE_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(404);
@@ -728,7 +731,7 @@ describe('DELETE /api/movies/:id', () => {
     const req = buildRequest('507f191e810c19729de860ea', 'POST');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.DELETE(req, context));
+    const res = await DELETE_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(405);
@@ -741,7 +744,7 @@ describe('DELETE /api/movies/:id', () => {
     const req = buildRequest('507f191e810c19729de860ea');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.DELETE(req, context));
+    const res = await DELETE_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(500);
@@ -756,7 +759,7 @@ describe('DELETE /api/movies/:id', () => {
     const req = buildRequest('507f191e810c19729de860ea');
     const context = buildContext('507f191e810c19729de860ea');
 
-    const res = await import('@/app/api/movies/[idMovie]/route').then(mod => mod.DELETE(req, context));
+    const res = await DELETE_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(500);
