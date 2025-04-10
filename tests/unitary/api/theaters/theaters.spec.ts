@@ -224,4 +224,21 @@ describe('GET /api/theaters', () => {
     expect(res.status).toBe(500);
     expect(body.error).toBe('Error instance');
   });
+
+  it("return 500 in case of unknown error", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockImplementation(() => {
+      throw "Error in string and not instance of Error";
+    });
+
+    const req = {
+      method: 'GET',
+      url: 'http://localhost/api/theaters?limit=10&page=1'
+    } as unknown as NextRequest;
+
+    const res = await GET(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(body.error).toBe('Unknown error occurred');
+  });
 });
