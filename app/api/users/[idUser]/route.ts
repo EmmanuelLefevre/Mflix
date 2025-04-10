@@ -120,7 +120,10 @@ export async function DELETE(req: NextRequest, { params }: UserRouteContext): Pr
         .deleteMany({ jwt: token, refreshToken });
     }
     catch (error) {
-      console.error("Can't delete session because it's not found or already deleted : ", error);
+      return NextResponse.json(
+        { status: 500, error: "Can't delete session because it's not found or already deleted" },
+        { status: 500 }
+      );
     }
 
     const response = NextResponse.json(
