@@ -154,7 +154,7 @@ describe('GET /api/theaters', () => {
 
     const req = {
       method: 'GET',
-      url: 'http://localhost/api/movies'
+      url: 'http://localhost/api/theaters'
     } as unknown as NextRequest;
 
     const res = await GET(req);
@@ -166,5 +166,18 @@ describe('GET /api/theaters', () => {
 
     expect(mockDbGetAll.skip).toHaveBeenCalledWith(0);
     expect(mockDbGetAll.limit).toHaveBeenCalledWith(10);
+  });
+
+  it("return 400 if invalid query parameters", async () => {
+    const req = {
+      method: 'GET',
+      url: 'http://localhost/api/theaters?limit=1000&page=-1'
+    } as unknown as NextRequest;
+
+    const res = await GET(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(body.error).toBe('Invalid query parameters');
   });
 });
