@@ -85,4 +85,22 @@ describe('GET /api/theaters', () => {
     expect(body.status).toBe(200);
     expect(body.data).toEqual(fakeTheaters);
   });
+
+  it("return 200 with an empty array", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbGetAll);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDbGetAll.toArray.mockResolvedValue([]);
+
+    const req = {
+      method: 'GET',
+      url: 'http://localhost/api/theaters?limit=10&page=1'
+    } as unknown as NextRequest;
+
+    const res = await GET(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(body.data).toEqual([]);
+    expect(body.message).toBe('No theaters found');
+  });
 });
