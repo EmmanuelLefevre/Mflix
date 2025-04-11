@@ -97,7 +97,7 @@ export async function DELETE(req: NextRequest, { params }: UserRouteContext): Pr
     for (const collection of requiredCollections) {
       if (!(await checkCollectionExists(db, collection))) {
         return NextResponse.json(
-          { error: `Collection '${collection}' not found` },
+          { status: 404, error: `Collection '${collection}' not found` },
           { status: 404 }
         );
       }

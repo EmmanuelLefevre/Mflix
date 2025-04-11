@@ -52,7 +52,7 @@ describe('DELETE /api/users/:id', () => {
     const idUser = '507f191e810c19729de860ea';
 
     (jwt.verify as jest.Mock).mockImplementation((tokenValue: string) => {
-      if (tokenValue === token) return { user_id: idUser, name: 'John' };
+      if (tokenValue === token) return { user_id: idUser, name: 'Neo' };
       if (tokenValue === refreshToken) return { user_id: idUser };
     });
 
@@ -69,7 +69,7 @@ describe('DELETE /api/users/:id', () => {
 
     expect(res.status).toBe(200);
     expect(json.message).toBe('User and session data deleted');
-    expect(json.farewell).toContain('John');
+    expect(json.farewell).toContain('We will miss you Neo 👋');
   });
 
   it('returns 400 if user ObjectId is invalid', async () => {
@@ -84,17 +84,20 @@ describe('DELETE /api/users/:id', () => {
     const json = await res.json();
 
     expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
     expect(json.error).toBe('Invalid user ObjectId parameter format');
   });
 
   it('returns 400 if tokens are missing', async () => {
     const req = buildRequest('507f191e810c19729de860ea', {});
+
     const context = buildContext('507f191e810c19729de860ea');
 
     const res = await DELETE_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
     expect(json.error).toBe('No tokens found in cookies');
   });
 
@@ -109,6 +112,7 @@ describe('DELETE /api/users/:id', () => {
     const json = await res.json();
 
     expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
     expect(json.error).toBe('No token provided');
   });
 
@@ -123,6 +127,7 @@ describe('DELETE /api/users/:id', () => {
     const json = await res.json();
 
     expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
     expect(json.error).toBe('No refreshToken provided');
   });
 
@@ -142,6 +147,7 @@ describe('DELETE /api/users/:id', () => {
     const json = await res.json();
 
     expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
     expect(json.error).toBe('Unable to extract user information from token');
 
     mockVerify.mockRestore();
@@ -167,6 +173,7 @@ describe('DELETE /api/users/:id', () => {
     const json = await res.json();
 
     expect(res.status).toBe(401);
+    expect(json.status).toBe(401);
     expect(json.error).toBe('Invalid token');
 
     mockVerify.mockRestore();
@@ -192,6 +199,7 @@ describe('DELETE /api/users/:id', () => {
     const json = await res.json();
 
     expect(res.status).toBe(401);
+    expect(json.status).toBe(401);
     expect(json.error).toBe('Invalid refreshToken');
 
     mockVerifyToken.mockRestore();
@@ -210,10 +218,12 @@ describe('DELETE /api/users/:id', () => {
     });
 
     const context = buildContext('507f191e810c19729de860ea');
+
     const res = await DELETE_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(403);
+    expect(json.status).toBe(403);
     expect(json.error).toBe('You can only delete your own account');
   });
 
@@ -234,10 +244,12 @@ describe('DELETE /api/users/:id', () => {
     }));
 
     const context = buildContext('507f191e810c19729de860ea');
+
     const res = await DELETE_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(404);
+    expect(json.status).toBe(404);
     expect(json.error).toBe('User not found');
   });
 
@@ -256,11 +268,29 @@ describe('DELETE /api/users/:id', () => {
     });
 
     const context = buildContext('507f191e810c19729de860ea');
+
     const res = await DELETE_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(404);
+    expect(json.status).toBe(404);
     expect(json.error).toMatch(/Collection/);
+  });
+
+  it('returns 405 if method is not allowed', async () => {
+    const req = buildRequest('507f191e810c19729de860ea', {
+      token: 'token',
+      refreshToken: 'refreshToken'
+    }, 'POST');
+
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await DELETE_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(405);
+    expect(json.status).toBe(405);
+    expect(json.error).toBe('Method Not Allowed');
   });
 
   it('returns 500 if an error occurs while deleting session', async () => {
@@ -279,29 +309,17 @@ describe('DELETE /api/users/:id', () => {
       token: 'validToken',
       refreshToken: 'validRefreshToken'
     });
+
     const context = buildContext('507f191e810c19729de860ea');
 
     const res = await DELETE_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
     expect(json.error).toBe("Can't delete session because it's not found or already deleted");
 
     expect(mockDeleteMany).toHaveBeenCalledWith({ jwt: 'validToken', refreshToken: 'validRefreshToken' });
-  });
-
-  it('returns 405 if method is not allowed', async () => {
-    const req = buildRequest('507f191e810c19729de860ea', {
-      token: 'token',
-      refreshToken: 'refreshToken'
-    }, 'POST');
-
-    const context = buildContext('507f191e810c19729de860ea');
-    const res = await DELETE_BY_ID(req, context);
-    const json = await res.json();
-
-    expect(res.status).toBe(405);
-    expect(json.error).toBe('Method Not Allowed');
   });
 
   it('returns 500 with Error instance', async () => {
@@ -318,10 +336,12 @@ describe('DELETE /api/users/:id', () => {
     });
 
     const context = buildContext('507f191e810c19729de860ea');
+
     const res = await DELETE_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
     expect(json.error).toBe('Error instance');
   });
 
@@ -341,10 +361,12 @@ describe('DELETE /api/users/:id', () => {
     });
 
     const context = buildContext('507f191e810c19729de860ea');
+
     const res = await DELETE_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
     expect(json.error).toBe('Unknown error occurred');
   });
 });
