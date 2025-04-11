@@ -384,7 +384,7 @@ describe('POST /api/movies', () => {
       json: async () => body,
     }) as unknown as NextRequest;
 
-  it("return 201 the created movie", async () => {
+  it("return 201 with the created movie", async () => {
     (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbPost);
     (checkCollectionExists as jest.Mock).mockResolvedValue(true);
     collectionMock.findOne.mockResolvedValue(null);
