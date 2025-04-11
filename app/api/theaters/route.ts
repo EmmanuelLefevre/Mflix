@@ -90,7 +90,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     const { location } = body;
 
-    if (!location) {
+    if (!location || typeof location !== 'object') {
       return NextResponse.json(
         { status: 400, error: 'Location is required and must be an object' },
         { status: 400 }
