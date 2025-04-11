@@ -79,11 +79,11 @@ describe('GET /api/theaters', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(200);
-    expect(body.status).toBe(200);
-    expect(body.data).toEqual(fakeTheaters);
+    expect(json.status).toBe(200);
+    expect(json.data).toEqual(fakeTheaters);
   });
 
   it("return 200 with an empty array", async () => {
@@ -97,11 +97,12 @@ describe('GET /api/theaters', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(200);
-    expect(body.data).toEqual([]);
-    expect(body.message).toBe('No theaters found');
+    expect(json.status).toBe(200);
+    expect(json.message).toBe('No theaters found');
+    expect(json.data).toEqual([]);
   });
 
   it('return 200 with theaters when no query paramaters are provided', async () => {
@@ -158,11 +159,11 @@ describe('GET /api/theaters', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(200);
-    expect(body.status).toBe(200);
-    expect(body.data).toEqual(fakeTheaters);
+    expect(json.status).toBe(200);
+    expect(json.data).toEqual(fakeTheaters);
 
     expect(mockDbGetAll.skip).toHaveBeenCalledWith(0);
     expect(mockDbGetAll.limit).toHaveBeenCalledWith(10);
@@ -175,10 +176,11 @@ describe('GET /api/theaters', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(400);
-    expect(body.error).toBe('Invalid query parameters');
+    expect(json.status).toBe(400);
+    expect(json.error).toBe('Invalid query parameters');
   });
 
   it("return 404 if collection 'theaters' doesn't exists", async () => {
@@ -191,10 +193,11 @@ describe('GET /api/theaters', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(404);
-    expect(body.error).toBe("Collection 'theaters' not found");
+    expect(json.status).toBe(404);
+    expect(json.error).toBe("Collection 'theaters' not found");
   });
 
   it("return 405 if method is not allowed", async () => {
@@ -204,10 +207,11 @@ describe('GET /api/theaters', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(405);
-    expect(body.error).toBe('Method Not Allowed');
+    expect(json.status).toBe(405);
+    expect(json.error).toBe('Method Not Allowed');
   });
 
   it("return 500 with Error instance", async () => {
@@ -219,10 +223,11 @@ describe('GET /api/theaters', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(500);
-    expect(body.error).toBe('Error instance');
+    expect(json.status).toBe(500);
+    expect(json.error).toBe('Error instance');
   });
 
   it("return 500 in case of unknown error", async () => {
@@ -236,10 +241,11 @@ describe('GET /api/theaters', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(500);
-    expect(body.error).toBe('Unknown error occurred');
+    expect(json.status).toBe(500);
+    expect(json.error).toBe('Unknown error occurred');
   });
 });
 
