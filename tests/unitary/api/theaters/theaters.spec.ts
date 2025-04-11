@@ -303,6 +303,29 @@ describe('POST /api/theaters', () => {
     }));
   });
 
+  it('return 201 with theaterId = 1 if no theaters exist', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbPost);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+
+    collectionMock.findOne.mockResolvedValue(null);
+    collectionMock.find().sort().limit().toArray.mockResolvedValue([]);
+    collectionMock.insertOne.mockResolvedValue({ insertedId: 'firstTheaterId' });
+
+    const req = buildRequest({ location: { address: '1, rue de la paix', city: 'Paris', state: 'IDF' } });
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(201);
+    expect(json.status).toBe(201);
+    expect(json.message).toBe('Theater created');
+    expect(json.data).toEqual({
+      _id: 'firstTheaterId',
+      theaterId: 1,
+      location: { address: '1 rue Alpha', city: 'Paris', state: 'IDF' }
+    });
+  });
+
   it('return 400 if body is missing', async () => {
     const req = buildRequest(null);
 
