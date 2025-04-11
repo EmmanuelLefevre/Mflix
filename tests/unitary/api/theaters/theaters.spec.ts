@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 import MongoDBSingleton from '@/lib/mongodb';
 import { checkCollectionExists } from '@/lib/check-collection-exists';
 
-import { GET } from '@/app/api/theaters/route';
+import { GET, POST } from '@/app/api/theaters/route';
 
 jest.mock('@/lib/mongodb');
 jest.mock('@/lib/check-collection-exists');
@@ -240,5 +240,60 @@ describe('GET /api/theaters', () => {
 
     expect(res.status).toBe(500);
     expect(body.error).toBe('Unknown error occurred');
+  });
+});
+
+/*==========================================*/
+/*============ CREATE A THEATER ============*/
+/*==========================================*/
+describe('POST /api/theaters', () => {
+  const collectionMock = {
+    findOne: jest.fn(),
+    find: jest.fn().mockReturnValue({
+      sort: jest.fn().mockReturnThis(),
+      limit: jest.fn().mockReturnThis(),
+      toArray: jest.fn()
+    }),
+    insertOne: jest.fn()
+  };
+
+  const mockDbPost = {
+    collection: jest.fn().mockReturnValue(collectionMock)
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const buildRequest = (body: object, method: string = 'POST') =>
+    ({
+      method,
+      json: async () => body,
+    }) as unknown as NextRequest;
+
+  it("return 201 the created theater", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbPost);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    collectionMock.findOne.mockResolvedValue(null);
+    collectionMock.find().sort().limit().toArray.mockResolvedValue([{ theaterId: 3 }]);
+    collectionMock.insertOne.mockResolvedValue({ insertedId: 'fakeObjectId123' });
+
+    const req = buildRequest({ location: { address: '123, rue des champs', city: 'Cazaux', state: 'IDF' } });
+
+    const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(201);
+    expect(json.message).toBe('Theater created');
+    expect(json.status).toBe(201);
+    expect(json.data).toEqual({
+      _id: 'fakeObjectId123',
+      theaterId: 4,
+      location: { address: '123, rue des champs', city: 'Cazaux', state: 'IDF' }
+    });
+    expect(collectionMock.insertOne).toHaveBeenCalledWith(expect.objectContaining({
+      theaterId: 4,
+      location: { address: '123, rue des champs', city: 'Cazaux', state: 'IDF' }
+    }));
   });
 });
