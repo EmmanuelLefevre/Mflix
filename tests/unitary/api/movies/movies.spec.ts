@@ -425,6 +425,7 @@ describe('POST /api/movies', () => {
     const json = await res.json();
 
     expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
     expect(json.errors).toContain("Title is required and must be a string");
   });
 
