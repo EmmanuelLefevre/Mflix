@@ -407,7 +407,7 @@ describe('POST /api/movies', () => {
     }));
   });
 
-  it("return 400 if title is required", async () => {
+  it("return 400 if title is missing", async () => {
     const req = buildRequest({ year: 2010 });
 
     const res = await POST(req);
@@ -429,7 +429,7 @@ describe('POST /api/movies', () => {
     expect(json.errors).toContain("Title is required and must be a string");
   });
 
-  it("return 400 if year is required", async () => {
+  it("return 400 if year is missing", async () => {
     const req = buildRequest({ title: "Inception" });
 
     const res = await POST(req);
