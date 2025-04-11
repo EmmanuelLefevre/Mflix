@@ -138,11 +138,11 @@ describe('GET /api/movies', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(200);
-    expect(body.status).toBe(200);
-    expect(body.data).toEqual(fakeMovies);
+    expect(json.status).toBe(200);
+    expect(json.data).toEqual(fakeMovies);
   });
 
   it("return 200 with an empty array", async () => {
@@ -156,11 +156,12 @@ describe('GET /api/movies', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(200);
-    expect(body.data).toEqual([]);
-    expect(body.message).toBe('No movies found');
+    expect(json.status).toBe(200);
+    expect(json.message).toBe('No movies found');
+    expect(json.data).toEqual([]);
   });
 
   it('return 200 with movies when no query paramaters are provided', async () => {
@@ -270,11 +271,11 @@ describe('GET /api/movies', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(200);
-    expect(body.status).toBe(200);
-    expect(body.data).toEqual(fakeMovies);
+    expect(json.status).toBe(200);
+    expect(json.data).toEqual(fakeMovies);
 
     expect(mockDbGetAll.skip).toHaveBeenCalledWith(0);
     expect(mockDbGetAll.limit).toHaveBeenCalledWith(10);
@@ -287,10 +288,11 @@ describe('GET /api/movies', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(400);
-    expect(body.error).toBe('Invalid query parameters');
+    expect(json.status).toBe(400);
+    expect(json.error).toBe('Invalid query parameters');
   });
 
   it("return 404 if collection 'movies' doesn't exists", async () => {
@@ -303,10 +305,11 @@ describe('GET /api/movies', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(404);
-    expect(body.error).toBe("Collection 'movies' not found");
+    expect(json.status).toBe(404);
+    expect(json.error).toBe("Collection 'movies' not found");
   });
 
   it("return 405 if method is not allowed", async () => {
@@ -316,10 +319,11 @@ describe('GET /api/movies', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(405);
-    expect(body.error).toBe('Method Not Allowed');
+    expect(json.status).toBe(405);
+    expect(json.error).toBe('Method Not Allowed');
   });
 
   it("return 500 with Error instance", async () => {
@@ -331,10 +335,11 @@ describe('GET /api/movies', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(500);
-    expect(body.error).toBe('Error instance');
+    expect(json.status).toBe(500);
+    expect(json.error).toBe('Error instance');
   });
 
   it("return 500 in case of unknown error", async () => {
@@ -348,10 +353,11 @@ describe('GET /api/movies', () => {
     } as unknown as NextRequest;
 
     const res = await GET(req);
-    const body = await res.json();
+    const json = await res.json();
 
     expect(res.status).toBe(500);
-    expect(body.error).toBe('Unknown error occurred');
+    expect(json.status).toBe(500);
+    expect(json.error).toBe('Unknown error occurred');
   });
 });
 
@@ -391,6 +397,7 @@ describe('POST /api/movies', () => {
     const json = await res.json();
 
     expect(res.status).toBe(201);
+    expect(json.status).toBe(201);
     expect(json.message).toBe('Movie created');
     expect(json.data).toEqual(expect.objectContaining({
       _id: 'fakeObjectId123',
@@ -407,6 +414,7 @@ describe('POST /api/movies', () => {
     const json = await res.json();
 
     expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
     expect(json.errors).toContain("Title is required and must be a string");
   });
 
@@ -427,6 +435,7 @@ describe('POST /api/movies', () => {
     const json = await res.json();
 
     expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
     expect(json.errors).toContain("Year is required and must be a number");
   });
 
@@ -437,6 +446,7 @@ describe('POST /api/movies', () => {
     const json = await res.json();
 
     expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
     expect(json.errors).toContain("Year is required and must be a number");
   });
 
@@ -450,6 +460,7 @@ describe('POST /api/movies', () => {
     const json = await res.json();
 
     expect(res.status).toBe(404);
+    expect(json.status).toBe(404);
     expect(json.error).toBe("Collection 'movies' not found");
   });
 
@@ -460,6 +471,7 @@ describe('POST /api/movies', () => {
     const json = await res.json();
 
     expect(res.status).toBe(405);
+    expect(json.status).toBe(405);
     expect(json.error).toBe('Method Not Allowed');
   });
 
@@ -474,6 +486,7 @@ describe('POST /api/movies', () => {
     const json = await res.json();
 
     expect(res.status).toBe(409);
+    expect(json.status).toBe(409);
     expect(json.error).toBe('Movie already exists');
   });
 
@@ -492,6 +505,7 @@ describe('POST /api/movies', () => {
     const json = await res.json();
 
     expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
     expect(json.error).toBe('Error instance');
   });
 
@@ -512,6 +526,7 @@ describe('POST /api/movies', () => {
     const json = await res.json();
 
     expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
     expect(json.error).toBe('Unknown error occurred');
   });
 });
@@ -550,6 +565,7 @@ describe('GET /api/movies/[id]', () => {
     const json = await res.json();
 
     expect(res.status).toBe(200);
+    expect(json.status).toBe(200);
     expect(json.data).toEqual(movie);
   });
 
@@ -565,8 +581,9 @@ describe('GET /api/movies/[id]', () => {
     const json = await res.json();
 
     expect(res.status).toBe(200);
-    expect(json.data).toEqual([]);
+    expect(json.status).toBe(200);
     expect(json.message).toBe('Movie not found');
+    expect(json.data).toEqual([]);
   });
 
   it("return 400 if movie ObjectId is invalid", async () => {
@@ -577,6 +594,7 @@ describe('GET /api/movies/[id]', () => {
     const json = await res.json();
 
     expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
     expect(json.error).toBe('Invalid movie ObjectId parameter format');
   });
 
@@ -591,6 +609,7 @@ describe('GET /api/movies/[id]', () => {
     const json = await res.json();
 
     expect(res.status).toBe(404);
+    expect(json.status).toBe(404);
     expect(json.error).toBe("Collection 'movies' not found");
   });
 
@@ -602,6 +621,7 @@ describe('GET /api/movies/[id]', () => {
     const json = await res.json();
 
     expect(res.status).toBe(405);
+    expect(json.status).toBe(405);
     expect(json.error).toBe('Method Not Allowed');
   });
 
@@ -615,6 +635,7 @@ describe('GET /api/movies/[id]', () => {
     const json = await res.json();
 
     expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
     expect(json.error).toBe('Error instance');
   });
 
@@ -630,6 +651,7 @@ describe('GET /api/movies/[id]', () => {
     const json = await res.json();
 
     expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
     expect(json.error).toBe('Unknown error occurred');
   });
 });
@@ -673,8 +695,33 @@ describe('PUT /api/movies/[id]', () => {
     const json = await res.json();
 
     expect(res.status).toBe(200);
+    expect(json.status).toBe(200);
     expect(json.message).toBe('Movie updated');
     expect(json.data.updatedMovie).toEqual(movie);
+  });
+
+  it('returns 400 if movie ObjectId is invalid', async () => {
+    const req = buildRequest('invalid-id', { title: 'Try update' });
+    const context = buildContext('invalid-id');
+
+    const res = await PUT_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
+    expect(json.error).toBe('Invalid movie ObjectID parameter format');
+  });
+
+  it('returns 400 if body is missing or not an object', async () => {
+    const req = buildRequest('507f191e810c19729de860ea', null);
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await PUT_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
+    expect(json.error).toBe('Request body is required and must be an object');
   });
 
   it('returns 404 if movie not found', async () => {
@@ -689,29 +736,8 @@ describe('PUT /api/movies/[id]', () => {
     const json = await res.json();
 
     expect(res.status).toBe(404);
+    expect(json.status).toBe(404);
     expect(json.error).toBe('Movie not found');
-  });
-
-  it('returns 400 if movie ObjectId is invalid', async () => {
-    const req = buildRequest('invalid-id', { title: 'Try update' });
-    const context = buildContext('invalid-id');
-
-    const res = await PUT_BY_ID(req, context);
-    const json = await res.json();
-
-    expect(res.status).toBe(400);
-    expect(json.error).toBe('Invalid movie ObjectID parameter format');
-  });
-
-  it('returns 400 if body is missing or not an object', async () => {
-    const req = buildRequest('507f191e810c19729de860ea', null);
-    const context = buildContext('507f191e810c19729de860ea');
-
-    const res = await PUT_BY_ID(req, context);
-    const json = await res.json();
-
-    expect(res.status).toBe(400);
-    expect(json.error).toBe('Request body is required and must be an object');
   });
 
   it("returns 404 if collection 'movies' doesn't exist", async () => {
@@ -725,6 +751,7 @@ describe('PUT /api/movies/[id]', () => {
     const json = await res.json();
 
     expect(res.status).toBe(404);
+    expect(json.status).toBe(404);
     expect(json.error).toBe("Collection 'movies' not found");
   });
 
@@ -736,6 +763,7 @@ describe('PUT /api/movies/[id]', () => {
     const json = await res.json();
 
     expect(res.status).toBe(405);
+    expect(json.status).toBe(405);
     expect(json.error).toBe('Method Not Allowed');
   });
 
@@ -749,6 +777,7 @@ describe('PUT /api/movies/[id]', () => {
     const json = await res.json();
 
     expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
     expect(json.error).toBe('Error instance');
   });
 
@@ -764,6 +793,7 @@ describe('PUT /api/movies/[id]', () => {
     const json = await res.json();
 
     expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
     expect(json.error).toBe('Unknown error occurred');
   });
 });
@@ -801,7 +831,20 @@ describe('DELETE /api/movies/:id', () => {
     const json = await res.json();
 
     expect(res.status).toBe(200);
+    expect(json.status).toBe(200);
     expect(json.message).toBe('Movie deleted');
+  });
+
+  it('returns 400 if movie ObjectId is invalid', async () => {
+    const req = buildRequest('invalid-objectid');
+    const context = buildContext('invalid-objectid');
+
+    const res = await DELETE_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
+    expect(json.error).toBe('Invalid movie ObjectId parameter format');
   });
 
   it('returns 404 if movie not found', async () => {
@@ -816,18 +859,8 @@ describe('DELETE /api/movies/:id', () => {
     const json = await res.json();
 
     expect(res.status).toBe(404);
+    expect(json.status).toBe(404);
     expect(json.error).toBe('Movie not found');
-  });
-
-  it('returns 400 if movie ObjectId is invalid', async () => {
-    const req = buildRequest('invalid-objectid');
-    const context = buildContext('invalid-objectid');
-
-    const res = await DELETE_BY_ID(req, context);
-    const json = await res.json();
-
-    expect(res.status).toBe(400);
-    expect(json.error).toBe('Invalid movie ObjectId parameter format');
   });
 
   it("returns 404 if collection 'movies' doesn't exist", async () => {
@@ -841,6 +874,7 @@ describe('DELETE /api/movies/:id', () => {
     const json = await res.json();
 
     expect(res.status).toBe(404);
+    expect(json.status).toBe(404);
     expect(json.error).toBe("Collection 'movies' not found");
   });
 
@@ -852,6 +886,7 @@ describe('DELETE /api/movies/:id', () => {
     const json = await res.json();
 
     expect(res.status).toBe(405);
+    expect(json.status).toBe(405);
     expect(json.error).toBe('Method Not Allowed');
   });
 
@@ -865,6 +900,7 @@ describe('DELETE /api/movies/:id', () => {
     const json = await res.json();
 
     expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
     expect(json.error).toBe('Error instance');
   });
 
@@ -880,6 +916,7 @@ describe('DELETE /api/movies/:id', () => {
     const json = await res.json();
 
     expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
     expect(json.error).toBe('Unknown error occurred');
   });
 });
