@@ -786,3 +786,126 @@ describe('PUT /api/theaters/[id]', () => {
     expect(json.error).toBe('Unknown error occurred');
   });
 });
+
+/*=================================================*/
+/*============ DELETE A SINGLE THEATER ============*/
+/*=================================================*/
+describe('DELETE /api/theaters/:id', () => {
+  const mockDbDelete = {
+    collection: jest.fn().mockReturnThis(),
+    deleteOne: jest.fn()
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const buildRequest = (idTheater: string, method = 'DELETE') => ({
+    method
+  }) as unknown as NextRequest;
+
+  const buildContext = (idTheater: string) => ({
+    params: Promise.resolve({ idTheater })
+  });
+
+  it('returns 200 if theater is successfully deleted', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbDelete);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDbDelete.deleteOne.mockResolvedValue({ deletedCount: 1 });
+
+    const req = buildRequest('507f191e810c19729de860ea');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await DELETE_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(json.status).toBe(200);
+    expect(json.message).toBe('Theater deleted');
+  });
+
+  it('returns 400 if theater ObjectId is invalid', async () => {
+    const req = buildRequest('invalid-objectid');
+    const context = buildContext('invalid-objectid');
+
+    const res = await DELETE_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
+    expect(json.error).toBe('Invalid theater ObjectId parameter format');
+  });
+
+  it('returns 404 if theater not found', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbDelete);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDbDelete.deleteOne.mockResolvedValue({ deletedCount: 0 });
+
+    const req = buildRequest('507f191e810c19729de860ea');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await DELETE_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(404);
+    expect(json.status).toBe(404);
+    expect(json.error).toBe('Theater not found');
+  });
+
+  it("returns 404 if collection 'theaters' doesn't exist", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbDelete);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(false);
+
+    const req = buildRequest('507f191e810c19729de860ea');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await DELETE_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(404);
+    expect(json.status).toBe(404);
+    expect(json.error).toBe("Collection 'theaters' not found");
+  });
+
+  it('returns 405 if method is not allowed', async () => {
+    const req = buildRequest('507f191e810c19729de860ea', 'POST');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await DELETE_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(405);
+    expect(json.status).toBe(405);
+    expect(json.error).toBe('Method Not Allowed');
+  });
+
+  it('returns 500 with Error instance', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockRejectedValue(new Error('Error instance'));
+
+    const req = buildRequest('507f191e810c19729de860ea');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await DELETE_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
+    expect(json.error).toBe('Error instance');
+  });
+
+  it('returns 500 in case of unknown error', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockImplementation(() => {
+      throw 'Some string error';
+    });
+
+    const req = buildRequest('507f191e810c19729de860ea');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await DELETE_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
+    expect(json.error).toBe('Unknown error occurred');
+  });
+});
