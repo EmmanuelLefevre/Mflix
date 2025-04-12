@@ -86,7 +86,7 @@ export async function PUT(req: NextRequest, { params }: TheaterRouteContext): Pr
 
     const body = await req.json();
 
-    if (!body || typeof body !== 'object') {
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
       return NextResponse.json(
         { status: 400, error: 'Request body is required and must be an object' },
         { status: 400 }
