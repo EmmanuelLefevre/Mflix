@@ -715,28 +715,28 @@ describe('PUT /api/movies/[id]', () => {
     expect(json.error).toBe('Invalid movie ObjectID parameter format');
   });
 
-  it('returns 400 if body is missing', async () => {
-    const req = buildRequest('507f191e810c19729de860ea', null);
-    const context = buildContext('507f191e810c19729de860ea');
+  describe('returns 400 if body is missing or not an object', () => {
+    const invalidBodies = [
+      { label: 'null', value: null },
+      { label: 'a string', value: "not-an-object" },
+      { label: 'an array', value: [] },
+      { label: 'a number', value: 123 }
+    ];
 
-    const res = await PUT_BY_ID(req, context);
-    const json = await res.json();
+    it.each(invalidBodies)(
+      'returns 400 if body is $label',
+      async ({ value }) => {
+        const req = buildRequest('507f191e810c19729de860ea', value as unknown as object);
+        const context = buildContext('507f191e810c19729de860ea');
 
-    expect(res.status).toBe(400);
-    expect(json.status).toBe(400);
-    expect(json.error).toBe('Request body is required and must be an object');
-  });
+        const res = await PUT_BY_ID(req, context);
+        const json = await res.json();
 
-  it('returns 400 if body is not an object', async () => {
-    const req = buildRequest('507f191e810c19729de860ea', "not-an-object" as unknown as object);
-    const context = buildContext('507f191e810c19729de860ea');
-
-    const res = await PUT_BY_ID(req, context);
-    const json = await res.json();
-
-    expect(res.status).toBe(400);
-    expect(json.status).toBe(400);
-    expect(json.error).toBe('Request body is required and must be an object');
+        expect(res.status).toBe(400);
+        expect(json.status).toBe(400);
+        expect(json.error).toBe('Request body is required and must be an object');
+      }
+    );
   });
 
   it('returns 404 if movie not found', async () => {
