@@ -81,7 +81,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     const body = await req.json();
 
-    if (!body || typeof body !== 'object') {
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
       return NextResponse.json(
         { status: 400, error: 'Request body is required and must be an object' },
         { status: 400 }
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     const { location } = body;
 
-    if (!location || typeof location !== 'object') {
+    if (!location || typeof location !== 'object' || Array.isArray(location)) {
       return NextResponse.json(
         { status: 400, error: 'Location is required and must be an object' },
         { status: 400 }

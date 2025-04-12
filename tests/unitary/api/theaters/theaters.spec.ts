@@ -332,48 +332,50 @@ describe('POST /api/theaters', () => {
     });
   });
 
-  it('return 400 if body is missing', async () => {
-    const req = buildRequest(null);
+  describe('returns 400 if body is missing or not an object', () => {
+    const invalidBodies = [
+      { label: 'null', value: null },
+      { label: 'a string', value: "not-an-object" },
+      { label: 'an array', value: [] },
+      { label: 'a number', value: 123 }
+    ];
 
-    const res = await POST(req);
-    const json = await res.json();
+    it.each(invalidBodies)(
+      'returns 400 if body is $label',
+      async ({ value }) => {
+        const req = buildRequest(value as unknown as object);
 
-    expect(res.status).toBe(400);
-    expect(json.status).toBe(400);
-    expect(json.error).toBe('Request body is required and must be an object');
+        const res = await POST(req);
+        const json = await res.json();
+
+        expect(res.status).toBe(400);
+        expect(json.status).toBe(400);
+        expect(json.error).toBe('Request body is required and must be an object');
+      }
+    );
   });
 
-  it('return 400 if location is missing', async () => {
-    const req = buildRequest({});
+  describe('returns 400 if location is missing or not an object', () => {
+    const invalidLocations = [
+      { label: 'null', value: null },
+      { label: 'a string', value: "not-an-object" },
+      { label: 'an array', value: [] },
+      { label: 'a number', value: 123 }
+    ];
 
-    const res = await POST(req);
-    const json = await res.json();
+    it.each(invalidLocations)(
+      'returns 400 if location is $label',
+      async ({ value }) => {
+        const req = buildRequest({ location: value });
 
-    expect(res.status).toBe(400);
-    expect(json.status).toBe(400);
-    expect(json.error).toBe('Location is required and must be an object');
-  });
+        const res = await POST(req);
+        const json = await res.json();
 
-  it('return 400 if body is not an object', async () => {
-    const req = buildRequest("fake string" as unknown as object);
-
-    const res = await POST(req);
-    const json = await res.json();
-
-    expect(res.status).toBe(400);
-    expect(json.status).toBe(400);
-    expect(json.error).toBe('Request body is required and must be an object');
-  });
-
-  it('return 400 if location is not an object', async () => {
-    const req = buildRequest({ location: 'string au lieu d\'objet' });
-
-    const res = await POST(req);
-    const json = await res.json();
-
-    expect(res.status).toBe(400);
-    expect(json.status).toBe(400);
-    expect(json.error).toBe('Location is required and must be an object');
+        expect(res.status).toBe(400);
+        expect(json.status).toBe(400);
+        expect(json.error).toBe('Location is required and must be an object');
+      }
+    );
   });
 
   it("return 404 if collection 'theaters' doesn't exists", async () => {
