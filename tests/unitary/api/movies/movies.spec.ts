@@ -699,6 +699,8 @@ describe('PUT /api/movies/[id]', () => {
 
     expect(res.status).toBe(200);
     expect(json.status).toBe(200);
+    expect(json.data).toHaveProperty('_id', '507f191e810c19729de860ea');
+    expect(json.data).toHaveProperty('updatedMovie');
     expect(json.message).toBe('Movie updated');
     expect(json.data.updatedMovie).toEqual(updatedMovie);
   });
