@@ -8,16 +8,20 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
-  testMatch: ["**/tests/**/*.spec.ts"],
+  testMatch: [
+    "**/tests/**/*.spec.ts",
+    "**/lib/jwt-secrets-config.spec.ts"
+  ],
   collectCoverage: true,
   coverageDirectory: 'coverage',
   testPathIgnorePatterns: [
     '/node_modules/',
-    '/.next/',
-    '/lib'
+    '/.next/'
   ],
   coveragePathIgnorePatterns: [
-    '<rootDir>/lib/',
+    '<rootDir>/lib/!(jwt-secrets-config.spec.ts)',
+    '<rootDir>/lib/(mongodb.ts)',
+    '<rootDir>/lib/(check-collection-exists.ts)',
   ],
   setupFiles: ["<rootDir>/jest.setup.js"]
 };
