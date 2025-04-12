@@ -600,3 +600,187 @@ describe('GET /api/theaters/[id]', () => {
     expect(json.error).toBe('Unknown error occurred');
   });
 });
+
+/*=================================================*/
+/*============ MODIFY A SINGLE THEATER ============*/
+/*=================================================*/
+describe('PUT /api/theaters/[id]', () => {
+  const mockDbUpdate = {
+    collection: jest.fn().mockReturnThis(),
+    updateOne: jest.fn(),
+    findOne: jest.fn()
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const buildRequest = (idTheater: string, body: object | null, method = 'PUT') => ({
+    method,
+    json: jest.fn().mockResolvedValue(body)
+  }) as unknown as NextRequest;
+
+  const buildContext = (idTheater: string) => ({
+    params: Promise.resolve({ idTheater })
+  });
+
+  it('returns 200 with updated theater', async () => {
+    const updatedStreet = "123 New Street";
+
+    const updatedTheater = {
+      _id: "59a47286cfa9a3a73e51e72d",
+      theaterId: 2025,
+      location: {
+        address: {
+          street1: updatedStreet,
+          street2: "Ste backerstreet",
+          city: "Bloomington",
+          state: "MN",
+          zipcode: "55425"
+        },
+        geo: {
+          type: "Point",
+          coordinates: [
+            -93.24565,
+            44.85466
+          ]
+        }
+      }
+    };
+    const updateResult = { matchedCount: 1 };
+
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbUpdate);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDbUpdate.updateOne.mockResolvedValue(updateResult);
+    mockDbUpdate.findOne.mockResolvedValue(updatedTheater);
+
+    const req = buildRequest(
+      '507f191e810c19729de860ea',
+      { location:
+        {
+          address: {
+            street1: updatedStreet
+          }
+        }
+      }
+    );
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await PUT_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(json.status).toBe(200);
+    expect(json.message).toBe('Theater updated');
+    expect(json.data.updatedTheater).toEqual(updatedTheater);
+  });
+
+  it('returns 400 if theater ObjectId is invalid', async () => {
+    const req = buildRequest('invalid-id', { title: 'Try update' });
+    const context = buildContext('invalid-id');
+
+    const res = await PUT_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
+    expect(json.error).toBe('Invalid theater ObjectID parameter format');
+  });
+
+  describe('returns 400 if body is missing or not an object', () => {
+    const invalidBodies = [
+      { label: 'null', value: null },
+      { label: 'a string', value: "not-an-object" },
+      { label: 'an array', value: [] },
+      { label: 'a number', value: 123 }
+    ];
+
+    it.each(invalidBodies)(
+      'returns 400 if body is $label',
+      async ({ value }) => {
+        const req = buildRequest('507f191e810c19729de860ea', value as unknown as object);
+        const context = buildContext('507f191e810c19729de860ea');
+
+        const res = await PUT_BY_ID(req, context);
+        const json = await res.json();
+
+        expect(res.status).toBe(400);
+        expect(json.status).toBe(400);
+        expect(json.error).toBe('Request body is required and must be an object');
+      }
+    );
+  });
+
+  it('returns 404 if theater not found', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbUpdate);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDbUpdate.updateOne.mockResolvedValue({ matchedCount: 0 });
+
+    const req = buildRequest('507f191e810c19729de860ea', { title: 'Try update' });
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await PUT_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(404);
+    expect(json.status).toBe(404);
+    expect(json.error).toBe('Theater not found');
+  });
+
+  it("returns 404 if collection 'theaters' doesn't exist", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbUpdate);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(false);
+
+    const req = buildRequest('507f191e810c19729de860ea', { title: 'Test' });
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await PUT_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(404);
+    expect(json.status).toBe(404);
+    expect(json.error).toBe("Collection 'theaters' not found");
+  });
+
+  it('returns 405 if method is not allowed', async () => {
+    const req = buildRequest('507f191e810c19729de860ea', { title: 'x' }, 'POST');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await PUT_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(405);
+    expect(json.status).toBe(405);
+    expect(json.error).toBe('Method Not Allowed');
+  });
+
+  it('returns 500 with Error instance', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockRejectedValue(new Error('Error instance'));
+
+    const req = buildRequest('507f191e810c19729de860ea', { title: 'x' });
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await PUT_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
+    expect(json.error).toBe('Error instance');
+  });
+
+  it('returns 500 in case of unknown error', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockImplementation(() => {
+      throw 'unexpected string error';
+    });
+
+    const req = buildRequest('507f191e810c19729de860ea', { title: 'x' });
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await PUT_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
+    expect(json.error).toBe('Unknown error occurred');
+  });
+});
