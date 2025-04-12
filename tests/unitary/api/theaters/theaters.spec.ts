@@ -4,6 +4,12 @@ import MongoDBSingleton from '@/lib/mongodb';
 import { checkCollectionExists } from '@/lib/check-collection-exists';
 
 import { GET, POST } from '@/app/api/theaters/route';
+import {
+  DELETE as DELETE_BY_ID,
+  GET as GET_BY_ID,
+  PUT as PUT_BY_ID
+} from '@/app/api/theaters/[idTheater]/route';
+
 
 jest.mock('@/lib/mongodb');
 jest.mock('@/lib/check-collection-exists');
@@ -322,7 +328,7 @@ describe('POST /api/theaters', () => {
     expect(json.data).toEqual({
       _id: 'firstTheaterId',
       theaterId: 1,
-      location: { address: '1 rue Alpha', city: 'Paris', state: 'IDF' }
+      location: { address: '1, rue de la paix', city: 'Paris', state: 'IDF' }
     });
   });
 
@@ -415,7 +421,7 @@ describe('POST /api/theaters', () => {
 
     const body = JSON.stringify({ location: { address: '13, rue de la chance', city: 'Cavignac', state: 'Aquitaine' } });
 
-    const req = new Request('http://localhost/api/movies', {
+    const req = new Request('http://localhost/api/theaters', {
       method: 'POST',
       body,
       headers: { 'Content-Type': 'application/json' }
@@ -436,13 +442,157 @@ describe('POST /api/theaters', () => {
 
     const body = JSON.stringify({ location: { address: '13, rue de la chance', city: 'Cavignac', state: 'Aquitaine' } });
 
-    const req = new Request('http://localhost/api/movies', {
+    const req = new Request('http://localhost/api/theaters', {
       method: 'POST',
       body,
       headers: { 'Content-Type': 'application/json' }
     }) as unknown as NextRequest;
 
     const res = await POST(req);
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
+    expect(json.error).toBe('Unknown error occurred');
+  });
+});
+
+/*==============================================*/
+/*============ GET A SINGLE THEATER ============*/
+/*==============================================*/
+describe('GET /api/theaters/[id]', () => {
+  const mockDbFindOne = {
+    collection: jest.fn().mockReturnThis(),
+    findOne: jest.fn()
+  };
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const buildRequest = (idTheater: string, method: string = 'GET') => ({
+    method
+  }) as unknown as NextRequest;
+
+  const buildContext = (idTheater: string) => ({
+    params: Promise.resolve({ idTheater })
+  });
+
+  it('return 200 with theater', async () => {
+    const theater = {
+      _id: "59a47286cfa9a3a73e51e72d",
+      theaterId: 2025,
+      location: {
+        address: {
+          street1: "340 W Market",
+          street2: "Ste backerstreet",
+          city: "Bloomington",
+          state: "MN",
+          zipcode: "55425"
+        },
+        geo: {
+          type: "Point",
+          coordinates: [
+            -93.24565,
+            44.85466
+          ]
+        }
+      }
+    };
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbFindOne);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDbFindOne.findOne.mockResolvedValue(theater);
+
+    const req = buildRequest('123');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await GET_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(json.status).toBe(200);
+    expect(json.data).toEqual(theater);
+  });
+
+  it('return 200 with empty array if theater not found', async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbFindOne);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(true);
+    mockDbFindOne.findOne.mockResolvedValue(null);
+
+    const req = buildRequest('123');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await GET_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(json.status).toBe(200);
+    expect(json.message).toBe('Theater not found');
+    expect(json.data).toEqual([]);
+  });
+
+  it("return 400 if theater ObjectId is invalid", async () => {
+    const req = buildRequest('invalid-id');
+    const context = buildContext('invalid-id');
+
+    const res = await GET_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
+    expect(json.error).toBe('Invalid theater ObjectId parameter format');
+  });
+
+  it("return 404 if collection 'theaters' doesn't exist", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbFindOne);
+    (checkCollectionExists as jest.Mock).mockResolvedValue(false);
+
+    const req = buildRequest('123');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await GET_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(404);
+    expect(json.status).toBe(404);
+    expect(json.error).toBe("Collection 'theaters' not found");
+  });
+
+  it("return 405 if method is not allowed", async () => {
+    const req = buildRequest('123', 'POST');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await GET_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(405);
+    expect(json.status).toBe(405);
+    expect(json.error).toBe('Method Not Allowed');
+  });
+
+  it("return 500 with Error instance", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockRejectedValue(new Error('Error instance'));
+
+    const req = buildRequest('123');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await GET_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(500);
+    expect(json.status).toBe(500);
+    expect(json.error).toBe('Error instance');
+  });
+
+  it("return 500 in case of unknown error", async () => {
+    (MongoDBSingleton.getDbInstance as jest.Mock).mockImplementation(() => {
+      throw "string error";
+    });
+
+    const req = buildRequest('123');
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await GET_BY_ID(req, context);
     const json = await res.json();
 
     expect(res.status).toBe(500);
