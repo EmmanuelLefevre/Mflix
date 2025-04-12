@@ -170,6 +170,8 @@ nvm use 20.18.0
 │   │   ├── globals.css
 ├── tests/
 │   ├── unitary/
+│   │   ├── lib/
+│   │   ├── api/
 ├── .env.local
 ├── .env.local.example
 ├── .gitignore
