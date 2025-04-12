@@ -681,15 +681,17 @@ describe('PUT /api/movies/[id]', () => {
   });
 
   it('returns 200 with updated movie', async () => {
-    const movie = { _id: '507f191e810c19729de860ea', title: 'Updated Title' };
+    const updatedTitle = 'The Shawshank Redemption - Remastered';
+
+    const updatedMovie = { _id: '507f191e810c19729de860ea', title: 'Updated Title' };
     const updateResult = { matchedCount: 1 };
 
     (MongoDBSingleton.getDbInstance as jest.Mock).mockResolvedValue(mockDbUpdate);
     (checkCollectionExists as jest.Mock).mockResolvedValue(true);
     mockDbUpdate.updateOne.mockResolvedValue(updateResult);
-    mockDbUpdate.findOne.mockResolvedValue(movie);
+    mockDbUpdate.findOne.mockResolvedValue(updatedMovie);
 
-    const req = buildRequest('507f191e810c19729de860ea', { title: 'Updated Title' });
+    const req = buildRequest('507f191e810c19729de860ea', { title: updatedTitle  });
     const context = buildContext('507f191e810c19729de860ea');
 
     const res = await PUT_BY_ID(req, context);
@@ -698,7 +700,7 @@ describe('PUT /api/movies/[id]', () => {
     expect(res.status).toBe(200);
     expect(json.status).toBe(200);
     expect(json.message).toBe('Movie updated');
-    expect(json.data.updatedMovie).toEqual(movie);
+    expect(json.data.updatedMovie).toEqual(updatedMovie);
   });
 
   it('returns 400 if movie ObjectId is invalid', async () => {
@@ -713,8 +715,20 @@ describe('PUT /api/movies/[id]', () => {
     expect(json.error).toBe('Invalid movie ObjectID parameter format');
   });
 
-  it('returns 400 if body is missing or not an object', async () => {
+  it('returns 400 if body is missing', async () => {
     const req = buildRequest('507f191e810c19729de860ea', null);
+    const context = buildContext('507f191e810c19729de860ea');
+
+    const res = await PUT_BY_ID(req, context);
+    const json = await res.json();
+
+    expect(res.status).toBe(400);
+    expect(json.status).toBe(400);
+    expect(json.error).toBe('Request body is required and must be an object');
+  });
+
+  it('returns 400 if body is not an object', async () => {
+    const req = buildRequest('507f191e810c19729de860ea', "not-an-object" as unknown as object);
     const context = buildContext('507f191e810c19729de860ea');
 
     const res = await PUT_BY_ID(req, context);
