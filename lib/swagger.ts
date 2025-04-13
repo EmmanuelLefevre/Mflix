@@ -18,11 +18,11 @@ export const getApiDocs = async () => {
     definition: {
       openapi: "3.0.0",
       info: {
-        title: "Mflix Movies list API",
+        title: "Mflix",
         version: "1.0",
-        description: "Julien Couraud TP",
+        description: "🎞️ Movies list Next.js API",
         contact: {
-          email: "julien.couraud@reseau-cd.net"
+          email: "emmanuellefevre@protonmail.com"
         }
       },
       paths: {
