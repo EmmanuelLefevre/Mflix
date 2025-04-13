@@ -184,7 +184,7 @@ nvm use 20.18.0
 ├── next-env.d.ts
 ├── next.config.js
 ├── package.json
-├── postcss.config.js
+├── postcss.config.cjs
 ├── README.md
 ├── tailwind.config.ts
 ├── tsconfig.json
