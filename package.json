@@ -10,7 +10,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "clean": "node scripts/clean-cache.js",
-    "clean-build": "rimraf .next && next build"
+    "clean-build": "node scripts/clean-cache.js && next build"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
