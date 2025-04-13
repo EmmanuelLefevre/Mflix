@@ -43,7 +43,7 @@ export async function GET(req: NextRequest, { params }: CommentRouteContext): Pr
     for (const collection of requiredCollections) {
       if (!(await checkCollectionExists(db, collection))) {
         return NextResponse.json(
-          { error: `Collection '${collection}' not found` },
+          { status: 404, error: `Collection '${collection}' not found` },
           { status: 404 }
         );
       }
@@ -139,7 +139,7 @@ export async function PUT(req: NextRequest, { params }: CommentRouteContext): Pr
     for (const collection of requiredCollections) {
       if (!(await checkCollectionExists(db, collection))) {
         return NextResponse.json(
-          { error: `Collection '${collection}' not found` },
+          { status: 404, error: `Collection '${collection}' not found` },
           { status: 404 }
         );
       }
@@ -235,7 +235,7 @@ export async function DELETE(req: NextRequest, { params }: CommentRouteContext):
     for (const collection of requiredCollections) {
       if (!(await checkCollectionExists(db, collection))) {
         return NextResponse.json(
-          { error: `Collection '${collection}' not found` },
+          { status: 404, error: `Collection '${collection}' not found` },
           { status: 404 }
         );
       }
