@@ -164,7 +164,7 @@ nvm use 20.18.0
 │   ├── login.tsx
 ├── public/
 │   ├── fonts/
-│   │   ├── roboto files
+│   │   ├── roboto-files.ttf
 │   ├── styles/
 │   │   ├── global.scss
 │   │   ├── globals.css
@@ -173,6 +173,10 @@ nvm use 20.18.0
 ├── tests/
 │   ├── unitary/
 │   │   ├── api/
+│   │   │   ├── auth/
+│   │   │   ├── movies/
+│   │   │   ├── theaters/
+│   │   │   ├── users/
 │   │   ├── lib/
 ├── .env.local
 ├── .env.local.example
