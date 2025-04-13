@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
     for (const collection of requiredCollections) {
       if (!(await checkCollectionExists(db, collection))) {
         return NextResponse.json(
-          { error: `Collection '${collection}' not found` },
+          { status: 404, error: `Collection '${collection}' not found` },
           { status: 404 }
         );
       }
