@@ -168,14 +168,17 @@ nvm use 20.18.0
 │   ├── styles/
 │   │   ├── global.scss
 │   │   ├── globals.css
+├── scripts/
+│   ├── clean-cache.js
 ├── tests/
 │   ├── unitary/
-│   │   ├── lib/
 │   │   ├── api/
+│   │   ├── lib/
 ├── .env.local
 ├── .env.local.example
+├── .env.test
 ├── .gitignore
-├── jest.config.js
+├── jest.config.cjs
 ├── jest.setup.js
 ├── middleware.ts
 ├── next-env.d.ts
@@ -189,7 +192,7 @@ nvm use 20.18.0
 ```
 
 ## 🚀 GETTING STARTED
-**1. Install libraries (⚠️ place yourself in Mflix directory !!!)**
+**1. Install libraries (⚠️ Place yourself in Mflix directory !!!)**
 ```bash
 npm install
 ```
@@ -211,7 +214,7 @@ yarn dev
 ```
 [Open Project on Localhost](http://localhost:3000)  
 
-**4.Open online Swagger documentation**  
+**4. Open online Swagger documentation**  
 
 [Online Swagger Documentation](http://localhost:3000/api-doc)  
 
