@@ -44,7 +44,7 @@ export async function GET(req: NextRequest, { params }: MovieRouteContext): Prom
     for (const collection of requiredCollections) {
       if (!(await checkCollectionExists(db, collection))) {
         return NextResponse.json(
-          { error: `Collection '${collection}' not found` },
+          { status: 404, error: `Collection '${collection}' not found` },
           { status: 404 }
         );
       }
@@ -141,7 +141,7 @@ export async function POST(req: NextRequest, { params }: MovieRouteContext): Pro
     for (const collection of requiredCollections) {
       if (!(await checkCollectionExists(db, collection))) {
         return NextResponse.json(
-          { error: `Collection '${collection}' not found` },
+          { status: 404, error: `Collection '${collection}' not found` },
           { status: 404 }
         );
       }
