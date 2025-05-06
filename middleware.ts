@@ -121,3 +121,70 @@ function redirectToLogin(req: NextRequest, message: string) {
 export const config = {
   matcher: "/((?!api/auth|_next/static|_next/image|favicon.ico).*)"
 };
+
+
+
+// Middleware ADRIEN
+// import { NextResponse } from "next/server";
+// import type { NextRequest } from "next/server";
+// import jwt from "jsonwebtoken";
+
+// // Assurez-vous que la variable d'environnement JWT_SECRET est définie et valide.
+// if (!process.env.JWT_SECRET || typeof process.env.JWT_SECRET !== "string") {
+//   throw new Error("Missing or invalid JWT_SECRET environment variable.");
+// }
+// const SECRET_KEY = process.env.JWT_SECRET;
+
+// // Liste des routes publiques
+// const publicRoutes = ["/signin", "/signup"];
+
+// export async function middleware(req: NextRequest) {
+
+//   // Pour les autres routes publiques, continuer sans vérification supplémentaire.
+//   if (publicRoutes.includes(req.nextUrl.pathname)) {
+//       return NextResponse.next();
+//   }
+
+//   // Récupérer le token et le refreshToken depuis les cookies
+//   const token = req.cookies.get("token")?.value;
+//   const refreshToken = req.cookies.get("refreshToken")?.value;
+
+//   if (!token && !refreshToken) {
+//     return NextResponse.redirect(new URL("/signin", req.url));
+//   }
+
+//   try {
+//     jwt.verify(token!, SECRET_KEY);
+//     return NextResponse.next();
+//   }
+//   catch (error) {
+//     if (!refreshToken) {
+//       return NextResponse.redirect(new URL("/signin", req.url));
+//     }
+
+//     // Essayer de rafraîchir le token
+//     try {
+//       const refreshResponse = await fetch(new URL("/api/auth/refresh", req.url), {
+//         method: "GET",
+//         headers: { Cookie: `refreshToken=${refreshToken}` }
+//       });
+
+//       if (!refreshResponse.ok) {
+//         return NextResponse.redirect(new URL("/signin", req.url));
+//       }
+
+//       const { token: newToken } = await refreshResponse.json();
+//       const response = NextResponse.next();
+//       response.cookies.set("token", newToken, { httpOnly: true, secure: true, path: "/" });
+
+//       return response;
+//     }
+//     catch {
+//       return NextResponse.redirect(new URL("/signin", req.url));
+//     }
+//   }
+// }
+
+// export const config = {
+//   matcher: "/((?!api|_next/static|_next/image|favicon.ico).*)",
+// };
